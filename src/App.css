@@ -1,0 +1,46 @@
+html {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+#Title {
+    margin: -10px -10px 0 -10px;
+    padding: 10px;
+    text-align: center;
+    background-color: antiquewhite;
+}
+#FilterableMissionList {
+    background-color: aqua;
+    height: 100vh;
+    width: 70%;
+    text-align: center;
+    margin: auto;
+}
+#SearchBar {
+    padding-top: 10px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+#Mission {
+    background-color: blueviolet;
+    margin: 10px;
+    border: 2px solid red;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+.MissionField {
+    margin: 10px 20px;
+}
+#MissionInfo {
+    display: flex;
+}
+.MissionInfoField {
+    margin: 0 5px;
+}
+#TrashCanIcon {
+    height: 24px;
+    width: 24px;
+}
