@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Mission } from "../App";
 import trashCanIcon from '../../Assets/garbage-g0e5e69325_640.png';
+import pencilIcon from '../../Assets/pencil-gef11d3429_640.png';
 
 interface Props {
     id: number,
@@ -23,7 +24,8 @@ export const MissionRow: React.FC<Props> = ({description, status}) => {
                     className="MissionInfoField" 
                     id="MissionStatus">{status}</div>
                 {isShown && <button 
-                    className="MissionInfoField">Edit
+                    className="MissionInfoField">
+                        <img id="PencilIcon" src={pencilIcon} alt="Edit button" />
                 </button>}
                 {isShown && <button 
                     className="MissionInfoField">
