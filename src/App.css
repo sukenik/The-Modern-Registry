@@ -4,15 +4,23 @@ html {
     overflow: hidden;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+#app-flex {
+    display: flex;
+    flex-direction: row-reverse;
+    position: fixed;
+    width: 100%;
+    height: 90%;
+}
 #Title {
     margin: -10px -10px 0 -10px;
     padding: 10px;
     text-align: center;
-    background-color: antiquewhite;
+    background-color: rgb(0, 0, 0);
+    color: aliceblue;
 }
 #FilterableMissionList {
-    background-color: aqua;
-    height: 100vh;
+    background-color: rgb(218, 218, 218);
+    height: 100%;
     width: 70%;
     text-align: center;
     margin: auto;
@@ -24,10 +32,9 @@ html {
     flex-direction: column;
 }
 #Mission {
-    background-color: blueviolet;
-    margin: 10px;
-    border: 2px solid red;
-    border-radius: 5px;
+    background-color: rgb(92, 91, 91);
+    color: aliceblue;
+    margin: 10px 20%;
     display: flex;
     justify-content: space-between;
 }
@@ -40,11 +47,40 @@ html {
 .MissionInfoField {
     margin: 0 5px;
 }
+#MissionStatus {
+    position: absolute;
+    left: 55%;
+    background-color: rgb(39, 39, 39);
+    padding: 2px 13px;
+    cursor: default;
+}
 #TrashCanIcon {
     height: 18px;
     width: 18px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
 }
 #PencilIcon {
     height: 18px;
     width: 18px;
+}
+#CreateMission {
+    height: 64px;
+    width: 64px;
+}
+#CreateMissionButton {
+    height: fit-content;
+    width: fit-content;
+    position: absolute;
+    bottom: 5%;
+    left: 3%;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+.optionBtn {
+    border: none;
+    background: transparent;
+    cursor: pointer;
 }

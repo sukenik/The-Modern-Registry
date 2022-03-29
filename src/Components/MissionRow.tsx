@@ -24,11 +24,11 @@ export const MissionRow: React.FC<Props> = ({description, status}) => {
                     className="MissionInfoField" 
                     id="MissionStatus">{status}</div>
                 {isShown && <button 
-                    className="MissionInfoField">
+                    className="MissionInfoField optionBtn">
                         <img id="PencilIcon" src={pencilIcon} alt="Edit button" />
                 </button>}
                 {isShown && <button 
-                    className="MissionInfoField">
+                    className="MissionInfoField optionBtn">
                         <img id="TrashCanIcon" src={trashCanIcon} alt="Delete button" />
                 </button>}
             </div>

@@ -4,6 +4,7 @@ import { Title } from "./Components/Title";
 import { FilterableMissionList } from "./Components/FilterableMissionList";
 import { SearchBar } from "./Components/SearchBar";
 import { MissionList } from "./Components/MissionList";
+import { CreateMission } from "./Components/CreateMission";
 
 export interface Mission {
     id: number,
@@ -24,10 +25,13 @@ const App: React.FC = () => {
     return (
         <div>
             <Title />
-            <FilterableMissionList>
-                <SearchBar />
-                <MissionList missions={missions} />
-            </FilterableMissionList>
+            <div id="app-flex">
+                <FilterableMissionList>
+                    <SearchBar />
+                    <MissionList missions={missions} />
+                </FilterableMissionList>
+            </div>
+            <CreateMission />
         </div>
     );
 };
