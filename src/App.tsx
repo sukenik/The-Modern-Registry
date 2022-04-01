@@ -1,10 +1,12 @@
 import { hot } from "react-hot-loader";
-import React from 'react';
+import React, { useState } from 'react';
 import { Title } from "./Components/Title";
 import { FilterableMissionList } from "./Components/FilterableMissionList";
 import { SearchBar } from "./Components/SearchBar";
 import { MissionList } from "./Components/MissionList";
-import { CreateMission } from "./Components/CreateMission";
+import { CreateMissionButton } from "./Components/CreateMissionButton";
+import { MissionModal } from "./Components/MissionModal";
+import { CreateMissionForm } from "./Components/CreateMissionForm";
 
 export interface Mission {
     id: number,
@@ -22,6 +24,8 @@ const missions: Array<Mission> = [
 ];
 
 const App: React.FC = () => {
+    const [show, setShow] = useState(false);
+
     return (
         <div>
             <Title />
@@ -31,7 +35,12 @@ const App: React.FC = () => {
                     <MissionList missions={missions} />
                 </FilterableMissionList>
             </div>
-            <CreateMission />
+            <CreateMissionButton setShow={setShow} />
+            <MissionModal setShow={setShow} 
+                show={show} 
+                title={'Create a mission'}>
+                    <CreateMissionForm />
+            </MissionModal>
         </div>
     );
 };

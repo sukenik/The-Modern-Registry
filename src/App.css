@@ -85,3 +85,43 @@ html {
     background: transparent;
     cursor: pointer;
 }
+.modal {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* border-radius: ; */
+}
+.modal-content {
+    width: 500px;
+    background-color: #fff;
+}
+.modal-header, .modal-footer {
+    padding: 10px;
+}
+.modal-title {
+    margin: 0;
+}
+.modal-body {
+    padding: 10px;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+#CreateMissionForm {
+    display: flex;
+    flex-direction: column;
+}
+#CreateMissionForm > label, #CreateMissionForm > input {
+    margin: 5px;
+    width: 80%;
+    
+}
+#CreateMissionForm select {
+    width: 25%;
+    margin: 5px;
+}
