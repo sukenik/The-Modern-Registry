@@ -106,6 +106,7 @@ html {
 }
 .modal-title {
     margin: 0;
+    font-size: 30px;
 }
 .modal-body {
     padding: 10px;

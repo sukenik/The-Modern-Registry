@@ -6,16 +6,17 @@ import pencilIcon from '../../Assets/pencil-gef11d3429_640.png';
 interface Props {
     id: number,
     description: string,
-    status: 'Active' | 'Complete'
+    status: 'Active' | 'Complete',
+    setShowModal: React.Dispatch<React.SetStateAction<boolean>>
 };
 
-export const MissionRow: React.FC<Props> = ({description, status}) => {
-    const [isShown, setIsShown] = useState(false);
+export const MissionRow: React.FC<Props> = ({description, status, setShowModal}) => {
+    const [areButtonsShown, setAreButtonsShown] = useState(false);
     
     return (
         <div id="Mission"
-            onMouseEnter={() => setIsShown(true)}
-            onMouseLeave={() => setIsShown(false)}>
+            onMouseEnter={() => setAreButtonsShown(true)}
+            onMouseLeave={() => setAreButtonsShown(false)}>
             <div 
                 className="MissionField" 
                 id="MissionName">{description}</div>
@@ -23,11 +24,12 @@ export const MissionRow: React.FC<Props> = ({description, status}) => {
                 <div 
                     className="MissionInfoField" 
                     id="MissionStatus">{status}</div>
-                {isShown && <button 
-                    className="MissionInfoField optionBtn">
+                {areButtonsShown && <button 
+                    className="MissionInfoField optionBtn"
+                    onClick={() => setShowModal(true)}>
                         <img id="PencilIcon" src={pencilIcon} alt="Edit button" />
                 </button>}
-                {isShown && <button 
+                {areButtonsShown && <button 
                     className="MissionInfoField optionBtn">
                         <img id="TrashCanIcon" src={trashCanIcon} alt="Delete button" />
                 </button>}

@@ -24,7 +24,7 @@ const missions: Array<Mission> = [
 ];
 
 const App: React.FC = () => {
-    const [show, setShow] = useState(false);
+    const [showModal, setShowModal] = useState(false);
 
     return (
         <div>
@@ -32,12 +32,12 @@ const App: React.FC = () => {
             <div id="app-flex">
                 <FilterableMissionList>
                     <SearchBar />
-                    <MissionList missions={missions} />
+                    <MissionList missions={missions} setShowModal={setShowModal} />
                 </FilterableMissionList>
             </div>
-            <CreateMissionButton setShow={setShow} />
-            <MissionModal setShow={setShow} 
-                show={show} 
+            <CreateMissionButton setShowModal={setShowModal} />
+            <MissionModal setShowModal={setShowModal} 
+                showModal={showModal} 
                 title={'Create a mission'}>
                     <CreateMissionForm />
             </MissionModal>
