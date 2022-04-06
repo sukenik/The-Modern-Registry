@@ -7,11 +7,17 @@ interface Props {
     id: number,
     description: string,
     status: 'Active' | 'Complete',
+    setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>,
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>
 };
 
-export const MissionRow: React.FC<Props> = ({description, status, setShowModal}) => {
+export const MissionRow: React.FC<Props> = ({description, status, setShowEditModal, setShowModal}) => {
     const [areButtonsShown, setAreButtonsShown] = useState(false);
+    const editButtonClicked = (setShowModal: React.Dispatch<React.SetStateAction<boolean>>, 
+        setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>) => {
+        setShowModal(true);
+        setShowEditModal(true);
+    }
     
     return (
         <div id="Mission"
@@ -26,7 +32,7 @@ export const MissionRow: React.FC<Props> = ({description, status, setShowModal})
                     id="MissionStatus">{status}</div>
                 {areButtonsShown && <button 
                     className="MissionInfoField optionBtn"
-                    onClick={() => setShowModal(true)}>
+                    onClick={() => editButtonClicked(setShowModal, setShowEditModal)}>
                         <img id="PencilIcon" src={pencilIcon} alt="Edit button" />
                 </button>}
                 {areButtonsShown && <button 

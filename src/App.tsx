@@ -7,6 +7,7 @@ import { MissionList } from "./Components/MissionList";
 import { CreateMissionButton } from "./Components/CreateMissionButton";
 import { MissionModal } from "./Components/MissionModal";
 import { CreateMissionForm } from "./Components/CreateMissionForm";
+import { EditMissionForm } from "./Components/EditMissionForm";
 
 export interface Mission {
     id: number,
@@ -25,6 +26,7 @@ const missions: Array<Mission> = [
 
 const App: React.FC = () => {
     const [showModal, setShowModal] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
 
     return (
         <div>
@@ -32,14 +34,14 @@ const App: React.FC = () => {
             <div id="app-flex">
                 <FilterableMissionList>
                     <SearchBar />
-                    <MissionList missions={missions} setShowModal={setShowModal} />
+                    <MissionList missions={missions} setShowEditModal={setShowEditModal} setShowModal={setShowModal} />
                 </FilterableMissionList>
             </div>
             <CreateMissionButton setShowModal={setShowModal} />
             <MissionModal setShowModal={setShowModal} 
                 showModal={showModal} 
-                title={'Create a mission'}>
-                    <CreateMissionForm />
+                title={showEditModal ? 'Edit mission' : 'Create mission'}>
+                    {showEditModal ? <EditMissionForm /> : <CreateMissionForm />}
             </MissionModal>
         </div>
     );
