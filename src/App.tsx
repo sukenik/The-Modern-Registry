@@ -37,7 +37,7 @@ const App: React.FC = () => {
                     <MissionList missions={missions} setShowEditModal={setShowEditModal} setShowModal={setShowModal} />
                 </FilterableMissionList>
             </div>
-            <CreateMissionButton setShowModal={setShowModal} />
+            {!showModal && <CreateMissionButton setShowModal={setShowModal} setShowEditModal={setShowEditModal} />}
             <MissionModal setShowModal={setShowModal} 
                 showModal={showModal} 
                 title={showEditModal ? 'Edit mission' : 'Create mission'}>

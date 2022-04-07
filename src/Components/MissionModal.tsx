@@ -21,10 +21,11 @@ export const MissionModal: React.FC<Props> = ({showModal, setShowModal, title, c
                     {children}
                 </div>
                 <div className="modal-footer">
-                    <button>Save</button>
+                    <button id="SaveButton">Save</button>
                     <button
                         onClick={() => setShowModal(false)} 
-                        className="button">Cancel</button>
+                        className="button"
+                        id="CancelButton">Cancel</button>
                 </div>
             </div>
         </div>
