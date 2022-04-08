@@ -31,14 +31,15 @@ const App: React.FC = () => {
     return (
         <div>
             <Title />
-            <div id="app-flex">
+            <div id='app-flex'>
                 <FilterableMissionList>
                     <SearchBar />
                     <MissionList missions={missions} setShowEditModal={setShowEditModal} setShowModal={setShowModal} />
                 </FilterableMissionList>
             </div>
             {!showModal && <CreateMissionButton setShowModal={setShowModal} setShowEditModal={setShowEditModal} />}
-            <MissionModal setShowModal={setShowModal} 
+            <MissionModal 
+                setShowModal={setShowModal} 
                 showModal={showModal} 
                 title={showEditModal ? 'Edit mission' : 'Create mission'}>
                     {showEditModal ? <EditMissionForm /> : <CreateMissionForm />}

@@ -13,16 +13,17 @@ interface Props {
 
 export const MissionRow: React.FC<Props> = ({description, status, setShowEditModal, setShowModal}) => {
     const [areButtonsShown, setAreButtonsShown] = useState(false);
-    const editButtonClickHandle = (setShowModal: React.Dispatch<React.SetStateAction<boolean>>, 
-        setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>) => {
+    const handleEditButtonClick = () => {
         setShowModal(true);
         setShowEditModal(true);
     }
+    const handleOnMouseEnter = () => setAreButtonsShown(true);
+    const handleOnMouseLeave = () => setAreButtonsShown(false);
     
     return (
         <div id="Mission"
-            onMouseEnter={() => setAreButtonsShown(true)}
-            onMouseLeave={() => setAreButtonsShown(false)}>
+            onMouseEnter={handleOnMouseEnter}
+            onMouseLeave={handleOnMouseLeave}>
             <div 
                 className="MissionField" 
                 id="MissionName">{description}</div>
@@ -32,7 +33,7 @@ export const MissionRow: React.FC<Props> = ({description, status, setShowEditMod
                     id="MissionStatus">{status}</div>
                 {areButtonsShown && <button 
                     className="MissionInfoField optionBtn"
-                    onClick={() => editButtonClickHandle(setShowModal, setShowEditModal)}>
+                    onClick={handleEditButtonClick}>
                         <img id="PencilIcon" src={pencilIcon} alt="Edit button" />
                 </button>}
                 {areButtonsShown && <button 

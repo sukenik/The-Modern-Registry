@@ -10,9 +10,12 @@ export const MissionModal: React.FC<Props> = ({showModal, setShowModal, title, c
     if (!showModal) {
         return null;
     }
+
+    const handleOutsideClick = () => setShowModal(false);
+    const handleCancelClick = () => setShowModal(false);
     
     return (
-        <div className="modal" onClick={() => setShowModal(false)}>
+        <div className="modal" onClick={handleOutsideClick}>
             <div className="modal-content" onClick={e => e.stopPropagation()}>
                 <div className="modal-header">
                     <h4 className="modal-title">{title}</h4>
@@ -21,9 +24,11 @@ export const MissionModal: React.FC<Props> = ({showModal, setShowModal, title, c
                     {children}
                 </div>
                 <div className="modal-footer">
-                    <button id="SaveButton">Save</button>
+                    <button 
+                        className="button"
+                        id="SaveButton">Save</button>
                     <button
-                        onClick={() => setShowModal(false)} 
+                        onClick={handleCancelClick} 
                         className="button"
                         id="CancelButton">Cancel</button>
                 </div>

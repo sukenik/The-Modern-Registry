@@ -130,6 +130,9 @@ html {
     margin: 5px;
 
 }
+.modal-footer button:hover {
+    cursor: pointer;
+}
 #SaveButton {
     background-color: cornflowerblue;
     border: none;

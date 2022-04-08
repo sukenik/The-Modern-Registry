@@ -7,15 +7,14 @@ interface Props {
 };
 
 export const CreateMissionButton: React.FC<Props> = ({setShowModal, setShowEditModal}) => {
-    const createMissionButtonClickHandle = (setShowModal: React.Dispatch<React.SetStateAction<boolean>>, 
-        setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>) => {
+    const handleCreateMissionButtonClick = () => {
         setShowEditModal(false);
         setShowModal(true);
     }
 
     return (
         <button 
-            onClick={() => createMissionButtonClickHandle(setShowModal, setShowEditModal)}
+            onClick={handleCreateMissionButtonClick}
             type="submit" 
             id="CreateMissionButton">
             <img id="CreateMission" 
