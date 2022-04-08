@@ -7,6 +7,7 @@ interface Props {
     id: number,
     description: string,
     status: 'Active' | 'Complete',
+    fatherID: number | null,
     setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>,
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>
 };

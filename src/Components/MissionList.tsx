@@ -18,6 +18,7 @@ export const MissionList: React.FC<Props> = ({missions, setShowEditModal, setSho
                 id={mission.id}
                 description={mission.description}
                 status={mission.status}
+                fatherID={mission.fatherID}
                 setShowEditModal={setShowEditModal}
                 setShowModal={setShowModal} />
         );

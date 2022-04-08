@@ -6,7 +6,7 @@ interface Props {
     title: string,
 };
 
-export const MissionModal: React.FC<Props> = ({showModal, setShowModal, title, children}) => {
+export const MissionModal: React.FC<Props> = ({children, showModal, setShowModal, title}) => {
     if (!showModal) {
         return null;
     }

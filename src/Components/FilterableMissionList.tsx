@@ -4,10 +4,10 @@ interface Props {
 
 };
 
-export const FilterableMissionList: React.FC<Props> = (props) => {
+export const FilterableMissionList: React.FC<Props> = ({children}) => {
     return (
         <div className="float-child" id="FilterableMissionList">
-            {props.children}
+            {children}
         </div>
     );
 };
