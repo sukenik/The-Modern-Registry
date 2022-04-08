@@ -12,7 +12,12 @@ interface Props {
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>
 };
 
-export const MissionRow: React.FC<Props> = ({description, status, setShowEditModal, setShowModal}) => {
+export const MissionRow: React.FC<Props> = ({id, description, status, fatherID, setShowEditModal, setShowModal}) => {
+    let isSubMission: boolean = false;
+    if (typeof fatherID === 'number') {
+        isSubMission = true;
+    }
+    
     const [areButtonsShown, setAreButtonsShown] = useState(false);
     const handleEditButtonClick = () => {
         setShowModal(true);
@@ -20,25 +25,30 @@ export const MissionRow: React.FC<Props> = ({description, status, setShowEditMod
     }
     const handleOnMouseEnter = () => setAreButtonsShown(true);
     const handleOnMouseLeave = () => setAreButtonsShown(false);
+    const handleArrowClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        e.currentTarget.className.includes('up') ? 
+            e.currentTarget.className="arrow" : 
+            e.currentTarget.className="arrow-up";
+    }
     
     return (
-        <div id="Mission"
+        <div 
+            className={isSubMission ? 'Mission sub-mission' : 'Mission'}
+            id={"Mission-" + id}
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}>
-            <div 
-                className="MissionField" 
-                id="MissionName">{description}</div>
+            <div className="arrow" onClick={(e) => handleArrowClick(e)}></div>
+            <div className="MissionField" id="MissionName">
+                {description}
+            </div>
+            <div className="MissionInfoField" id="MissionStatus">{status}</div>
             <div className="MissionField" id="MissionInfo">
-                <div 
-                    className="MissionInfoField" 
-                    id="MissionStatus">{status}</div>
                 {areButtonsShown && <button 
                     className="MissionInfoField optionBtn"
                     onClick={handleEditButtonClick}>
                         <img id="PencilIcon" src={pencilIcon} alt="Edit button" />
                 </button>}
-                {areButtonsShown && <button 
-                    className="MissionInfoField optionBtn">
+                {areButtonsShown && <button className="MissionInfoField optionBtn">
                         <img id="TrashCanIcon" src={trashCanIcon} alt="Delete button" />
                 </button>}
             </div>
