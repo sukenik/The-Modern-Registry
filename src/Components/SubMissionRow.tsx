@@ -3,7 +3,6 @@ import { Mission } from "../App";
 import { ArrowButton } from "./ArrowButton";
 import { DeleteButton } from "./DeleteButton";
 import { EditButton } from "./EditButton";
-import { SubMissionRow } from "./SubMissionRow";
 
 interface Props {
     id: number,
@@ -15,8 +14,12 @@ interface Props {
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>
 };
 
-export const MissionRow: React.FC<Props> = ({id, description, status, fatherID, subMissions, setShowEditModal, setShowModal}) => {
-    if (typeof fatherID === 'number') return null;
+export const SubMissionRow: React.FC<Props> = ({id, description, status, fatherID, subMissions, setShowEditModal, setShowModal}) => {
+    const [isSubMissionListShown, setIsSubMissionListShown] = useState(false);
+    const [areButtonsShown, setAreButtonsShown] = useState(false);
+    const handleOnMouseEnter = () => setAreButtonsShown(true);
+    const handleOnMouseLeave = () => setAreButtonsShown(false);
+    
     const subMissionsList: Array<ReactElement> = [];
     subMissions.forEach((subMission: Mission) => {
         subMissionsList.push(
@@ -31,12 +34,7 @@ export const MissionRow: React.FC<Props> = ({id, description, status, fatherID, 
                 setShowModal={setShowModal} />
         );
     });
-    
-    const [isSubMissionListShown, setIsSubMissionListShown] = useState(false);
-    const [areButtonsShown, setAreButtonsShown] = useState(false);
-    const handleOnMouseEnter = () => setAreButtonsShown(true);
-    const handleOnMouseLeave = () => setAreButtonsShown(false);
-    
+
     return (
         <div>
             <div 

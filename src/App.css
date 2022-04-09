@@ -3,6 +3,7 @@ html {
     height: 100%;
     overflow: hidden;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
 }
 #app-flex {
     display: flex;

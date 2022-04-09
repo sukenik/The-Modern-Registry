@@ -13,15 +13,17 @@ export interface Mission {
     id: number,
     description: string,
     status: 'Active' | 'Complete',
-    fatherID: number | null
+    fatherID: number | null,
+    subMissions: Array<Mission>
 };
 
-const missions: Array<Mission> = [
-    {id: 1, description: 'Order SuperPizza!', status: 'Active', fatherID: null},
-    {id: 2, description: 'Go to the mall', status: 'Active', fatherID: 1},
-    {id: 3, description: 'Eat pizza :)', status: 'Active', fatherID: 2},
-    {id: 4, description: 'Take a shower', status: 'Active', fatherID: 2},
-    {id: 5, description: 'Pump up some music', status: 'Active', fatherID: null},
+export const missions: Array<Mission> = [
+    {id: 1, description: 'Order SuperPizza!', status: 'Active', fatherID: null, subMissions: []},
+    {id: 2, description: 'Go to the mall', status: 'Active', fatherID: 1, subMissions: []},
+    {id: 3, description: 'Eat pizza :)', status: 'Active', fatherID: 2, subMissions: []},
+    {id: 4, description: 'Take a shower', status: 'Active', fatherID: 2, subMissions: []},
+    {id: 5, description: 'Pump up some music', status: 'Active', fatherID: null, subMissions: []},
+    {id: 6, description: 'New sub-sub-mission', status: 'Complete', fatherID: 4, subMissions: []},
 ];
 
 const App: React.FC = () => {
