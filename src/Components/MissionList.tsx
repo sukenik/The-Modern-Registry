@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import { Mission } from "../App"
-import { divideSubMissionsToFathers } from "../Logic/SubMissionLogic";
+import { divideSubMissionsToFathers, giveGenerations } from "../Logic/SubMissionLogic";
 import { MissionRow } from "./MissionRow";
 
 interface Props {
@@ -11,9 +11,12 @@ interface Props {
 
 export const MissionList: React.FC<Props> = ({missions, setShowEditModal, setShowModal}) => {
     const rows: Array<ReactElement> = [];
-    divideSubMissionsToFathers(rows);
-
-    missions.forEach((mission: Mission) => {
+    divideSubMissionsToFathers();
+    const fatherMissions = missions.filter(
+        mission => typeof mission.fatherID !== 'number'
+    );
+    
+    fatherMissions.forEach((mission: Mission) => {
         rows.push(
             <MissionRow
                 key={mission.id} 
@@ -22,6 +25,7 @@ export const MissionList: React.FC<Props> = ({missions, setShowEditModal, setSho
                 status={mission.status}
                 fatherID={mission.fatherID}
                 subMissions={mission.subMissions}
+                generation={mission.generation}
                 setShowEditModal={setShowEditModal}
                 setShowModal={setShowModal} />
         );

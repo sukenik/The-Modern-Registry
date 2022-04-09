@@ -10,11 +10,13 @@ interface Props {
     status: 'Active' | 'Complete',
     fatherID: number | null,
     subMissions: Array<Mission>,
+    generation: number | undefined,
     setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>,
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>
 };
 
-export const SubMissionRow: React.FC<Props> = ({id, description, status, fatherID, subMissions, setShowEditModal, setShowModal}) => {
+export const SubMissionRow: React.FC<Props> = ({id, description, status, subMissions, generation, 
+        setShowEditModal, setShowModal}) => {
     const [isSubMissionListShown, setIsSubMissionListShown] = useState(false);
     const [areButtonsShown, setAreButtonsShown] = useState(false);
     const handleOnMouseEnter = () => setAreButtonsShown(true);
@@ -30,6 +32,7 @@ export const SubMissionRow: React.FC<Props> = ({id, description, status, fatherI
                 status={subMission.status}
                 fatherID={subMission.fatherID}
                 subMissions={subMission.subMissions}
+                generation={generation}
                 setShowEditModal={setShowEditModal}
                 setShowModal={setShowModal} />
         );
@@ -38,7 +41,7 @@ export const SubMissionRow: React.FC<Props> = ({id, description, status, fatherI
     return (
         <div>
             <div 
-                className='Mission'
+                className={`Mission gen-${generation}`}
                 id={`Mission-${id}`}
                 onMouseEnter={handleOnMouseEnter}
                 onMouseLeave={handleOnMouseLeave}>

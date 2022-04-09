@@ -178,9 +178,15 @@ html {
     left: 31%;
     order: 2;
 }
-.sub-mission {
+.sub-mission-1 {
     margin-left: 210px;
 }
-.sub-mission #MissionName {
+.sub-mission-1 #MissionName {
     left: 33%;
+}
+.sub-mission-0 {
+    margin-left: 240px;
+}
+.sub-mission-0 #MissionName {
+    left: 35.5%;
 }

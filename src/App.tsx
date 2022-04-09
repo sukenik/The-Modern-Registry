@@ -8,22 +8,24 @@ import { CreateMissionButton } from "./Components/CreateMissionButton";
 import { MissionModal } from "./Components/MissionModal";
 import { CreateMissionForm } from "./Components/CreateMissionForm";
 import { EditMissionForm } from "./Components/EditMissionForm";
+import { giveGenerations } from "./Logic/SubMissionLogic";
 
 export interface Mission {
     id: number,
     description: string,
     status: 'Active' | 'Complete',
     fatherID: number | null,
-    subMissions: Array<Mission>
+    subMissions: Array<Mission>,
+    generation?: number
 };
 
 export const missions: Array<Mission> = [
-    {id: 1, description: 'Order SuperPizza!', status: 'Active', fatherID: null, subMissions: []},
-    {id: 2, description: 'Go to the mall', status: 'Active', fatherID: 1, subMissions: []},
-    {id: 3, description: 'Eat pizza :)', status: 'Active', fatherID: 2, subMissions: []},
-    {id: 4, description: 'Take a shower', status: 'Active', fatherID: 2, subMissions: []},
-    {id: 5, description: 'Pump up some music', status: 'Active', fatherID: null, subMissions: []},
-    {id: 6, description: 'New sub-sub-mission', status: 'Complete', fatherID: 4, subMissions: []},
+    {id: 1, description: 'Mission 1', status: 'Active', fatherID: null, subMissions: []},
+    {id: 2, description: 'Sub-mission 1', status: 'Active', fatherID: 1, subMissions: []},
+    {id: 3, description: 'Sub-sub-mission 1', status: 'Active', fatherID: 2, subMissions: []},
+    {id: 4, description: 'Mission 2', status: 'Active', fatherID: null, subMissions: []},
+    {id: 5, description: 'Mission 3', status: 'Active', fatherID: null, subMissions: []},
+    {id: 6, description: 'Sub-mission 3', status: 'Complete', fatherID: 5, subMissions: []},
 ];
 
 const App: React.FC = () => {
