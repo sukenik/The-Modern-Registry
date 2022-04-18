@@ -13,10 +13,11 @@ export const MissionModal: React.FC<Props> = ({children, showModal, setShowModal
 
     const handleOutsideClick = () => setShowModal(false);
     const handleCancelClick = () => setShowModal(false);
+    const handleContentClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => e.stopPropagation();
     
     return (
         <div className="modal" onClick={handleOutsideClick}>
-            <div className="modal-content" onClick={e => e.stopPropagation()}>
+            <div className="modal-content" onClick={handleContentClick}>
                 <div className="modal-header">
                     <h4 className="modal-title">{title}</h4>
                 </div>

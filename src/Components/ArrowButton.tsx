@@ -16,6 +16,6 @@ export const ArrowButton: React.FC<Props> = ({setIsSubMissionListShown}) => {
     }
 
     return (
-        <div className="arrow" onClick={(e) => handleArrowClick(e)}></div>
+        <div className="arrow" onClick={handleArrowClick}></div>
     );
 };

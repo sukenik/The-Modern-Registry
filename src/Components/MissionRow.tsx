@@ -1,62 +1,59 @@
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Mission } from "../App";
-import { giveGenerations } from "../Logic/SubMissionLogic";
+import { getSubMissionComponentList, setMissionElementWidth, setPrimaryMissionElementWidth } from "../Logic/SubMissionLogic";
 import { ArrowButton } from "./ArrowButton";
 import { DeleteButton } from "./DeleteButton";
 import { EditButton } from "./EditButton";
-import { SubMissionRow } from "./SubMissionRow";
+import { SubMissionList } from "./SubMissionList";
 
 interface Props {
     id: number,
     description: string,
     status: 'Active' | 'Complete',
-    fatherID: number | null,
+    parentID: number | null,
     subMissions: Array<Mission>,
-    generation: number | undefined,
     setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>,
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>
 };
 
-export const MissionRow: React.FC<Props> = ({id, description, status, fatherID, subMissions, generation, 
-        setShowEditModal, setShowModal}) => {
-    if (typeof fatherID === 'number') return null;
-    const subMissionsList: Array<ReactElement> = [];
-    subMissions.forEach((subMission: Mission) => {
-        subMissionsList.push(
-            <SubMissionRow 
-                key={subMission.id} 
-                id={subMission.id}
-                description={subMission.description}
-                status={subMission.status}
-                fatherID={subMission.fatherID}
-                subMissions={subMission.subMissions}
-                generation={generation}
-                setShowEditModal={setShowEditModal}
-                setShowModal={setShowModal} />
-        );
-    });
-    
+export const MissionRow: React.FC<Props> = ({id, description, status, parentID, subMissions, 
+    setShowEditModal, setShowModal}) => {    
+    if (typeof parentID === 'number') {
+        setMissionElementWidth(parentID, id);
+    } else {
+        setPrimaryMissionElementWidth(id);
+    }
+
     const [isSubMissionListShown, setIsSubMissionListShown] = useState(false);
     const [areButtonsShown, setAreButtonsShown] = useState(false);
-    const handleOnMouseEnter = () => setAreButtonsShown(true);
-    const handleOnMouseLeave = () => setAreButtonsShown(false);
-    
+    const handleOnMouseEnter = () => {
+        setAreButtonsShown(true);
+    };
+    const handleOnMouseLeave = () => {
+        setAreButtonsShown(false);
+    };
+
     return (
-        <div>
-            <div 
-                className={`Mission gen-${generation}`}
-                id={`Mission-${id}`}
-                onMouseEnter={handleOnMouseEnter}
-                onMouseLeave={handleOnMouseLeave}>
-                <ArrowButton setIsSubMissionListShown={setIsSubMissionListShown} />
-                <div className="MissionField" id="MissionName">{description}</div>
-                <div className="MissionInfoField" id="MissionStatus">{status}</div>
-                <div className="MissionField" id="MissionInfo">
-                    {areButtonsShown && <EditButton setShowEditModal={setShowEditModal} setShowModal={setShowModal} />}
-                    {areButtonsShown && <DeleteButton />}
-                </div>
+        <li 
+            className='Mission'
+            id={`Mission-${id}`}
+            onMouseEnter={handleOnMouseEnter}
+            onMouseLeave={handleOnMouseLeave}>
+            <ArrowButton setIsSubMissionListShown={setIsSubMissionListShown} />
+            <div className="MissionField" id="MissionName">{description}</div>
+            <div className="MissionInfoField" id="MissionStatus">
+                <div id="status">{status}</div>
             </div>
-            {isSubMissionListShown && subMissionsList}
-        </div>
+            <div className="MissionField" id="MissionInfo">
+                {areButtonsShown && <EditButton setShowEditModal={setShowEditModal} setShowModal={setShowModal} />}
+                {areButtonsShown && <DeleteButton />}
+            </div>
+            {isSubMissionListShown && 
+                <SubMissionList 
+                    subMissions={subMissions} 
+                    setShowEditModal={setShowEditModal} 
+                    setShowModal={setShowModal}
+                    setAreButtonsShown={setAreButtonsShown} />}
+        </li>
     );
 };

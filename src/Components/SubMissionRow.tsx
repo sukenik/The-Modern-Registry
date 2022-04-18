@@ -8,20 +8,22 @@ interface Props {
     id: number,
     description: string,
     status: 'Active' | 'Complete',
-    fatherID: number | null,
+    parentID: number | null,
     subMissions: Array<Mission>,
-    generation: number | undefined,
     setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>,
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>
 };
 
-export const SubMissionRow: React.FC<Props> = ({id, description, status, subMissions, generation, 
+export const SubMissionRow: React.FC<Props> = ({id, description, status, subMissions, parentID,
         setShowEditModal, setShowModal}) => {
     const [isSubMissionListShown, setIsSubMissionListShown] = useState(false);
     const [areButtonsShown, setAreButtonsShown] = useState(false);
     const handleOnMouseEnter = () => setAreButtonsShown(true);
     const handleOnMouseLeave = () => setAreButtonsShown(false);
     
+    
+
+    // TODO: Extract to function plz :)
     const subMissionsList: Array<ReactElement> = [];
     subMissions.forEach((subMission: Mission) => {
         subMissionsList.push(
@@ -30,28 +32,27 @@ export const SubMissionRow: React.FC<Props> = ({id, description, status, subMiss
                 id={subMission.id}
                 description={subMission.description}
                 status={subMission.status}
-                fatherID={subMission.fatherID}
+                parentID={subMission.parentID}
                 subMissions={subMission.subMissions}
-                generation={generation}
                 setShowEditModal={setShowEditModal}
                 setShowModal={setShowModal} />
         );
     });
 
+    
+
     return (
-        <div>
-            <div 
-                className={`Mission gen-${generation}`}
-                id={`Mission-${id}`}
-                onMouseEnter={handleOnMouseEnter}
-                onMouseLeave={handleOnMouseLeave}>
-                <ArrowButton setIsSubMissionListShown={setIsSubMissionListShown} />
-                <div className="MissionField" id="MissionName">{description}</div>
-                <div className="MissionInfoField" id="MissionStatus">{status}</div>
-                <div className="MissionField" id="MissionInfo">
-                    {areButtonsShown && <EditButton setShowEditModal={setShowEditModal} setShowModal={setShowModal} />}
-                    {areButtonsShown && <DeleteButton />}
-                </div>
+        <div 
+            className={`Mission sub-mission`}
+            id={`Mission-${id}`}
+            onMouseEnter={handleOnMouseEnter}
+            onMouseLeave={handleOnMouseLeave}>
+            <ArrowButton setIsSubMissionListShown={setIsSubMissionListShown} />
+            <div className="MissionField" id="MissionName">{description}</div>
+            <div className="MissionInfoField" id="MissionStatus">{status}</div>
+            <div className="MissionField" id="MissionInfo">
+                {areButtonsShown && <EditButton setShowEditModal={setShowEditModal} setShowModal={setShowModal} />}
+                {areButtonsShown && <DeleteButton />}
             </div>
             {isSubMissionListShown && subMissionsList}
         </div>
