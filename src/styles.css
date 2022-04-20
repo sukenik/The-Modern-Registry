@@ -37,7 +37,7 @@ html {
     flex-direction: column;
 }
 .Mission {
-    height: 40px;
+    /* height: 40px; */
     background-color: rgb(92, 91, 91);
     color: aliceblue;
     display: flex;
@@ -181,8 +181,8 @@ html {
     order: 2;
 }
 #sub-mission-list {
-    margin-top: 5px;
-    /* background-color: aqua; */
+    /* margin-top: 5px; */
+    background-color: rgb(218, 218, 218);
     width: var(--width);
     padding: 0;
     display: flex;
@@ -198,4 +198,7 @@ html {
 }
 #mission-list > li {
     margin: 5px;
+}
+#sub-mission-list > li {
+    margin-top: 5px;
 }

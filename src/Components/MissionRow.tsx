@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Mission } from "../App";
 import { getSubMissionComponentList, setMissionElementWidth, setPrimaryMissionElementWidth } from "../Logic/SubMissionLogic";
 import { ArrowButton } from "./ArrowButton";
@@ -19,7 +19,9 @@ interface Props {
 export const MissionRow: React.FC<Props> = ({id, description, status, parentID, subMissions, 
     setShowEditModal, setShowModal}) => {    
     if (typeof parentID === 'number') {
-        setMissionElementWidth(parentID, id);
+        useEffect(() => {
+            setMissionElementWidth(parentID, id);
+        });
     } else {
         setPrimaryMissionElementWidth(id);
     }

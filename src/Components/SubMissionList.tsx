@@ -14,9 +14,12 @@ export const SubMissionList: React.FC<Props> = ({subMissions, setShowEditModal, 
     const handleOnMouseEnter = () => {
         setAreButtonsShown(false);
     };
+    const handleOnMouseLeave = () => {
+        setAreButtonsShown(true);
+    };
 
     return (
-        <ul id="sub-mission-list" onMouseEnter={handleOnMouseEnter}>
+        <ul id="sub-mission-list" onMouseEnter={handleOnMouseEnter} onMouseLeave={handleOnMouseLeave}>
             {subMissionList}
         </ul>
     );
