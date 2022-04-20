@@ -43,7 +43,7 @@ const App: React.FC = () => {
             <MissionModal 
                 setShowModal={setShowModal} 
                 showModal={showModal} 
-                title={showEditModal ? 'Edit mission' : 'Create mission'}>
+                title={showEditModal ? 'Edit a Mission' : 'Create a Mission'}>
                     {showEditModal ? <EditMissionForm /> : <CreateMissionForm />}
             </MissionModal>
         </>
