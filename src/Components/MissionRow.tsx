@@ -51,7 +51,7 @@ export const MissionRow: React.FC<Props> = ({id, description, status, parentID, 
                 {areButtonsShown && <DeleteButton />}
             </div>
             {isSubMissionListShown && 
-                <SubMissionList 
+                <SubMissionList
                     subMissions={subMissions} 
                     setShowEditModal={setShowEditModal} 
                     setShowModal={setShowModal}

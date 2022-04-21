@@ -181,10 +181,9 @@ html {
     order: 2;
 }
 #sub-mission-list {
-    /* margin-top: 5px; */
+    padding-left: 0;
     background-color: rgb(218, 218, 218);
     width: var(--width);
-    padding: 0;
     display: flex;
     justify-content: flex-end;
     order: 5;
