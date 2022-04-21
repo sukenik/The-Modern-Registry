@@ -1,10 +1,6 @@
 import React from "react";
 
-interface Props {
-
-};
-
-export const CreateMissionForm: React.FC<Props> = () => {
+export const CreateMissionForm: React.FC = () => {
     return (
         <div id="CreateMissionForm">
             <label htmlFor="Name">Name:</label>

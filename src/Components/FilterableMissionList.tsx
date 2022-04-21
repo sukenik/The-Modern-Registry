@@ -1,10 +1,6 @@
 import React from "react";
 
-interface Props {
-
-};
-
-export const FilterableMissionList: React.FC<Props> = ({children}) => {
+export const FilterableMissionList: React.FC = ({children}) => {
     return (
         <div id="FilterableMissionList">
             {children}
