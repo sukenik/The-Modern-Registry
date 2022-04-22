@@ -1,5 +1,6 @@
 import React, { ReactElement } from "react";
-import { Mission, missions } from "../App";
+import { Mission } from "../App";
+import { missions } from "../data";
 import { MissionRow } from "../Components/MissionRow";
 
 export const divideSubMissionToParentMission = () => {
@@ -16,7 +17,6 @@ export const setMissionElementWidth = (parentMissionID: number, missionID: numbe
         const widthPixelNum = getParentMissionWidthPixelNum(parentMissionElement);
         if (missionElement) {
             missionElement.style.width = widthPixelNum - 30 + 'px';
-            console.log('Width was given :)');
         }
     }
 };
@@ -47,3 +47,29 @@ export const getSubMissionComponentList = (subMissions: Mission[],
     });
     return subMissionComponentList;
 };
+export const getMissionsExceptLowestHierarchy = () => {
+    const missionsFitLink = missions;
+    const lowestHierarchyMissions = [] as Array<Mission>;
+    
+    missions.forEach(
+        mission => mission.subMissions.length > 0 ?
+            mission.subMissions.forEach(
+                subMission => subMission.subMissions.length > 0 ?
+                    subMission.subMissions.forEach(
+                        subSubMission => lowestHierarchyMissions.push(subSubMission)
+                    )
+                    : null
+            ) 
+            : null
+    )
+    return missionsFitLink.filter(mission => !lowestHierarchyMissions.includes(mission));
+} 
+export const getLinkToMissionOptions = (missionID: number) => {
+    const missionsToLink = missions.filter(mission => mission.id !== missionID);
+    console.log(missionsToLink);
+}
+export const filterSubMissionsFromLink = (missions: Array<Mission>, missionID: number) => {
+    const subMissionToRemove = missions.filter(mission => mission.parentID === missionID);
+    subMissionToRemove.forEach(subMission => subMission.subMissions.map(subSubMission => subSubMission))
+    console.log(subMissionToRemove);
+}
