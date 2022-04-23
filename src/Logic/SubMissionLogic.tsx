@@ -47,6 +47,7 @@ export const getSubMissionComponentList = (subMissions: Mission[],
     });
     return subMissionComponentList;
 };
+// TODO: Make this readable A$AP :)
 export const getMissionsExceptLowestHierarchy = () => {
     const missionsFitLink = missions;
     const lowestHierarchyMissions = [] as Array<Mission>;
@@ -68,8 +69,12 @@ export const getLinkToMissionOptions = (missionID: number) => {
     const missionsToLink = missions.filter(mission => mission.id !== missionID);
     console.log(missionsToLink);
 }
-export const filterSubMissionsFromLink = (missions: Array<Mission>, missionID: number) => {
+export const filterParentSubMissionsFromLink = (missions: Array<Mission>, missionID: number) => {
     const subMissionToRemove = missions.filter(mission => mission.parentID === missionID);
-    subMissionToRemove.forEach(subMission => subMission.subMissions.map(subSubMission => subSubMission))
+    subMissionToRemove.forEach(
+        subMission => subMission.subMissions.forEach(
+            subSubMission => subMissionToRemove.push(subSubMission)
+        )
+    );
     console.log(subMissionToRemove);
 }
