@@ -1,6 +1,6 @@
 import React from "react";
 import { Mission } from "../Custom-Typings/Mission";
-import { getSubMissionComponentList, setMissionElementWidth } from "../Logic/SubMissionLogic";
+import { getSubMissionComponentList, setMissionElementWidth } from "../Logic/subMissionLogic";
 
 interface Props {
     subMissions: Mission[],

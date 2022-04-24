@@ -1,4 +1,4 @@
-import { Mission } from "./App";
+import { Mission } from "./Custom-Typings/Mission";
 
 export const missions: Array<Mission> = [
     {id: 1, description: 'Mission 1', status: 'Active', parentID: null, subMissions: [] as Array<Mission>},

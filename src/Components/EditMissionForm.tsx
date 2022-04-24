@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { missions } from "../data";
-import { filterParentSubMissionsFromLink, getLinkToMissionOptions, getMissionsExceptLowestHierarchy } from "../Logic/SubMissionLogic";
+import { filterLinkToMissionOptions } from "../Logic/filterLinkToMissionField";
 
 // interface Props {
 //     id: number,
@@ -18,24 +18,12 @@ export const EditMissionForm: React.FC = () => {
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNameValue(e.target.value);
     };
-    const missionsFitToLink = getMissionsExceptLowestHierarchy();
+    const linkToMissionOptions = filterLinkToMissionOptions(1);
 
     // TODO: manage global state to pass prop with current mission details
-    /* 
-        # Step 1: Mission can't link to itself
-        getLinkToMissionOptions(id);
-    
-        # Step 2: Mission can't link to its children
-        filterParentSubMissionsFromLink(missions, 2);
-
-        # Step 3: Mission can't link to missions in the 3rd hierarchy (sub-sub missions)
-        
-    */
-
-    const missionsFitToLinkOptionElements = missionsFitToLink.map(
+    const missionsFitToLinkOptionElements = linkToMissionOptions.map(
         mission => <option key={mission.id} value={mission.description}>{mission.description}</option>
     );
-    
 
     return (
         <div id="MissionForm">

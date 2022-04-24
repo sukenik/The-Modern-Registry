@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Mission } from "../Custom-Typings/Mission";
-import { setMissionElementWidth, setPrimaryMissionElementWidth } from "../Logic/SubMissionLogic";
+import { setMissionElementWidth, setPrimaryMissionElementWidth } from "../Logic/subMissionLogic";
 import { ArrowButton } from "./ArrowButton";
 import { DeleteButton } from "./DeleteButton";
 import { EditButton } from "./EditButton";

@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import { Mission } from "../Custom-Typings/Mission";
-import { divideSubMissionToParentMission } from "../Logic/SubMissionLogic";
+import { divideSubMissionToParentMission } from "../Logic/subMissionLogic";
 import { MissionRow } from "./MissionRow";
 
 interface Props {
