@@ -13,14 +13,6 @@ import { addMissionsToLocalStorage } from "./Logic/localStorage";
 
 addMissionsToLocalStorage(missions);
 
-export interface Mission {
-    id: number,
-    description: string,
-    status: 'Active' | 'Complete',
-    parentID: number | null,
-    subMissions: Array<Mission>,
-};
-
 const App: React.FC = () => {
     const [showModal, setShowModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);

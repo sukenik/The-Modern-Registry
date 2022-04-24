@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { Mission } from "../App"
+import { Mission } from "../Custom-Typings/Mission";
 import { divideSubMissionToParentMission } from "../Logic/SubMissionLogic";
 import { MissionRow } from "./MissionRow";
 

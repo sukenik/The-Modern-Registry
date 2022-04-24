@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from "react";
-import { Mission } from "../App";
+import { Mission } from "../Custom-Typings/Mission";
 import { ArrowButton } from "./ArrowButton";
 import { DeleteButton } from "./DeleteButton";
 import { EditButton } from "./EditButton";

@@ -1,4 +1,4 @@
-import { Mission } from "../App";
+import { Mission } from "../Custom-Typings/Mission";
 
 const addToLocalStorage = (key: string, value: string) => {
     localStorage.setItem(key, value);
