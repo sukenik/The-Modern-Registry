@@ -7,42 +7,32 @@ import { EditButton } from "./EditButton";
 import { SubMissionList } from "./SubMissionList";
 
 interface Props {
-    id: number,
-    description: string,
-    status: 'Active' | 'Complete',
-    parentID: number | null,
-    subMissions: Array<Mission>,
+    mission: Mission,
     setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>,
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>
 };
 
-export const MissionRow: React.FC<Props> = ({id, description, status, parentID, subMissions, 
-    setShowEditModal, setShowModal}) => {    
-    if (typeof parentID === 'number') {
+export const MissionRow: React.FC<Props> = ({mission, setShowEditModal, setShowModal}) => {    
+    if (typeof mission.parentID === 'number') {
         useEffect(() => {
-            setMissionElementWidth(parentID, id);
+            setMissionElementWidth(mission.parentID, mission.id);
         });
     } else {
-        setPrimaryMissionElementWidth(id);
+        setPrimaryMissionElementWidth(mission.id);
     }
-
     const [isSubMissionListShown, setIsSubMissionListShown] = useState(false);
     const [areButtonsShown, setAreButtonsShown] = useState(false);
-    const handleOnMouseEnter = () => {
-        setAreButtonsShown(true);
-    };
-    const handleOnMouseLeave = () => {
-        setAreButtonsShown(false);
-    };
+    const handleOnMouseEnter = () => setAreButtonsShown(true);
+    const handleOnMouseLeave = () => setAreButtonsShown(false);
 
     return (
         <li 
             className='Mission'
-            id={`Mission-${id}`}
+            id={`Mission-${mission.id}`}
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}>
             <ArrowButton setIsSubMissionListShown={setIsSubMissionListShown} />
-            <div className="MissionField" id="MissionName">{description}</div>
+            <div className="MissionField" id="MissionName">{mission.description}</div>
             <div className="MissionInfoField" id="MissionStatus">
                 <div id="status">{status}</div>
             </div>
@@ -52,7 +42,7 @@ export const MissionRow: React.FC<Props> = ({id, description, status, parentID, 
             </div>
             {isSubMissionListShown && 
                 <SubMissionList
-                    subMissions={subMissions} 
+                    subMissions={mission.subMissions} 
                     setShowEditModal={setShowEditModal} 
                     setShowModal={setShowModal}
                     setAreButtonsShown={setAreButtonsShown} />}

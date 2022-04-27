@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { missions } from "../data";
-import { filterLinkToMissionOptions } from "../Logic/filterLinkToMissionField";
+import { filterLinkToMissionOptions } from "../Logic/filterLinkToMissionFieldLogic";
 
 // interface Props {
 //     id: number,

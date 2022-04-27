@@ -19,12 +19,8 @@ export const MissionList: React.FC<Props> = ({missions, setShowEditModal, setSho
     parentMissions.forEach((mission: Mission) => {
         rows.push(
             <MissionRow
-                key={mission.id} 
-                id={mission.id}
-                description={mission.description}
-                status={mission.status}
-                parentID={mission.parentID}
-                subMissions={mission.subMissions}
+                key={mission.id}
+                mission={mission}
                 setShowEditModal={setShowEditModal}
                 setShowModal={setShowModal} />
         );

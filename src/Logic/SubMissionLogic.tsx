@@ -10,7 +10,7 @@ export const divideSubMissionToParentMission = () => {
         )
     );
 };
-export const setMissionElementWidth = (parentMissionID: number, missionID: number) => {
+export const setMissionElementWidth = (parentMissionID: number | null, missionID: number) => {
     const parentMissionElement = document.getElementById(`Mission-${parentMissionID}`);
     const missionElement = document.getElementById(`Mission-${missionID}`);
     if (parentMissionElement) {
@@ -36,11 +36,7 @@ export const getSubMissionComponentList = (subMissions: Mission[],
         subMissionComponentList.push(
             <MissionRow
                 key={subMission.id}
-                id={subMission.id}
-                description={subMission.description}
-                status={subMission.status}
-                parentID={subMission.parentID}
-                subMissions={subMission.subMissions}
+                mission={subMission}
                 setShowEditModal={setShowEditModal}
                 setShowModal={setShowModal} />
         )
