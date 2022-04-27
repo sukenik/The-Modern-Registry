@@ -16,7 +16,8 @@ addMissionsToLocalStorage(missions);
 const App: React.FC = () => {
     const [showModal, setShowModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
-    const [currentMission, setCurrentMission] = useState(null);
+    // Create context here as null => Change it in EditButton
+    const currentMissionContext = React.createContext(null);    
 
     return (
         <>
