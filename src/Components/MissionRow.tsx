@@ -37,7 +37,7 @@ export const MissionRow: React.FC<Props> = ({mission, setShowEditModal, setShowM
                 <div id="status">{mission.status}</div>
             </div>
             <div className="MissionField" id="MissionInfo">
-                {areButtonsShown && <EditButton mission={mission} setShowEditModal={setShowEditModal} setShowModal={setShowModal} />}
+                {areButtonsShown && <EditButton mission={mission} setShowEditModal={setShowEditModal} />}
                 {areButtonsShown && <DeleteButton />}
             </div>
             {isSubMissionListShown && 

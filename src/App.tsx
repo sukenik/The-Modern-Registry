@@ -7,20 +7,20 @@ import { MissionList } from "./Components/MissionList";
 import { CreateMissionButton } from "./Components/CreateMissionButton";
 import { MissionModal } from "./Components/MissionModal";
 import { CreateMissionForm } from "./Components/CreateMissionForm";
-import { EditMissionForm } from "./Components/EditMissionForm";
+import { MissionForm } from "./Components/MissionForm";
 import { missions } from "./data";
 import { addMissionsToLocalStorage } from "./Logic/localStorage";
+import { CurrentMissionProvider, useCurrentMission } from "./Context/MissionContext";
+import { ShowModalProvider, useShowModalContext } from "./Context/ModalContext";
 
 addMissionsToLocalStorage(missions);
 
 const App: React.FC = () => {
-    const [showModal, setShowModal] = useState(false);
+    const { showModal, setShowModal } = useShowModalContext();
     const [showEditModal, setShowEditModal] = useState(false);
-    // Create context here as null => Change it in EditButton
-    const currentMissionContext = React.createContext(null);    
 
     return (
-        <>
+        <CurrentMissionProvider>
             <Title />
             <div id='app-flex'>
                 <FilterableMissionList>
@@ -29,13 +29,8 @@ const App: React.FC = () => {
                 </FilterableMissionList>
             </div>
             {!showModal && <CreateMissionButton setShowModal={setShowModal} setShowEditModal={setShowEditModal} />}
-            <MissionModal 
-                setShowModal={setShowModal} 
-                showModal={showModal} 
-                title={showEditModal ? 'Edit a Mission' : 'Create a Mission'}>
-                    {showEditModal ? <EditMissionForm /> : <CreateMissionForm />}
-            </MissionModal>
-        </>
+            <MissionModal />
+        </CurrentMissionProvider>
     );
 };
 

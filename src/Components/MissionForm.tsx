@@ -1,24 +1,21 @@
 import React, { useState } from "react";
-import { missions } from "../data";
 import { filterLinkToMissionOptions } from "../Logic/filterLinkToMissionFieldLogic";
+import { Mission } from "../Custom-Typings/Mission";
 
-// interface Props {
-//     id: number,
-//     description: string,
-//     status: 'Active' | 'Complete',
-//     parentID: number | null
-// }
+interface Props {
+    mission: Mission
+}
 
-export const EditMissionForm: React.FC = () => {
+export const MissionForm: React.FC<Props> = ({ mission }) => {
     const [selectValue, setSelectValue] = useState('default');
-    const [nameValue, setNameValue] = useState('');
+    const [nameValue, setNameValue] = useState(mission.description);
     const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectValue(e.target.value);
     };
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNameValue(e.target.value);
     };
-    const linkToMissionOptions = filterLinkToMissionOptions(1);
+    const linkToMissionOptions = filterLinkToMissionOptions(mission.id);
 
     // TODO: manage global state to pass prop with current mission details
     const missionsFitToLinkOptionElements = linkToMissionOptions.map(
