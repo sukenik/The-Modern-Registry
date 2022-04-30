@@ -5,11 +5,10 @@ import { MissionRow } from "./MissionRow";
 
 interface Props {
     missions: Array<Mission>,
-    setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>,
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>,
 };
 
-export const MissionList: React.FC<Props> = ({missions, setShowEditModal, setShowModal}) => {
+export const MissionList: React.FC<Props> = ({ missions, setShowModal }) => {
     const rows: Array<ReactElement> = [];
     divideSubMissionToParentMission();
     const parentMissions = missions.filter(
@@ -18,11 +17,7 @@ export const MissionList: React.FC<Props> = ({missions, setShowEditModal, setSho
     
     parentMissions.forEach((mission: Mission) => {
         rows.push(
-            <MissionRow
-                key={mission.id}
-                mission={mission}
-                setShowEditModal={setShowEditModal}
-                setShowModal={setShowModal} />
+            <MissionRow key={mission.id} mission={mission} setShowModal={setShowModal} />
         );
     });
     

@@ -6,16 +6,14 @@ import { useShowModalContext } from "../Context/ModalContext";
 
 interface Props {
     mission: Mission,
-    setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>
 };
 
-export const EditButton: React.FC<Props> = ({mission, setShowEditModal}) => {
+export const EditButton: React.FC<Props> = ({ mission }) => {
     const { setShowModal } = useShowModalContext();
     const { setCurrentMission } = useCurrentMission();
 
     const handleEditButtonClick = () => {
         setShowModal(true);
-        setShowEditModal(true);
         setCurrentMission(mission);
     }
 

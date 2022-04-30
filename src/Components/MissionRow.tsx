@@ -8,11 +8,10 @@ import { SubMissionList } from "./SubMissionList";
 
 interface Props {
     mission: Mission,
-    setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>,
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>
 };
 
-export const MissionRow: React.FC<Props> = ({mission, setShowEditModal, setShowModal}) => {    
+export const MissionRow: React.FC<Props> = ({ mission, setShowModal }) => {    
     if (typeof mission.parentID === 'number') {
         useEffect(() => {
             setMissionElementWidth(mission.parentID, mission.id);
@@ -37,13 +36,12 @@ export const MissionRow: React.FC<Props> = ({mission, setShowEditModal, setShowM
                 <div id="status">{mission.status}</div>
             </div>
             <div className="MissionField" id="MissionInfo">
-                {areButtonsShown && <EditButton mission={mission} setShowEditModal={setShowEditModal} />}
+                {areButtonsShown && <EditButton mission={mission} />}
                 {areButtonsShown && <DeleteButton />}
             </div>
             {isSubMissionListShown && 
                 <SubMissionList
-                    subMissions={mission.subMissions} 
-                    setShowEditModal={setShowEditModal} 
+                    subMissions={mission.subMissions}
                     setShowModal={setShowModal}
                     setAreButtonsShown={setAreButtonsShown} />}
         </li>

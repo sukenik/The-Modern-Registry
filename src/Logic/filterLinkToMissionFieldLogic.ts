@@ -45,12 +45,9 @@ const isGrandparent = (mission: Mission): boolean => {
     };
     return hasSubSubMissions;
 };
-const isParent = (mission: Mission): boolean => {
-    return mission.subMissions.length > 0;
-};
-const removeLinkedParentMission = (mission: Mission) => {
-    return missions.filter(parentMission => parentMission.id !== mission.parentID);
-};
-const isChild = (mission: Mission): boolean => {
-    return typeof mission.parentID === 'number';
-}
+const isParent = (mission: Mission): boolean => mission.subMissions.length > 0;
+const removeLinkedParentMission = (mission: Mission) => missions.filter(
+    parentMission => parentMission.id !== mission.parentID
+);
+const isChild = (mission: Mission): boolean => typeof mission.parentID === 'number';
+export const filterLinkToNewMissionOptions = () => filterLowestHierarchyMissions(missions);
