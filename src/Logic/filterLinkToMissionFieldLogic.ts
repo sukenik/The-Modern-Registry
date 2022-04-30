@@ -28,26 +28,19 @@ const filterLowestHierarchyMissions = (missions: Array<Mission>): Array<Mission>
             : null
     );
     return missions.filter(mission => !lowestHierarchyMissions.includes(mission));
-} 
-const filterLinkMissionToItself = (missions: Array<Mission>, missionID: number): Array<Mission> => {
-    return missions.filter(mission => mission.id !== missionID); 
-}
-const filterParentSubMissions = (missions: Array<Mission>, missionID: number): Array<Mission> => {
-    return missions.filter(mission => mission.parentID !== missionID);
 };
+const filterLinkMissionToItself = (missions: Array<Mission>, missionID: number): Array<Mission> => 
+    missions.filter(mission => mission.id !== missionID);
+const filterParentSubMissions = (missions: Array<Mission>, missionID: number): Array<Mission> => 
+    missions.filter(mission => mission.parentID !== missionID);
 const isGrandparent = (mission: Mission): boolean => {
     let hasSubSubMissions = false;
-    if (mission.subMissions.length > 0) {
-        mission.subMissions.forEach(
-            subMission => subMission.subMissions.length > 0 ?
-                hasSubSubMissions = true : hasSubSubMissions
-        );
-    };
+    if (mission.subMissions.length > 0)
+        hasSubSubMissions = mission.subMissions.some(subMission => isParent(subMission));
     return hasSubSubMissions;
 };
 const isParent = (mission: Mission): boolean => mission.subMissions.length > 0;
-const removeLinkedParentMission = (mission: Mission) => missions.filter(
-    parentMission => parentMission.id !== mission.parentID
-);
+const removeLinkedParentMission = (mission: Mission) => 
+    missions.filter(parentMission => parentMission.id !== mission.parentID);
 const isChild = (mission: Mission): boolean => typeof mission.parentID === 'number';
 export const getLinkToNewMissionOptions = () => filterLowestHierarchyMissions(missions);
