@@ -1,37 +1,40 @@
-import React from "react";
+import React, { useContext } from "react";
+import { defaultMission, useCurrentMission } from "../Context/MissionContext";
+import { useShowModalContext } from "../Context/ModalContext";
+import { Mission } from "../Custom-Typings/Mission";
+import { MissionForm } from "./MissionForm";
 
-interface Props {
-    showModal: boolean,
-    setShowModal: React.Dispatch<React.SetStateAction<boolean>>,
-    title: string,
-};
-
-export const MissionModal: React.FC<Props> = ({children, showModal, setShowModal, title}) => {
+export const MissionModal: React.FC = () => {
+    const { showModal, setShowModal } = useShowModalContext();
+    const { currentMission, setCurrentMission } = useCurrentMission();
     if (!showModal) {
         return null;
     }
 
-    const handleOutsideClick = () => setShowModal(false);
-    const handleCancelClick = () => setShowModal(false);
+    const handleOutsideClick = () => {
+        setShowModal(false);
+        setCurrentMission(defaultMission);
+    }
+    const handleCancelClick = () => {
+        setShowModal(false);
+        setCurrentMission(defaultMission);
+    }
     const handleContentClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => e.stopPropagation();
     
     return (
         <div className="modal" onClick={handleOutsideClick}>
             <div className="modal-content" onClick={handleContentClick}>
                 <div className="modal-header">
-                    <h4 className="modal-title">{title}</h4>
+                    <h4 className="modal-title">
+                        {currentMission.id === defaultMission.id ? 'Create a Mission' : 'Edit a Mission'}
+                    </h4>
                 </div>
                 <div className="modal-body">
-                    {children}
+                    <MissionForm mission={currentMission}/>
                 </div>
                 <div className="modal-footer">
-                    <button 
-                        className="button"
-                        id="SaveButton">Save</button>
-                    <button
-                        onClick={handleCancelClick} 
-                        className="button"
-                        id="CancelButton">Cancel</button>
+                    <button className="button" id="SaveButton">Save</button>
+                    <button onClick={handleCancelClick} className="button" id="CancelButton">Cancel</button>
                 </div>
             </div>
         </div>

@@ -28,8 +28,7 @@ export const setPrimaryMissionElementWidth = (missionID: number) => {
     const missionElement = document.getElementById(`Mission-${missionID}`);
     if (missionElement) missionElement.style.width = globalWidth;
 }
-export const getSubMissionComponentList = (subMissions: Mission[], 
-    setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>, 
+export const getSubMissionComponentList = (subMissions: Mission[],
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>): Array<ReactElement> => {
     const subMissionComponentList: Array<ReactElement> = [];
     subMissions.forEach(subMission => {
@@ -37,7 +36,6 @@ export const getSubMissionComponentList = (subMissions: Mission[],
             <MissionRow
                 key={subMission.id}
                 mission={subMission}
-                setShowEditModal={setShowEditModal}
                 setShowModal={setShowModal} />
         )
     });

@@ -4,13 +4,12 @@ import { getSubMissionComponentList, setMissionElementWidth } from "../Logic/sub
 
 interface Props {
     subMissions: Mission[],
-    setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>, 
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>,
     setAreButtonsShown: React.Dispatch<React.SetStateAction<boolean>>
 };
 
-export const SubMissionList: React.FC<Props> = ({subMissions, setShowEditModal, setShowModal, setAreButtonsShown}) => {
-    const subMissionList = getSubMissionComponentList(subMissions, setShowEditModal, setShowModal);
+export const SubMissionList: React.FC<Props> = ({ subMissions, setShowModal, setAreButtonsShown }) => {
+    const subMissionList = getSubMissionComponentList(subMissions, setShowModal);
     const handleOnMouseEnter = () => {
         setAreButtonsShown(false);
     };

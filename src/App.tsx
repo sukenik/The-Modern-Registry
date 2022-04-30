@@ -1,41 +1,33 @@
 import { hot } from "react-hot-loader";
-import React, { useState } from 'react';
+import React from 'react';
 import { Title } from "./Components/Title";
-import { FilterableMissionList } from "./Components/FilterableMissionList";
+import { FilterableMissionListContainer } from "./Components/FilterableMissionListContainer";
 import { SearchBar } from "./Components/SearchBar";
 import { MissionList } from "./Components/MissionList";
 import { CreateMissionButton } from "./Components/CreateMissionButton";
 import { MissionModal } from "./Components/MissionModal";
-import { CreateMissionForm } from "./Components/CreateMissionForm";
-import { EditMissionForm } from "./Components/EditMissionForm";
 import { missions } from "./data";
 import { addMissionsToLocalStorage } from "./Logic/localStorage";
+import { CurrentMissionProvider } from "./Context/MissionContext";
+import { useShowModalContext } from "./Context/ModalContext";
 
 addMissionsToLocalStorage(missions);
 
 const App: React.FC = () => {
-    const [showModal, setShowModal] = useState(false);
-    const [showEditModal, setShowEditModal] = useState(false);
-    // Create context here as null => Change it in EditButton
-    const currentMissionContext = React.createContext(null);    
+    const { showModal, setShowModal } = useShowModalContext();
 
     return (
-        <>
+        <CurrentMissionProvider>
             <Title />
             <div id='app-flex'>
-                <FilterableMissionList>
+                <FilterableMissionListContainer>
                     <SearchBar />
-                    <MissionList missions={missions} setShowEditModal={setShowEditModal} setShowModal={setShowModal} />
-                </FilterableMissionList>
+                    <MissionList missions={missions} setShowModal={setShowModal} />
+                </FilterableMissionListContainer>
             </div>
-            {!showModal && <CreateMissionButton setShowModal={setShowModal} setShowEditModal={setShowEditModal} />}
-            <MissionModal 
-                setShowModal={setShowModal} 
-                showModal={showModal} 
-                title={showEditModal ? 'Edit a Mission' : 'Create a Mission'}>
-                    {showEditModal ? <EditMissionForm /> : <CreateMissionForm />}
-            </MissionModal>
-        </>
+            {!showModal && <CreateMissionButton setShowModal={setShowModal} />}
+            <MissionModal />
+        </CurrentMissionProvider>
     );
 };
 
