@@ -1,15 +1,16 @@
 import React, { useState } from "react";
-import { filterLinkToMissionOptions, filterLinkToNewMissionOptions } from "../Logic/filterLinkToMissionFieldLogic";
+import { getLinkToMissionOptions, getLinkToNewMissionOptions } from "../Logic/filterLinkToMissionFieldLogic";
 import { Mission } from "../Custom-Typings/Mission";
+import { defaultMission } from "../Context/MissionContext";
 
 interface Props {
     mission: Mission
 }
 
 export const MissionForm: React.FC<Props> = ({ mission }) => {
-    const modalType = mission.id === 0 ? 'Create' : 'Edit';
+    const modalType = mission.id === defaultMission.id ? 'Create' : 'Edit';
 
-    const [LinkToMissionValue, setLinkToMissionValue] = useState('default');
+    const [linkToMissionValue, setLinkToMissionValue] = useState('default');
     const [nameValue, setNameValue] = useState(mission.description);
     const [statusValue, setStatusValue] = useState(modalType === 'Create' ? 'default' : mission.status);
     const handleLinkToMissionChange = (e: React.ChangeEvent<HTMLSelectElement>) => setLinkToMissionValue(e.target.value);
@@ -17,8 +18,8 @@ export const MissionForm: React.FC<Props> = ({ mission }) => {
     const handleStatusChange = () => setStatusValue(prevState => prevState === 'Active' ? 'Complete' : 'Active');
 
     const linkToMissionOptions = modalType === 'Create' ? 
-        filterLinkToNewMissionOptions() :
-        filterLinkToMissionOptions(mission.id);
+        getLinkToNewMissionOptions() :
+        getLinkToMissionOptions(mission.id);
         
     const missionsFitToLinkOptionElements = linkToMissionOptions.map(
         mission => <option key={mission.id} value={mission.description}>{mission.description}</option>
@@ -41,11 +42,13 @@ export const MissionForm: React.FC<Props> = ({ mission }) => {
                 {statusElements}
             </select>
             <label htmlFor="Link to mission">Link to mission:</label>
-            <select name="link-to-mission" defaultValue={LinkToMissionValue} onChange={handleLinkToMissionChange}>
+            <select name="link-to-mission" defaultValue={linkToMissionValue} onChange={handleLinkToMissionChange}>
                 <option value="default" disabled hidden>
                     Choose a mission...
                 </option>
-                {missionsFitToLinkOptionElements}
+                {missionsFitToLinkOptionElements.length === 0 ? 
+                    <option disabled>Can't link the mission</option> 
+                    : missionsFitToLinkOptionElements}
             </select>
         </div>
     );

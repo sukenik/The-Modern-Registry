@@ -1,7 +1,7 @@
 import { hot } from "react-hot-loader";
 import React from 'react';
 import { Title } from "./Components/Title";
-import { FilterableMissionList } from "./Components/FilterableMissionList";
+import { FilterableMissionListContainer } from "./Components/FilterableMissionListContainer";
 import { SearchBar } from "./Components/SearchBar";
 import { MissionList } from "./Components/MissionList";
 import { CreateMissionButton } from "./Components/CreateMissionButton";
@@ -20,10 +20,10 @@ const App: React.FC = () => {
         <CurrentMissionProvider>
             <Title />
             <div id='app-flex'>
-                <FilterableMissionList>
+                <FilterableMissionListContainer>
                     <SearchBar />
                     <MissionList missions={missions} setShowModal={setShowModal} />
-                </FilterableMissionList>
+                </FilterableMissionListContainer>
             </div>
             {!showModal && <CreateMissionButton setShowModal={setShowModal} />}
             <MissionModal />

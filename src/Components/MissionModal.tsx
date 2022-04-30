@@ -26,7 +26,7 @@ export const MissionModal: React.FC = () => {
             <div className="modal-content" onClick={handleContentClick}>
                 <div className="modal-header">
                     <h4 className="modal-title">
-                        {currentMission.id === 0 ? 'Create a Mission' : 'Edit a Mission'}
+                        {currentMission.id === defaultMission.id ? 'Create a Mission' : 'Edit a Mission'}
                     </h4>
                 </div>
                 <div className="modal-body">
