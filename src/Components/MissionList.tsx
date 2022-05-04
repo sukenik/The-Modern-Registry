@@ -11,10 +11,7 @@ interface Props {
 export const MissionList: React.FC<Props> = ({ missions, setShowModal }) => {
     const rows: Array<ReactElement> = [];
     divideSubMissionToParentMission();
-    const parentMissions = missions.filter(
-        mission => typeof mission.parentID !== 'number'
-    );
-    
+    const parentMissions = missions.filter(mission => typeof mission.parentID !== 'number');
     parentMissions.forEach((mission: Mission) => {
         rows.push(
             <MissionRow key={mission.id} mission={mission} setShowModal={setShowModal} />

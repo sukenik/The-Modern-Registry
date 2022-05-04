@@ -107,10 +107,11 @@ html {
     width: 500px;
     background-color: #fff;
 }
-.modal-header, .modal-footer {
+.modal-header {
     padding: 10px;
 }
 .modal-title {
+    text-align: center;
     margin: 0;
     font-size: 30px;
 }
@@ -119,21 +120,24 @@ html {
     border-top: 1px solid #eee;
     border-bottom: 1px solid #eee;
 }
-#MissionForm {
+#mission-form {
     display: flex;
     flex-direction: column;
 }
-#MissionForm > label, #MissionForm > input {
+#mission-form > label, #mission-form > input {
     margin: 5px;
     width: 80%;
 }
-#MissionForm select {
-    width: 30%;
+#mission-form select {
+    width: 35%;
     text-align: center;
     margin: 5px;
 }
 .modal-footer button {
     margin: 5px;
+}
+.modal-footer {
+    margin-top: 20px;
 }
 .modal-footer button:hover {
     cursor: pointer;
@@ -198,4 +202,10 @@ html {
 }
 #sub-mission-list > li {
     margin-top: 5px;
+}
+#mission-form p {
+    margin: 0 0 0 5px;
+    font-size: 15px;
+    font-weight: lighter;
+    color: red;
 }
