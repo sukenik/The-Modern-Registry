@@ -1,22 +1,22 @@
 import React, { ReactElement } from "react";
-import { Mission, missions } from "../App";
+import { Mission } from "../Custom-Typings/Mission";
 import { MissionRow } from "../Components/MissionRow";
+import { addToLocalStorage, parseMissionToString } from "./localStorageLogic";
 
-export const divideSubMissionToParentMission = () => {
+export const divideSubMissionToParentMission = (missions: Array<Mission>) => {
     missions.forEach(
-        currentMission => currentMission.subMissions = missions.filter(
-            mission => mission.parentID === currentMission.id
-        )
-    );
+        currentMission => { 
+            currentMission.subMissions = missions.filter(mission => mission.parentID === currentMission.id)
+            addToLocalStorage(currentMission.id.toString(), parseMissionToString(currentMission));
+    });
 };
-export const setMissionElementWidth = (parentMissionID: number, missionID: number) => {
+export const setMissionElementWidth = (parentMissionID: number | null, missionID: number) => {
     const parentMissionElement = document.getElementById(`Mission-${parentMissionID}`);
     const missionElement = document.getElementById(`Mission-${missionID}`);
     if (parentMissionElement) {
         const widthPixelNum = getParentMissionWidthPixelNum(parentMissionElement);
         if (missionElement) {
             missionElement.style.width = widthPixelNum - 30 + 'px';
-            console.log('Width was given :)');
         }
     }
 };
@@ -28,20 +28,14 @@ export const setPrimaryMissionElementWidth = (missionID: number) => {
     const missionElement = document.getElementById(`Mission-${missionID}`);
     if (missionElement) missionElement.style.width = globalWidth;
 }
-export const getSubMissionComponentList = (subMissions: Mission[], 
-    setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>, 
+export const getSubMissionComponentList = (subMissions: Mission[],
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>): Array<ReactElement> => {
     const subMissionComponentList: Array<ReactElement> = [];
     subMissions.forEach(subMission => {
         subMissionComponentList.push(
             <MissionRow
                 key={subMission.id}
-                id={subMission.id}
-                description={subMission.description}
-                status={subMission.status}
-                parentID={subMission.parentID}
-                subMissions={subMission.subMissions}
-                setShowEditModal={setShowEditModal}
+                mission={subMission}
                 setShowModal={setShowModal} />
         )
     });

@@ -1,32 +1,21 @@
 import React, { ReactElement } from "react";
-import { Mission } from "../App"
-import { divideSubMissionToParentMission } from "../Logic/SubMissionLogic";
+import { Mission } from "../Custom-Typings/Mission";
+import { divideSubMissionToParentMission } from "../Logic/subMissionLogic";
 import { MissionRow } from "./MissionRow";
 
 interface Props {
-    missions: Array<Mission>,
-    setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>,
-    setShowModal: React.Dispatch<React.SetStateAction<boolean>>
+    setShowModal: React.Dispatch<React.SetStateAction<boolean>>,
+    localStorageMissions: Array<Mission>,
+    setlocalStorageMissions: React.Dispatch<React.SetStateAction<Mission[]>>
 };
 
-export const MissionList: React.FC<Props> = ({missions, setShowEditModal, setShowModal}) => {
+export const MissionList: React.FC<Props> = ({ setShowModal, localStorageMissions, setlocalStorageMissions }) => {
     const rows: Array<ReactElement> = [];
-    divideSubMissionToParentMission();
-    const parentMissions = missions.filter(
-        mission => typeof mission.parentID !== 'number'
-    );
-    
+    divideSubMissionToParentMission(localStorageMissions);
+    const parentMissions = localStorageMissions.filter(mission => typeof mission.parentID !== 'number');
     parentMissions.forEach((mission: Mission) => {
         rows.push(
-            <MissionRow
-                key={mission.id} 
-                id={mission.id}
-                description={mission.description}
-                status={mission.status}
-                parentID={mission.parentID}
-                subMissions={mission.subMissions}
-                setShowEditModal={setShowEditModal}
-                setShowModal={setShowModal} />
+            <MissionRow key={mission.id} mission={mission} setShowModal={setShowModal} />
         );
     });
     

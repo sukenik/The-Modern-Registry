@@ -1,59 +1,42 @@
 import React, { useEffect, useState } from "react";
-import { Mission } from "../App";
-import { getSubMissionComponentList, setMissionElementWidth, setPrimaryMissionElementWidth } from "../Logic/SubMissionLogic";
+import { Mission } from "../Custom-Typings/Mission";
+import { setMissionElementWidth, setPrimaryMissionElementWidth } from "../Logic/subMissionLogic";
 import { ArrowButton } from "./ArrowButton";
 import { DeleteButton } from "./DeleteButton";
 import { EditButton } from "./EditButton";
 import { SubMissionList } from "./SubMissionList";
 
 interface Props {
-    id: number,
-    description: string,
-    status: 'Active' | 'Complete',
-    parentID: number | null,
-    subMissions: Array<Mission>,
-    setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>,
+    mission: Mission,
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>
 };
 
-export const MissionRow: React.FC<Props> = ({id, description, status, parentID, subMissions, 
-    setShowEditModal, setShowModal}) => {    
-    if (typeof parentID === 'number') {
-        useEffect(() => {
-            setMissionElementWidth(parentID, id);
-        });
-    } else {
-        setPrimaryMissionElementWidth(id);
-    }
-
+export const MissionRow: React.FC<Props> = ({ mission, setShowModal }) => {    
     const [isSubMissionListShown, setIsSubMissionListShown] = useState(false);
     const [areButtonsShown, setAreButtonsShown] = useState(false);
-    const handleOnMouseEnter = () => {
-        setAreButtonsShown(true);
-    };
-    const handleOnMouseLeave = () => {
-        setAreButtonsShown(false);
-    };
+    const handleOnMouseEnter = () => setAreButtonsShown(true);
+    const handleOnMouseLeave = () => setAreButtonsShown(false);
+    useEffect(() => {
+        setMissionElementWidth(mission.parentID, mission.id);
+    });
 
     return (
         <li 
             className='Mission'
-            id={`Mission-${id}`}
+            id={`Mission-${mission.id}`}
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}>
             <ArrowButton setIsSubMissionListShown={setIsSubMissionListShown} />
-            <div className="MissionField" id="MissionName">{description}</div>
+            <div className="MissionField" id="MissionName">{mission.description}</div>
             <div className="MissionInfoField" id="MissionStatus">
-                <div id="status">{status}</div>
+                <div id="status">{mission.status}</div>
             </div>
             <div className="MissionField" id="MissionInfo">
-                {areButtonsShown && <EditButton setShowEditModal={setShowEditModal} setShowModal={setShowModal} />}
-                {areButtonsShown && <DeleteButton />}
+                {areButtonsShown && <><EditButton mission={mission} /><DeleteButton /></>}
             </div>
             {isSubMissionListShown && 
-                <SubMissionList 
-                    subMissions={subMissions} 
-                    setShowEditModal={setShowEditModal} 
+                <SubMissionList
+                    subMissions={mission.subMissions}
                     setShowModal={setShowModal}
                     setAreButtonsShown={setAreButtonsShown} />}
         </li>

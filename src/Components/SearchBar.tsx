@@ -1,10 +1,6 @@
 import React from "react";
 
-interface Props {
-
-};
-
-export const SearchBar: React.FC<Props> = () => {
+export const SearchBar: React.FC = () => {
     return (
         <div id="SearchBar">
             <input type="text" placeholder="Search..." />
