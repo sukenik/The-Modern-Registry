@@ -1,14 +1,21 @@
 import React from "react";
 import { defaultMission, useCurrentMission } from "../Context/MissionContext";
 import { useShowModalContext } from "../Context/ModalContext";
+import { Mission } from "../Custom-Typings/Mission";
 import { MissionForm } from "./MissionForm";
 
-export const MissionModal: React.FC = () => {
+interface iMissionModalProps {
+    localStorageMissions: Array<Mission>,
+    setlocalStorageMissions: React.Dispatch<React.SetStateAction<Mission[]>>,
+    keys: Array<string>
+}
+
+export const MissionModal: React.FC<iMissionModalProps> = ({ localStorageMissions, setlocalStorageMissions, keys }) => {
     const { showModal, setShowModal } = useShowModalContext();
+    const { currentMission, setCurrentMission } = useCurrentMission();
     if (!showModal) {
         return null;
     };
-    const { currentMission, setCurrentMission } = useCurrentMission();
     const handleOutsideClick = () => {
         setShowModal(false);
         setCurrentMission(defaultMission);
@@ -24,7 +31,13 @@ export const MissionModal: React.FC = () => {
                     </h4>
                 </div>
                 <div className="modal-body">
-                    <MissionForm mission={currentMission} setShowModal={setShowModal} setCurrentMission={setCurrentMission} />
+                    <MissionForm 
+                        mission={currentMission} 
+                        setShowModal={setShowModal} 
+                        setCurrentMission={setCurrentMission}
+                        localStorageMissions={localStorageMissions} 
+                        setlocalStorageMissions={setlocalStorageMissions}
+                        keys={keys} />
                 </div>
             </div>
         </div>

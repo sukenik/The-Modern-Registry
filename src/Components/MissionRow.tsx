@@ -12,17 +12,13 @@ interface Props {
 };
 
 export const MissionRow: React.FC<Props> = ({ mission, setShowModal }) => {    
-    if (typeof mission.parentID === 'number') {
-        useEffect(() => {
-            setMissionElementWidth(mission.parentID, mission.id);
-        });
-    } else {
-        setPrimaryMissionElementWidth(mission.id);
-    }
     const [isSubMissionListShown, setIsSubMissionListShown] = useState(false);
     const [areButtonsShown, setAreButtonsShown] = useState(false);
     const handleOnMouseEnter = () => setAreButtonsShown(true);
     const handleOnMouseLeave = () => setAreButtonsShown(false);
+    useEffect(() => {
+        setMissionElementWidth(mission.parentID, mission.id);
+    });
 
     return (
         <li 

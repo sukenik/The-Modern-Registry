@@ -1,20 +1,20 @@
 import { hot } from "react-hot-loader";
-import React from 'react';
+import React, { useState } from 'react';
 import { Title } from "./Components/Title";
 import { FilterableMissionListContainer } from "./Components/FilterableMissionListContainer";
 import { SearchBar } from "./Components/SearchBar";
 import { MissionList } from "./Components/MissionList";
 import { CreateMissionButton } from "./Components/CreateMissionButton";
 import { MissionModal } from "./Components/MissionModal";
-import { missions } from "./data";
-import { addMissionsToLocalStorage } from "./Logic/localStorage";
 import { CurrentMissionProvider } from "./Context/MissionContext";
 import { useShowModalContext } from "./Context/ModalContext";
+import { getLocalStorageKeys, getMissionsFromLocalStorage } from "./Logic/localStorageLogic";
 
-addMissionsToLocalStorage(missions);
+const keys: Array<string> = getLocalStorageKeys();
 
 const App: React.FC = () => {
     const { showModal, setShowModal } = useShowModalContext();
+    const [localStorageMissions, setlocalStorageMissions] = useState(getMissionsFromLocalStorage(keys));
 
     return (
         <CurrentMissionProvider>
@@ -22,11 +22,17 @@ const App: React.FC = () => {
             <div id='app-flex'>
                 <FilterableMissionListContainer>
                     <SearchBar />
-                    <MissionList missions={missions} setShowModal={setShowModal} />
+                    <MissionList
+                        setShowModal={setShowModal}
+                        localStorageMissions={localStorageMissions}
+                        setlocalStorageMissions={setlocalStorageMissions}  />
                 </FilterableMissionListContainer>
             </div>
             {!showModal && <CreateMissionButton setShowModal={setShowModal} />}
-            <MissionModal />
+            <MissionModal 
+                localStorageMissions={localStorageMissions} 
+                setlocalStorageMissions={setlocalStorageMissions}
+                keys={keys} />
         </CurrentMissionProvider>
     );
 };

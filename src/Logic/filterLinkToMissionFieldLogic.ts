@@ -1,13 +1,12 @@
 import { Mission } from "../Custom-Typings/Mission";
-import { missions } from "../data";
 
-export const getLinkToMissionOptions = (missionID: number): Array<Mission> => {
+export const getLinkToMissionOptions = (missionID: number, missions: Array<Mission>): Array<Mission> => {
     const currentMission = missions.filter(mission => mission.id === missionID)[0];
     let filteredOptionsList = [] as Array<Mission>;
 
     if (isGrandparent(currentMission)) return [];
     filteredOptionsList = isChild(currentMission) ?
-        removeLinkedParentMission(currentMission) : missions;
+        removeLinkedParentMission(currentMission, missions) : missions;
     filteredOptionsList = filterLinkMissionToItself(filteredOptionsList, missionID);
     if (isParent(currentMission)) 
         return filteredOptionsList.filter(mission => typeof mission.parentID !== 'number');
@@ -40,7 +39,7 @@ const isGrandparent = (mission: Mission): boolean => {
     return hasSubSubMissions;
 };
 const isParent = (mission: Mission): boolean => mission.subMissions.length > 0;
-const removeLinkedParentMission = (mission: Mission) => 
+const removeLinkedParentMission = (mission: Mission, missions: Array<Mission>) => 
     missions.filter(parentMission => parentMission.id !== mission.parentID);
 const isChild = (mission: Mission): boolean => typeof mission.parentID === 'number';
-export const getLinkToNewMissionOptions = () => filterLowestHierarchyMissions(missions);
+export const getLinkToNewMissionOptions = (missions: Array<Mission>) => filterLowestHierarchyMissions(missions);

@@ -1,7 +1,7 @@
-declare export interface Mission {
+export interface Mission {
     id: number,
     description: string,
     status: string,
     parentID: number | null,
-    subMissions: Array<Mission>,
+    subMissions: Array<Mission>
 };

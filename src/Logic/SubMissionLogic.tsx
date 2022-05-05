@@ -1,14 +1,14 @@
 import React, { ReactElement } from "react";
 import { Mission } from "../Custom-Typings/Mission";
-import { missions } from "../data";
 import { MissionRow } from "../Components/MissionRow";
+import { addToLocalStorage, parseMissionToString } from "./localStorageLogic";
 
-export const divideSubMissionToParentMission = () => {
+export const divideSubMissionToParentMission = (missions: Array<Mission>) => {
     missions.forEach(
-        currentMission => currentMission.subMissions = missions.filter(
-            mission => mission.parentID === currentMission.id
-        )
-    );
+        currentMission => { 
+            currentMission.subMissions = missions.filter(mission => mission.parentID === currentMission.id)
+            addToLocalStorage(currentMission.id.toString(), parseMissionToString(currentMission));
+    });
 };
 export const setMissionElementWidth = (parentMissionID: number | null, missionID: number) => {
     const parentMissionElement = document.getElementById(`Mission-${parentMissionID}`);

@@ -28,6 +28,7 @@ html {
     width: 70%;
     text-align: center;
     margin: auto;
+    overflow: auto;
 }
 #SearchBar {
     padding-top: 10px;
@@ -183,12 +184,12 @@ html {
     order: 2;
 }
 #sub-mission-list {
-    padding-left: 0;
-    background-color: rgb(218, 218, 218);
-    width: var(--width);
+    background-color: rgba(218, 218, 218);
     display: flex;
-    justify-content: flex-end;
+    flex-direction: column;
     order: 5;
+    padding-right: 10px;
+    width: var(--width);
 }
 #mission-list {
     margin: 0;
