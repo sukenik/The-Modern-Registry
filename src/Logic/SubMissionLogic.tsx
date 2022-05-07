@@ -2,16 +2,14 @@ import React, { ReactElement } from "react";
 import { Mission } from "../Custom-Typings/Mission";
 import { MissionRow } from "../Components/MissionRow";
 
-export const divideSubMissionToParentMission = (missions: Array<Mission>) => {
+export const getMissionsWithSubMissions = (missions: Array<Mission>) => {
     const missionsWithSubMissions = missions;
-    missionsWithSubMissions.forEach(currentMission => { 
-        currentMission.subMissions = getMissionSubMissions(currentMission, missions)
-    });
+    missionsWithSubMissions.forEach(currentMission => currentMission.subMissions = getMissionSubMissions(currentMission, missions));
     return missionsWithSubMissions;
 };
 const getMissionSubMissions = (currentMission: Mission, missions: Array<Mission>) => {
     return missions.filter(mission => mission.parentID === currentMission.id);
-}
+};
 export const setMissionElementWidth = (parentMissionID: number | null, missionID: number) => {
     const parentMissionElement = document.getElementById(`Mission-${parentMissionID}`);
     const missionElement = document.getElementById(`Mission-${missionID}`);
@@ -35,11 +33,8 @@ export const getSubMissionComponentList = (subMissions: Mission[],
     const subMissionComponentList: Array<ReactElement> = [];
     subMissions.forEach(subMission => {
         subMissionComponentList.push(
-            <MissionRow
-                key={subMission.id}
-                mission={subMission}
-                setShowModal={setShowModal} />
-        )
+            <MissionRow key={subMission.id} mission={subMission} setShowModal={setShowModal} />
+        );
     });
     return subMissionComponentList;
 };

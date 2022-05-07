@@ -9,7 +9,7 @@ export const getLinkToMissionOptions = (missionID: number, missions: Array<Missi
         removeLinkedParentMission(currentMission, missions) : missions;
     filteredOptionsList = filterLinkMissionToItself(filteredOptionsList, missionID);
     if (isParent(currentMission)) 
-        return filteredOptionsList.filter(mission => typeof mission.parentID !== 'number');
+        return filteredOptionsList.filter(mission => mission.parentID === null);
     filteredOptionsList = filterLowestHierarchyMissions(filteredOptionsList);
     return filterParentSubMissions(filteredOptionsList, missionID);
 };

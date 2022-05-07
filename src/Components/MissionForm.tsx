@@ -5,7 +5,7 @@ import { getNewMission, getNewMissionUpdate } from "../Logic/createMissionLogic"
 import { getLinkToMissionOptions, getLinkToNewMissionOptions } from "../Logic/filterLinkToMissionFieldLogic";
 import { addToLocalStorage, getMissionsFromLocalStorage, parseMissionToString } from "../Logic/localStorageLogic";
 import { getDefaultLinkToMissionElement, getMissionsToLinkElements, getStatusElements, iFormFields, validateFormFields } from "../Logic/missionFormLogic";
-import { divideSubMissionToParentMission } from "../Logic/subMissionLogic";
+import { getMissionsWithSubMissions } from "../Logic/subMissionLogic";
 
 interface iMissionFormProps {
     mission: Mission,
@@ -38,7 +38,7 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission, setShowModal
                 const newMissionUpdate = getNewMissionUpdate(mission.id, formValues.name, formValues.status, formValues.linkToMission, 
                     mission.subMissions);
                 addToLocalStorage(mission.id.toString(), parseMissionToString(newMissionUpdate));
-                const missionsWithSubMissions = divideSubMissionToParentMission(getMissionsFromLocalStorage(localStorageKeys));
+                const missionsWithSubMissions = getMissionsWithSubMissions(getMissionsFromLocalStorage(localStorageKeys));
                 setLocalStorageMissions(missionsWithSubMissions);
             }
             setShowModal(false);
