@@ -10,11 +10,11 @@ import { CurrentMissionProvider } from "./Context/MissionContext";
 import { useShowModalContext } from "./Context/ModalContext";
 import { getLocalStorageKeys, getMissionsFromLocalStorage } from "./Logic/localStorageLogic";
 
-const keys: Array<string> = getLocalStorageKeys();
+const localStorageKeys: Array<string> = getLocalStorageKeys();
 
 const App: React.FC = () => {
     const { showModal, setShowModal } = useShowModalContext();
-    const [localStorageMissions, setlocalStorageMissions] = useState(getMissionsFromLocalStorage(keys));
+    const [localStorageMissions, setLocalStorageMissions] = useState(getMissionsFromLocalStorage(localStorageKeys));
 
     return (
         <CurrentMissionProvider>
@@ -25,14 +25,14 @@ const App: React.FC = () => {
                     <MissionList
                         setShowModal={setShowModal}
                         localStorageMissions={localStorageMissions}
-                        setlocalStorageMissions={setlocalStorageMissions}  />
+                        setLocalStorageMissions={setLocalStorageMissions}  />
                 </FilterableMissionListContainer>
             </div>
             {!showModal && <CreateMissionButton setShowModal={setShowModal} />}
             <MissionModal 
                 localStorageMissions={localStorageMissions} 
-                setlocalStorageMissions={setlocalStorageMissions}
-                keys={keys} />
+                setLocalStorageMissions={setLocalStorageMissions}
+                localStorageKeys={localStorageKeys} />
         </CurrentMissionProvider>
     );
 };

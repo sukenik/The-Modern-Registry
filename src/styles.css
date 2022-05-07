@@ -210,3 +210,6 @@ html {
     font-weight: lighter;
     color: red;
 }
+#unlink-option {
+    color: red;
+}

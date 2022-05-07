@@ -4,7 +4,7 @@ import { Mission } from "../Custom-Typings/Mission";
 export interface iFormFields {
     name?: string,
     status?: string,
-    linkToMission?: string
+    linkToMission?: string | null | number
 };
 export const validateFormFields = (values: iFormFields) => {
     const errors = {} as iFormFields;
@@ -32,12 +32,16 @@ export const getMissionsToLinkElements = (linkToMissionOptions: Mission[]) => {
         </option>
     );
 };
-export const getDefaultLinkToMissionElement = (formValues: iFormFields, hasMissionsForLink: boolean) => {
-    return formValues.linkToMission === 'default' ? 
-        <option value="default" disabled hidden>
-            Choose a mission...
-        </option> :
-        <option value={formValues.linkToMission} disabled hidden>
-            {hasMissionsForLink ? 'Can\'t link the mission' : formValues.linkToMission}
-        </option>
+export const getDefaultLinkToMissionElement = (mission: Mission, missions: Array<Mission>) => {
+    if (mission.parentID) {
+        return (<>{getUnlinkOption()} <option value={mission.parentID} disabled hidden>
+            {getMissionNameByID(mission.parentID, missions)}
+        </option></>)
+    }
+    return (
+        <option value="default" disabled hidden></option>
+    );
 };
+const getMissionNameByID = (id: number, missions: Array<Mission>) => missions.filter(
+    mission => mission.id === id)[0].description;
+const getUnlinkOption = () => <option id="unlink-option" value="default">Unlink from parent</option>;
