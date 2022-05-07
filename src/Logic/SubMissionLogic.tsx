@@ -1,15 +1,17 @@
 import React, { ReactElement } from "react";
 import { Mission } from "../Custom-Typings/Mission";
 import { MissionRow } from "../Components/MissionRow";
-import { addToLocalStorage, parseMissionToString } from "./localStorageLogic";
 
 export const divideSubMissionToParentMission = (missions: Array<Mission>) => {
-    missions.forEach(
-        currentMission => { 
-            currentMission.subMissions = missions.filter(mission => mission.parentID === currentMission.id)
-            addToLocalStorage(currentMission.id.toString(), parseMissionToString(currentMission));
+    const missionsWithSubMissions = missions;
+    missionsWithSubMissions.forEach(currentMission => { 
+        currentMission.subMissions = getMissionSubMissions(currentMission, missions)
     });
+    return missionsWithSubMissions;
 };
+const getMissionSubMissions = (currentMission: Mission, missions: Array<Mission>) => {
+    return missions.filter(mission => mission.parentID === currentMission.id);
+}
 export const setMissionElementWidth = (parentMissionID: number | null, missionID: number) => {
     const parentMissionElement = document.getElementById(`Mission-${parentMissionID}`);
     const missionElement = document.getElementById(`Mission-${missionID}`);

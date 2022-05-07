@@ -6,11 +6,11 @@ import { MissionForm } from "./MissionForm";
 
 interface iMissionModalProps {
     localStorageMissions: Array<Mission>,
-    setlocalStorageMissions: React.Dispatch<React.SetStateAction<Mission[]>>,
-    keys: Array<string>
+    setLocalStorageMissions: React.Dispatch<React.SetStateAction<Mission[]>>,
+    localStorageKeys: Array<string>
 }
 
-export const MissionModal: React.FC<iMissionModalProps> = ({ localStorageMissions, setlocalStorageMissions, keys }) => {
+export const MissionModal: React.FC<iMissionModalProps> = ({ localStorageMissions, setLocalStorageMissions, localStorageKeys }) => {
     const { showModal, setShowModal } = useShowModalContext();
     const { currentMission, setCurrentMission } = useCurrentMission();
     if (!showModal) {
@@ -36,8 +36,8 @@ export const MissionModal: React.FC<iMissionModalProps> = ({ localStorageMission
                         setShowModal={setShowModal} 
                         setCurrentMission={setCurrentMission}
                         localStorageMissions={localStorageMissions} 
-                        setlocalStorageMissions={setlocalStorageMissions}
-                        keys={keys} />
+                        setLocalStorageMissions={setLocalStorageMissions}
+                        localStorageKeys={localStorageKeys} />
                 </div>
             </div>
         </div>

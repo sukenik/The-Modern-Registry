@@ -1,7 +1,7 @@
 import { Mission } from "../Custom-Typings/Mission";
 
 export const addToLocalStorage = (key: string, value: string) => localStorage.setItem(key, value);
-const addMissionsToLocalStorage = (missions: Array<Mission>) => {
+export const addMissionsToLocalStorage = (missions: Array<Mission>) => {
     missions.forEach(
         mission => addToLocalStorage(mission.id.toString(), JSON.stringify(mission))
     );
