@@ -65,7 +65,7 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission, setShowModal
         getLinkToMissionOptions(mission.id, localStorageMissions);
     const missionsFitToLinkOptionElements = getMissionsToLinkElements(linkToMissionOptions);
     const hasMissionsForLink = missionsFitToLinkOptionElements.length === 0;
-    const defaultLinkToMissionOption = getDefaultLinkToMissionElement(hasMissionsForLink, mission, localStorageMissions);
+    const defaultLinkToMissionOption = getDefaultLinkToMissionElement(mission, localStorageMissions);
 
     return (
         <form id="mission-form" onSubmit={handleSubmit}>
@@ -81,9 +81,11 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission, setShowModal
             </select>
             <p>{ formErrors.status }</p>
             <label>Link to mission:</label>
-            <select name="linkToMission" 
+            <select 
+                name="linkToMission" 
                 defaultValue={mission.parentID === null ? 'default' : mission.parentID} 
-                onChange={handleChange} disabled={mission.parentID !== null ? false : hasMissionsForLink}>
+                onChange={handleChange} 
+                disabled={mission.parentID !== null ? false : hasMissionsForLink}>
                 {defaultLinkToMissionOption}
                 {missionsFitToLinkOptionElements}
             </select>

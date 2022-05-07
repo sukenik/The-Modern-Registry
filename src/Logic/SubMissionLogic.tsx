@@ -7,9 +7,8 @@ export const getMissionsWithSubMissions = (missions: Array<Mission>) => {
     missionsWithSubMissions.forEach(currentMission => currentMission.subMissions = getMissionSubMissions(currentMission, missions));
     return missionsWithSubMissions;
 };
-const getMissionSubMissions = (currentMission: Mission, missions: Array<Mission>) => {
-    return missions.filter(mission => mission.parentID === currentMission.id);
-};
+const getMissionSubMissions = (currentMission: Mission, missions: Array<Mission>) => missions.filter(
+    mission => mission.parentID === currentMission.id);
 export const setMissionElementWidth = (parentMissionID: number | null, missionID: number) => {
     const parentMissionElement = document.getElementById(`Mission-${parentMissionID}`);
     const missionElement = document.getElementById(`Mission-${missionID}`);

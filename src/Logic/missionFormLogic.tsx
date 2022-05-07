@@ -32,7 +32,7 @@ export const getMissionsToLinkElements = (linkToMissionOptions: Mission[]) => {
         </option>
     );
 };
-export const getDefaultLinkToMissionElement = (hasMissionsForLink: boolean, mission: Mission, missions: Array<Mission>) => {
+export const getDefaultLinkToMissionElement = (mission: Mission, missions: Array<Mission>) => {
     if (mission.parentID) {
         return (<>{getUnlinkOption()} <option value={mission.parentID} disabled hidden>
             {getMissionNameByID(mission.parentID, missions)}
@@ -42,7 +42,6 @@ export const getDefaultLinkToMissionElement = (hasMissionsForLink: boolean, miss
         <option value="default" disabled hidden></option>
     );
 };
-const getMissionNameByID = (id: number, missions: Array<Mission>) => {
-    return missions.filter(mission => mission.id === id)[0].description;
-};
-const getUnlinkOption = () => <option id="unlink-option" value="default">Unlink from parent</option>
+const getMissionNameByID = (id: number, missions: Array<Mission>) => missions.filter(
+    mission => mission.id === id)[0].description;
+const getUnlinkOption = () => <option id="unlink-option" value="default">Unlink from parent</option>;
