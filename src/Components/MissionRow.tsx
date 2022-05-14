@@ -1,24 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { Mission } from "../Custom-Typings/Mission";
-import { setMissionElementWidth, setPrimaryMissionElementWidth } from "../Logic/subMissionLogic";
+import { setMissionElementWidth } from "../Logic/subMissionLogic";
 import { ArrowButton } from "./ArrowButton";
 import { DeleteButton } from "./DeleteButton";
 import { EditButton } from "./EditButton";
 import { SubMissionList } from "./SubMissionList";
 
-interface Props {
+interface iMissionRowProps {
     mission: Mission,
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>
 };
 
-export const MissionRow: React.FC<Props> = ({ mission, setShowModal }) => {    
+export const MissionRow: React.FC<iMissionRowProps> = ({ mission, setShowModal }) => {
     const [isSubMissionListShown, setIsSubMissionListShown] = useState(false);
     const [areButtonsShown, setAreButtonsShown] = useState(false);
     const handleOnMouseEnter = () => setAreButtonsShown(true);
     const handleOnMouseLeave = () => setAreButtonsShown(false);
-    useEffect(() => {
-        setMissionElementWidth(mission.parentID, mission.id);
-    });
+    useEffect(() => setMissionElementWidth(mission.parentID, mission.id));
+    const showSubMissionList = isSubMissionListShown && mission.subMissions.length > 0;
 
     return (
         <li 
@@ -27,14 +26,14 @@ export const MissionRow: React.FC<Props> = ({ mission, setShowModal }) => {
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}>
             <ArrowButton setIsSubMissionListShown={setIsSubMissionListShown} />
-            <div className="MissionField" id="MissionName">{mission.description}</div>
+            <div className="MissionField name" id="MissionName">{mission.description}</div>
             <div className="MissionInfoField" id="MissionStatus">
                 <div id="status">{mission.status}</div>
             </div>
             <div className="MissionField" id="MissionInfo">
                 {areButtonsShown && <><EditButton mission={mission} /><DeleteButton /></>}
             </div>
-            {isSubMissionListShown && 
+            {showSubMissionList && 
                 <SubMissionList
                     subMissions={mission.subMissions}
                     setShowModal={setShowModal}

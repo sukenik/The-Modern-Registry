@@ -4,11 +4,11 @@ import { Mission } from "../Custom-Typings/Mission";
 import { useCurrentMission } from '../Context/MissionContext';
 import { useShowModalContext } from "../Context/ModalContext";
 
-interface Props {
+interface iEditButtonProps {
     mission: Mission,
 };
 
-export const EditButton: React.FC<Props> = ({ mission }) => {
+export const EditButton: React.FC<iEditButtonProps> = ({ mission }) => {
     const { setShowModal } = useShowModalContext();
     const { setCurrentMission } = useCurrentMission();
 

@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { defaultMission } from "../Context/MissionContext";
 import { Mission } from "../Custom-Typings/Mission";
 import { getNewMission, getNewMissionUpdate } from "../Logic/createMissionLogic";
-import { getLinkToMissionOptions, getLinkToNewMissionOptions } from "../Logic/filterLinkToMissionFieldLogic";
+import { getLinkToMissionOptions } from "../Logic/filterLinkToMissionFieldLogic";
 import { addToLocalStorage, getMissionsFromLocalStorage, parseMissionToString } from "../Logic/localStorageLogic";
 import { getDefaultLinkToMissionElement, getMissionsToLinkElements, getStatusElements, iFormFields, validateFormFields } from "../Logic/missionFormLogic";
 import { getMissionsWithSubMissions } from "../Logic/subMissionLogic";
@@ -12,7 +12,7 @@ interface iMissionFormProps {
     setShowModal: Dispatch<SetStateAction<boolean>>,
     setCurrentMission: Dispatch<SetStateAction<Mission>>,
     localStorageMissions: Array<Mission>,
-    setLocalStorageMissions: React.Dispatch<React.SetStateAction<Mission[]>>,
+    setLocalStorageMissions: React.Dispatch<React.SetStateAction<Array<Mission>>>,
     localStorageKeys: Array<string>
 };
 
@@ -33,7 +33,7 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission, setShowModal
                 const newMission = getNewMission(formValues.name, formValues.status, formValues.linkToMission);
                 addToLocalStorage(newMission.id.toString(), parseMissionToString(newMission));
                 localStorageKeys.push(newMission.id.toString());
-                setLocalStorageMissions(prevState => prevState.concat([newMission]));
+                setLocalStorageMissions(prevState => prevState.concat(newMission));
             } else {
                 const newMissionUpdate = getNewMissionUpdate(mission.id, formValues.name, formValues.status, formValues.linkToMission, 
                     mission.subMissions);
@@ -60,9 +60,7 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission, setShowModal
         setCurrentMission(defaultMission);
     };
     const statusElements = getStatusElements(modalType, formValues);
-    const linkToMissionOptions = modalType === 'Create' ? 
-        getLinkToNewMissionOptions(localStorageMissions) :
-        getLinkToMissionOptions(mission.id, localStorageMissions);
+    const linkToMissionOptions = getLinkToMissionOptions(mission, localStorageMissions);
     const missionsFitToLinkOptionElements = getMissionsToLinkElements(linkToMissionOptions);
     const hasMissionsForLink = missionsFitToLinkOptionElements.length === 0;
     const defaultLinkToMissionOption = getDefaultLinkToMissionElement(mission, localStorageMissions);

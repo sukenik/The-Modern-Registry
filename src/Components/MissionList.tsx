@@ -1,32 +1,26 @@
-import React, { ReactElement, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Mission } from "../Custom-Typings/Mission";
 import { addMissionsToLocalStorage } from "../Logic/localStorageLogic";
 import { getMissionsWithSubMissions } from "../Logic/subMissionLogic";
 import { MissionRow } from "./MissionRow";
 
-interface Props {
+interface iMissionListProps {
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>,
     localStorageMissions: Array<Mission>,
-    setLocalStorageMissions: React.Dispatch<React.SetStateAction<Mission[]>>
+    setLocalStorageMissions: React.Dispatch<React.SetStateAction<Array<Mission>>>
 };
 
-export const MissionList: React.FC<Props> = ({ setShowModal, localStorageMissions, setLocalStorageMissions }) => {
-    const rows: Array<ReactElement> = [];
-    const missionsWithSubMissions = getMissionsWithSubMissions(localStorageMissions);
+export const MissionList: React.FC<iMissionListProps> = ({ setShowModal, localStorageMissions, setLocalStorageMissions }) => {
     useEffect(() => {
+        const missionsWithSubMissions = getMissionsWithSubMissions(localStorageMissions);
         setLocalStorageMissions(missionsWithSubMissions);
         addMissionsToLocalStorage(missionsWithSubMissions);
     });
     const parentMissions = localStorageMissions.filter(mission => mission.parentID === null);
-    parentMissions.forEach((mission: Mission) => {
-        rows.push(
-            <MissionRow key={mission.id} mission={mission} setShowModal={setShowModal} />
-        );
-    });
     
     return (
         <ul id="mission-list">
-            {rows}
+            {parentMissions.map(mission => <MissionRow key={mission.id} mission={mission} setShowModal={setShowModal} />)}
         </ul>
     );
 };

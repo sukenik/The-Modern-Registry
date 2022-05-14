@@ -25,23 +25,18 @@ export const getStatusElements = (modalType: string, formValues: iFormFields) =>
         ['Active', 'Complete'].map(status => 
             <option key={status} value={status} hidden={formValues.status === status}>{status}</option>);
 };
-export const getMissionsToLinkElements = (linkToMissionOptions: Mission[]) => {
-    return linkToMissionOptions.map(
-        mission => <option key={mission.id} value={mission.id}>
+export const getMissionsToLinkElements = (linkToMissionOptions: Array<Mission>) => 
+    linkToMissionOptions.map(mission => <option key={mission.id} value={mission.id}>
             {mission.description}
-        </option>
-    );
-};
+        </option>);
 export const getDefaultLinkToMissionElement = (mission: Mission, missions: Array<Mission>) => {
     if (mission.parentID) {
-        return (<>{getUnlinkOption()} <option value={mission.parentID} disabled hidden>
+        return (<>{getUnlinkOptionElement()} <option value={mission.parentID} disabled hidden>
             {getMissionNameByID(mission.parentID, missions)}
         </option></>)
     }
-    return (
-        <option value="default" disabled hidden></option>
-    );
+    return (<option value="default" disabled hidden></option>);
 };
 const getMissionNameByID = (id: number, missions: Array<Mission>) => missions.filter(
     mission => mission.id === id)[0].description;
-const getUnlinkOption = () => <option id="unlink-option" value="default">Unlink from parent</option>;
+const getUnlinkOptionElement = () => <option id="unlink-option" value="default">Unlink from parent</option>;

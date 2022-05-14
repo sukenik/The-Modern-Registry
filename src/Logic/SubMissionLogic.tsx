@@ -1,39 +1,47 @@
-import React, { ReactElement } from "react";
 import { Mission } from "../Custom-Typings/Mission";
-import { MissionRow } from "../Components/MissionRow";
 
 export const getMissionsWithSubMissions = (missions: Array<Mission>) => {
     const missionsWithSubMissions = missions;
     missionsWithSubMissions.forEach(currentMission => currentMission.subMissions = getMissionSubMissions(currentMission, missions));
     return missionsWithSubMissions;
 };
-const getMissionSubMissions = (currentMission: Mission, missions: Array<Mission>) => missions.filter(
-    mission => mission.parentID === currentMission.id);
+const getMissionSubMissions = (currentMission: Mission, missions: Array<Mission>) => 
+    missions.filter(mission => mission.parentID === currentMission.id);
 export const setMissionElementWidth = (parentMissionID: number | null, missionID: number) => {
-    const parentMissionElement = document.getElementById(`Mission-${parentMissionID}`);
-    const missionElement = document.getElementById(`Mission-${missionID}`);
-    if (parentMissionElement) {
-        const widthPixelNum = getParentMissionWidthPixelNum(parentMissionElement);
-        if (missionElement) {
-            missionElement.style.width = widthPixelNum - 30 + 'px';
-        }
+    if (parentMissionID === null) return setPrimaryMissionWidth(missionID);
+    const missionWidthPixelMinimum = 380;
+    const parentMissionElement = document.getElementById(`Mission-${parentMissionID}`) as HTMLElement;
+    const missionElement = document.getElementById(`Mission-${missionID}`) as HTMLElement;
+    const parentWidthPixelNum = getParentMissionWidthPixelNum(parentMissionElement);
+    let missionElementWidth: string;
+    
+    if (parentWidthPixelNum === missionWidthPixelMinimum) {
+        missionElementWidth = setMinimalMissionElementWidth(missionElement, missionWidthPixelMinimum);
+        setSubMissionElementPadding(missionElement, '0');
     }
+    else {
+        missionElementWidth = setMissionElementWidthRelativeToParent(missionElement, parentWidthPixelNum);
+    }
+    const missionName = getMissionNameElement(missionElement);
+    setMissionNameMaxWidthRelativeToMissionWidth(missionName, missionElementWidth);
 };
-const getParentMissionWidthPixelNum = (parentMissionElement: HTMLElement): number => {
-    return parseInt(getComputedStyle(parentMissionElement).getPropertyValue('width').split('px')[0]);
+const setPrimaryMissionWidth = (missionID: number) => {
+    const missionElement = document.getElementById(`Mission-${missionID}`) as HTMLElement;
+    missionElement.style.width = getGlobalMissionElementWidth();
 };
-export const setPrimaryMissionElementWidth = (missionID: number) => {
-    const globalWidth = getComputedStyle(document.body).getPropertyValue('--width').split(' ')[1];
-    const missionElement = document.getElementById(`Mission-${missionID}`);
-    if (missionElement) missionElement.style.width = globalWidth;
+const getGlobalMissionElementWidth = () => window.getComputedStyle(document.body).getPropertyValue('--width');
+const setElementPadding = (element: HTMLElement, padding: string) => 
+    element.style.padding = padding;
+const getMissionNameElement = (missionElement: HTMLElement) => 
+    missionElement.getElementsByClassName('name')[0] as HTMLElement;
+const setMinimalMissionElementWidth = (missionElement: HTMLElement, missionPixelWidthMinimum: number) => 
+    missionElement.style.width = missionPixelWidthMinimum + 'px';
+const setMissionElementWidthRelativeToParent = (missionElement: HTMLElement, parentMissionWidthPixelNum: number) => 
+    missionElement.style.width = parentMissionWidthPixelNum - 30 + 'px';
+const setMissionNameMaxWidthRelativeToMissionWidth = (missionNameElement: HTMLElement, missionElementWidth: string) => 
+    missionNameElement.style.maxWidth = (parseInt(missionElementWidth) / 3) + 'px';
+const getParentMissionWidthPixelNum = (parentMissionElement: HTMLElement): number =>
+    parseInt(getComputedStyle(parentMissionElement).getPropertyValue('width').split('px')[0]);
+const setSubMissionElementPadding = (missionElement: HTMLElement, padding: string) => {
+    if (missionElement.parentElement) setElementPadding(missionElement.parentElement, padding);
 }
-export const getSubMissionComponentList = (subMissions: Mission[],
-    setShowModal: React.Dispatch<React.SetStateAction<boolean>>): Array<ReactElement> => {
-    const subMissionComponentList: Array<ReactElement> = [];
-    subMissions.forEach(subMission => {
-        subMissionComponentList.push(
-            <MissionRow key={subMission.id} mission={subMission} setShowModal={setShowModal} />
-        );
-    });
-    return subMissionComponentList;
-};
