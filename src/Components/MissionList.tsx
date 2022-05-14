@@ -4,13 +4,13 @@ import { addMissionsToLocalStorage } from "../Logic/localStorageLogic";
 import { getMissionsWithSubMissions } from "../Logic/subMissionLogic";
 import { MissionRow } from "./MissionRow";
 
-interface Props {
+interface iMissionListProps {
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>,
     localStorageMissions: Array<Mission>,
     setLocalStorageMissions: React.Dispatch<React.SetStateAction<Mission[]>>
 };
 
-export const MissionList: React.FC<Props> = ({ setShowModal, localStorageMissions, setLocalStorageMissions }) => {
+export const MissionList: React.FC<iMissionListProps> = ({ setShowModal, localStorageMissions, setLocalStorageMissions }) => {
     useEffect(() => {
         const missionsWithSubMissions = getMissionsWithSubMissions(localStorageMissions);
         setLocalStorageMissions(missionsWithSubMissions);

@@ -2,13 +2,13 @@ import React from "react";
 import { Mission } from "../Custom-Typings/Mission";
 import { MissionRow } from "./MissionRow";
 
-interface Props {
+interface iSubMissionListProps {
     subMissions: Mission[],
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>,
     setAreButtonsShown: React.Dispatch<React.SetStateAction<boolean>>
 };
 
-export const SubMissionList: React.FC<Props> = ({ subMissions, setShowModal, setAreButtonsShown }) => {
+export const SubMissionList: React.FC<iSubMissionListProps> = ({ subMissions, setShowModal, setAreButtonsShown }) => {
     const handleOnMouseEnter = () => setAreButtonsShown(false);
     const handleOnMouseLeave = () => setAreButtonsShown(true);
 
