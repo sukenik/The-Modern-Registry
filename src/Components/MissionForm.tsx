@@ -12,7 +12,7 @@ interface iMissionFormProps {
     setShowModal: Dispatch<SetStateAction<boolean>>,
     setCurrentMission: Dispatch<SetStateAction<Mission>>,
     localStorageMissions: Array<Mission>,
-    setLocalStorageMissions: React.Dispatch<React.SetStateAction<Mission[]>>,
+    setLocalStorageMissions: React.Dispatch<React.SetStateAction<Array<Mission>>>,
     localStorageKeys: Array<string>
 };
 

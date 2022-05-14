@@ -25,13 +25,10 @@ export const getStatusElements = (modalType: string, formValues: iFormFields) =>
         ['Active', 'Complete'].map(status => 
             <option key={status} value={status} hidden={formValues.status === status}>{status}</option>);
 };
-export const getMissionsToLinkElements = (linkToMissionOptions: Mission[]) => {
-    return linkToMissionOptions.map(
-        mission => <option key={mission.id} value={mission.id}>
+export const getMissionsToLinkElements = (linkToMissionOptions: Array<Mission>) => 
+    linkToMissionOptions.map(mission => <option key={mission.id} value={mission.id}>
             {mission.description}
-        </option>
-    );
-};
+        </option>);
 export const getDefaultLinkToMissionElement = (mission: Mission, missions: Array<Mission>) => {
     if (mission.parentID) {
         return (<>{getUnlinkOptionElement()} <option value={mission.parentID} disabled hidden>

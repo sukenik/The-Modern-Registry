@@ -3,7 +3,7 @@ import { Mission } from "../Custom-Typings/Mission";
 import { MissionRow } from "./MissionRow";
 
 interface iSubMissionListProps {
-    subMissions: Mission[],
+    subMissions: Array<Mission>,
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>,
     setAreButtonsShown: React.Dispatch<React.SetStateAction<boolean>>
 };

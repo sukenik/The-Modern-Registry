@@ -7,7 +7,7 @@ import { MissionRow } from "./MissionRow";
 interface iMissionListProps {
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>,
     localStorageMissions: Array<Mission>,
-    setLocalStorageMissions: React.Dispatch<React.SetStateAction<Mission[]>>
+    setLocalStorageMissions: React.Dispatch<React.SetStateAction<Array<Mission>>>
 };
 
 export const MissionList: React.FC<iMissionListProps> = ({ setShowModal, localStorageMissions, setLocalStorageMissions }) => {

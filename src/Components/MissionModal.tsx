@@ -6,7 +6,7 @@ import { MissionForm } from "./MissionForm";
 
 interface iMissionModalProps {
     localStorageMissions: Array<Mission>,
-    setLocalStorageMissions: React.Dispatch<React.SetStateAction<Mission[]>>,
+    setLocalStorageMissions: React.Dispatch<React.SetStateAction<Array<Mission>>>,
     localStorageKeys: Array<string>
 }
 
