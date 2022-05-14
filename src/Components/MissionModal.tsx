@@ -11,13 +11,11 @@ interface iMissionModalProps {
 }
 
 export const MissionModal: React.FC<iMissionModalProps> = ({ localStorageMissions, setLocalStorageMissions, localStorageKeys }) => {
-    const { showModal, setShowModal } = useShowModalContext();
+    const { showMissionModal, setShowMissionModal } = useShowModalContext();
     const { currentMission, setCurrentMission } = useCurrentMission();
-    if (!showModal) {
-        return null;
-    };
+    if (!showMissionModal) return null;
     const handleOutsideClick = () => {
-        setShowModal(false);
+        setShowMissionModal(false);
         setCurrentMission(defaultMission);
     };
     const handleContentClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => e.stopPropagation();
@@ -33,7 +31,7 @@ export const MissionModal: React.FC<iMissionModalProps> = ({ localStorageMission
                 <div className="modal-body">
                     <MissionForm 
                         mission={currentMission} 
-                        setShowModal={setShowModal} 
+                        setShowModal={setShowMissionModal} 
                         setCurrentMission={setCurrentMission}
                         localStorageMissions={localStorageMissions} 
                         setLocalStorageMissions={setLocalStorageMissions}

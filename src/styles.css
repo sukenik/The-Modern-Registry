@@ -102,7 +102,6 @@ html {
     display: flex;
     align-items: center;
     justify-content: center;
-    /* border-radius: ; */
 }
 .modal-content {
     width: 500px;

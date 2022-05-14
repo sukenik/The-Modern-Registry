@@ -7,11 +7,8 @@ const getFromLocalStorage = (key: string): string | null => localStorage.getItem
 const parseStringToMission = (stringObject: string): Mission => JSON.parse(stringObject);
 export const parseMissionToString = (mission: Mission): string => JSON.stringify(mission);
 const getMissionFromLocalStorage = (key: string) => {
-    const mission = getFromLocalStorage(key)
-    if (mission) {
-        return parseStringToMission(mission);
-    }
-    return {} as Mission;
+    const mission = getFromLocalStorage(key) as string;
+    return parseStringToMission(mission);
 };
 export const getMissionsFromLocalStorage = (keys: Array<string>) => keys.map(key => getMissionFromLocalStorage(key));
 export const getLocalStorageKeys = () => {
@@ -20,4 +17,8 @@ export const getLocalStorageKeys = () => {
         keys.push(localStorage.key(i)!);
     }
     return keys;
-}
+};
+export const removeMissionFromLocalStorage = (missionID: number) => localStorage.removeItem(missionID.toString());
+// const removeMissionIDFromKeyList = (missionID: number, keys: Array<string>) => {
+    
+// }

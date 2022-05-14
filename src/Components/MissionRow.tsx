@@ -3,6 +3,7 @@ import { Mission } from "../Custom-Typings/Mission";
 import { setMissionElementWidth } from "../Logic/subMissionLogic";
 import { ArrowButton } from "./ArrowButton";
 import { DeleteButton } from "./DeleteButton";
+import { DeleteModal } from "./DeleteModal";
 import { EditButton } from "./EditButton";
 import { SubMissionList } from "./SubMissionList";
 
@@ -14,6 +15,7 @@ interface iMissionRowProps {
 export const MissionRow: React.FC<iMissionRowProps> = ({ mission, setShowModal }) => {
     const [isSubMissionListShown, setIsSubMissionListShown] = useState(false);
     const [areButtonsShown, setAreButtonsShown] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
     const handleOnMouseEnter = () => setAreButtonsShown(true);
     const handleOnMouseLeave = () => setAreButtonsShown(false);
     useEffect(() => setMissionElementWidth(mission.parentID, mission.id));
@@ -31,13 +33,14 @@ export const MissionRow: React.FC<iMissionRowProps> = ({ mission, setShowModal }
                 <div id="status">{mission.status}</div>
             </div>
             <div className="MissionField" id="MissionInfo">
-                {areButtonsShown && <><EditButton mission={mission} /><DeleteButton /></>}
+                {areButtonsShown && <><EditButton mission={mission} /><DeleteButton mission={mission} /></>}
             </div>
             {showSubMissionList && 
                 <SubMissionList
                     subMissions={mission.subMissions}
                     setShowModal={setShowModal}
                     setAreButtonsShown={setAreButtonsShown} />}
+            <DeleteModal />
         </li>
     );
 };

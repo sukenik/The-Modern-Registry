@@ -9,13 +9,12 @@ interface iEditButtonProps {
 };
 
 export const EditButton: React.FC<iEditButtonProps> = ({ mission }) => {
-    const { setShowModal } = useShowModalContext();
+    const { setShowMissionModal } = useShowModalContext();
     const { setCurrentMission } = useCurrentMission();
-
     const handleEditButtonClick = () => {
-        setShowModal(true);
+        setShowMissionModal(true);
         setCurrentMission(mission);
-    }
+    };
 
     return (
         <button className="MissionInfoField optionBtn" onClick={handleEditButtonClick}>
