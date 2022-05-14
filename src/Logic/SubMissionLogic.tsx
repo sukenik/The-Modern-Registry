@@ -9,17 +9,15 @@ const getMissionSubMissions = (currentMission: Mission, missions: Array<Mission>
     missions.filter(mission => mission.parentID === currentMission.id);
 export const setMissionElementWidth = (parentMissionID: number | null, missionID: number) => {
     if (parentMissionID === null) return setPrimaryMissionWidth(missionID);
-    const missionPixelWidthMinimum = 380;
+    const missionWidthPixelMinimum = 380;
     const parentMissionElement = document.getElementById(`Mission-${parentMissionID}`) as HTMLElement;
     const missionElement = document.getElementById(`Mission-${missionID}`) as HTMLElement;
     const parentWidthPixelNum = getParentMissionWidthPixelNum(parentMissionElement);
     let missionElementWidth: string;
     
-    if (parentWidthPixelNum === missionPixelWidthMinimum) {
-        missionElementWidth = setMinimalMissionElementWidth(missionElement, missionPixelWidthMinimum);
-        if (missionElement.parentElement) {
-            setSubMissionElementPadding(missionElement.parentElement, '0');
-        }
+    if (parentWidthPixelNum === missionWidthPixelMinimum) {
+        missionElementWidth = setMinimalMissionElementWidth(missionElement, missionWidthPixelMinimum);
+        setSubMissionElementPadding(missionElement, '0');
     }
     else {
         missionElementWidth = setMissionElementWidthRelativeToParent(missionElement, parentWidthPixelNum);
@@ -32,8 +30,8 @@ const setPrimaryMissionWidth = (missionID: number) => {
     missionElement.style.width = getGlobalMissionElementWidth();
 };
 const getGlobalMissionElementWidth = () => window.getComputedStyle(document.body).getPropertyValue('--width');
-const setSubMissionElementPadding = (subMissionElement: HTMLElement, padding: string) => 
-    subMissionElement.style.padding = padding;
+const setElementPadding = (element: HTMLElement, padding: string) => 
+    element.style.padding = padding;
 const getMissionNameElement = (missionElement: HTMLElement) => 
     missionElement.getElementsByClassName('name')[0] as HTMLElement;
 const setMinimalMissionElementWidth = (missionElement: HTMLElement, missionPixelWidthMinimum: number) => 
@@ -44,3 +42,6 @@ const setMissionNameMaxWidthRelativeToMissionWidth = (missionNameElement: HTMLEl
     missionNameElement.style.maxWidth = (parseInt(missionElementWidth) / 3) + 'px';
 const getParentMissionWidthPixelNum = (parentMissionElement: HTMLElement): number =>
     parseInt(getComputedStyle(parentMissionElement).getPropertyValue('width').split('px')[0]);
+const setSubMissionElementPadding = (missionElement: HTMLElement, padding: string) => {
+    if (missionElement.parentElement) setElementPadding(missionElement.parentElement, padding);
+}

@@ -1,8 +1,6 @@
 import { Mission } from "../Custom-Typings/Mission";
 
-const getUniqueID = (): number => {
-    return (Date.now() + Math.random());
-};
+const getUniqueID = (): number => (Date.now() + Math.random());
 export const getNewMission = (name: string, status: string, linkToMissionID: string | null | number): Mission => {
     return {
         id: getUniqueID(),

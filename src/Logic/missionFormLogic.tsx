@@ -35,9 +35,7 @@ export const getDefaultLinkToMissionElement = (mission: Mission, missions: Array
             {getMissionNameByID(mission.parentID, missions)}
         </option></>)
     }
-    return (
-        <option value="default" disabled hidden></option>
-    );
+    return (<option value="default" disabled hidden></option>);
 };
 const getMissionNameByID = (id: number, missions: Array<Mission>) => missions.filter(
     mission => mission.id === id)[0].description;
