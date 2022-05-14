@@ -1,6 +1,6 @@
 import React from "react";
 import { Mission } from "../Custom-Typings/Mission";
-import { getSubMissionComponentList, setMissionElementWidth } from "../Logic/subMissionLogic";
+import { MissionRow } from "./MissionRow";
 
 interface Props {
     subMissions: Mission[],
@@ -9,17 +9,12 @@ interface Props {
 };
 
 export const SubMissionList: React.FC<Props> = ({ subMissions, setShowModal, setAreButtonsShown }) => {
-    const subMissionList = getSubMissionComponentList(subMissions, setShowModal);
-    const handleOnMouseEnter = () => {
-        setAreButtonsShown(false);
-    };
-    const handleOnMouseLeave = () => {
-        setAreButtonsShown(true);
-    };
+    const handleOnMouseEnter = () => setAreButtonsShown(false);
+    const handleOnMouseLeave = () => setAreButtonsShown(true);
 
     return (
         <ul id="sub-mission-list" onMouseEnter={handleOnMouseEnter} onMouseLeave={handleOnMouseLeave}>
-            {subMissionList}
+            {subMissions.map(subMission => <MissionRow key={subMission.id} mission={subMission} setShowModal={setShowModal} />)}
         </ul>
     );
 };

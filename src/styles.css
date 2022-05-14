@@ -182,17 +182,20 @@ html {
 #MissionName {
     margin-left: 20px;
     order: 2;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 265px;
+    white-space: nowrap;
 }
 #sub-mission-list {
     background-color: rgba(218, 218, 218);
     display: flex;
     flex-direction: column;
     order: 5;
-    padding-right: 10px;
-    width: var(--width);
+    padding-left: 30px;
 }
 #mission-list {
-    margin: 0;
+    margin-bottom: 30px;
     display: flex;
     flex-direction: column;
     align-items: center;
