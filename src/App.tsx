@@ -1,38 +1,33 @@
 import { hot } from "react-hot-loader";
-import React, { useState } from 'react';
+import React from 'react';
 import { Title } from "./Components/Title";
 import { FilterableMissionListContainer } from "./Components/FilterableMissionListContainer";
 import { SearchBar } from "./Components/SearchBar";
-import { MissionList } from "./Components/MissionList";
+import { MissionListContainer } from "./Components/MissionList";
 import { CreateMissionButton } from "./Components/CreateMissionButton";
 import { MissionModal } from "./Components/MissionModal";
 import { CurrentMissionProvider } from "./Context/MissionContext";
 import { useShowModalContext } from "./Context/ModalContext";
-import { getLocalStorageKeys, getMissionsFromLocalStorage } from "./Logic/localStorageLogic";
-
-const localStorageKeys: Array<string> = getLocalStorageKeys();
+import { LocalStorageMissionsProvider } from "./Context/LocalStorageMissionsContext";
+import { DeleteModal } from "./Components/DeleteModal";
 
 const App: React.FC = () => {
-    const { showModal, setShowModal } = useShowModalContext();
-    const [localStorageMissions, setLocalStorageMissions] = useState(getMissionsFromLocalStorage(localStorageKeys));
-
+    const { showMissionModal, showDeleteModal } = useShowModalContext();
+    
     return (
         <CurrentMissionProvider>
-            <Title />
-            <div id='app-flex'>
-                <FilterableMissionListContainer>
-                    <SearchBar />
-                    <MissionList
-                        setShowModal={setShowModal}
-                        localStorageMissions={localStorageMissions}
-                        setLocalStorageMissions={setLocalStorageMissions}  />
-                </FilterableMissionListContainer>
-            </div>
-            {!showModal && <CreateMissionButton setShowModal={setShowModal} />}
-            <MissionModal 
-                localStorageMissions={localStorageMissions} 
-                setLocalStorageMissions={setLocalStorageMissions}
-                localStorageKeys={localStorageKeys} />
+            <LocalStorageMissionsProvider>
+                <Title />
+                <div id='app-flex'>
+                    <FilterableMissionListContainer>
+                        <SearchBar />
+                        <MissionListContainer />
+                    </FilterableMissionListContainer>
+                </div>
+                {!showMissionModal && <CreateMissionButton />}
+                {showMissionModal && <MissionModal />}
+                {showDeleteModal && <DeleteModal />}
+            </LocalStorageMissionsProvider>
         </CurrentMissionProvider>
     );
 };

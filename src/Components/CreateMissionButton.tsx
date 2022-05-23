@@ -1,12 +1,10 @@
 import React from "react";
 import createMissionIcon from "../../Assets/add-tasks-g68f2c05f3_640.png";
+import { useShowModalContext } from "../Context/ModalContext";
 
-interface iCreateMissionButtonProps {
-    setShowModal: React.Dispatch<React.SetStateAction<boolean>>
-};
-
-export const CreateMissionButton: React.FC<iCreateMissionButtonProps> = ({ setShowModal }) => {
-    const handleCreateMissionButtonClick = () => setShowModal(true);
+export const CreateMissionButton: React.FC = () => {
+    const { setShowMissionModal } = useShowModalContext();
+    const handleCreateMissionButtonClick = () => setShowMissionModal(true);
 
     return (
         <button onClick={handleCreateMissionButtonClick} type="submit" id="CreateMissionButton">

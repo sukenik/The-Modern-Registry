@@ -1,20 +1,22 @@
 import React from "react";
+import { useLocalStorageMissions } from "../Context/LocalStorageMissionsContext";
 import { Mission } from "../Custom-Typings/Mission";
 import { MissionRow } from "./MissionRow";
 
 interface iSubMissionListProps {
-    subMissions: Array<Mission>,
-    setShowModal: React.Dispatch<React.SetStateAction<boolean>>,
-    setAreButtonsShown: React.Dispatch<React.SetStateAction<boolean>>
+    setAreButtonsShown: React.Dispatch<React.SetStateAction<boolean>>,
+    currentMission: Mission,
 };
 
-export const SubMissionList: React.FC<iSubMissionListProps> = ({ subMissions, setShowModal, setAreButtonsShown }) => {
+export const SubMissionList: React.FC<iSubMissionListProps> = ({ currentMission, setAreButtonsShown }) => {
+    const { localStorageMissions } = useLocalStorageMissions();
     const handleOnMouseEnter = () => setAreButtonsShown(false);
     const handleOnMouseLeave = () => setAreButtonsShown(true);
 
     return (
         <ul id="sub-mission-list" onMouseEnter={handleOnMouseEnter} onMouseLeave={handleOnMouseLeave}>
-            {subMissions.map(subMission => <MissionRow key={subMission.id} mission={subMission} setShowModal={setShowModal} />)}
+            {localStorageMissions.filter(mission => mission.parentID === currentMission.id).map(
+                mission => <MissionRow key={mission.id} mission={mission} />)}
         </ul>
     );
 };

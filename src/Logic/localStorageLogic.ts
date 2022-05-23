@@ -13,11 +13,22 @@ const getMissionFromLocalStorage = (key: string) => {
     }
     return {} as Mission;
 };
-export const getMissionsFromLocalStorage = (keys: Array<string>) => keys.map(key => getMissionFromLocalStorage(key));
+export const getLocalStorageMissions = (keys: Array<string>) => keys.map(key => getMissionFromLocalStorage(key));
 export const getLocalStorageKeys = () => {
     const keys: Array<string> = [];
     for (let i = 0; i < localStorage.length; i++) {
         keys.push(localStorage.key(i)!);
     }
     return keys;
+};
+const removeFromLocalStorage = (key: string) => localStorage.removeItem(key);
+const getChildrenFromDeletedMission = (parentID: number, missions: Array<Mission>) => 
+    missions.filter(mission => mission.parentID === parentID);
+export const getMissionsWithoutDeletedParent = (parentID: number, missions: Array<Mission>) => {
+    // const childrenOfDeletedParent = getChildrenFromDeletedMission(parentID, missions);
+    // childrenOfDeletedParent.forEach(mission => mission.parentID = null);
+    // const missionsWithoutDeletedParent = missions.map(mission => {
+    //     childrenOfDeletedParent.includes(mission) ? 
+    // })
+    // console.log(childrenOfDeletedParent);
 }

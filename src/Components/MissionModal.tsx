@@ -1,23 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useLocalStorageMissions } from "../Context/LocalStorageMissionsContext";
 import { defaultMission, useCurrentMission } from "../Context/MissionContext";
 import { useShowModalContext } from "../Context/ModalContext";
 import { Mission } from "../Custom-Typings/Mission";
+import { getLocalStorageKeys, getLocalStorageMissions } from "../Logic/localStorageLogic";
 import { MissionForm } from "./MissionForm";
 
-interface iMissionModalProps {
-    localStorageMissions: Array<Mission>,
-    setLocalStorageMissions: React.Dispatch<React.SetStateAction<Array<Mission>>>,
-    localStorageKeys: Array<string>
-}
-
-export const MissionModal: React.FC<iMissionModalProps> = ({ localStorageMissions, setLocalStorageMissions, localStorageKeys }) => {
-    const { showModal, setShowModal } = useShowModalContext();
+export const MissionModal: React.FC = () => {
+    const { setShowMissionModal } = useShowModalContext();
     const { currentMission, setCurrentMission } = useCurrentMission();
-    if (!showModal) {
-        return null;
-    };
     const handleOutsideClick = () => {
-        setShowModal(false);
+        setShowMissionModal(false);
         setCurrentMission(defaultMission);
     };
     const handleContentClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => e.stopPropagation();
@@ -31,13 +24,7 @@ export const MissionModal: React.FC<iMissionModalProps> = ({ localStorageMission
                     </h4>
                 </div>
                 <div className="modal-body">
-                    <MissionForm 
-                        mission={currentMission} 
-                        setShowModal={setShowModal} 
-                        setCurrentMission={setCurrentMission}
-                        localStorageMissions={localStorageMissions} 
-                        setLocalStorageMissions={setLocalStorageMissions}
-                        localStorageKeys={localStorageKeys} />
+                    <MissionForm mission={currentMission} />
                 </div>
             </div>
         </div>
