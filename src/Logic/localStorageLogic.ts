@@ -21,14 +21,6 @@ export const getLocalStorageKeys = () => {
     }
     return keys;
 };
-const removeFromLocalStorage = (key: string) => localStorage.removeItem(key);
-const getChildrenFromDeletedMission = (parentID: number, missions: Array<Mission>) => 
+export const removeFromLocalStorage = (key: string) => localStorage.removeItem(key);
+export const getChildrenFromDeletedMission = (parentID: number, missions: Array<Mission>) => 
     missions.filter(mission => mission.parentID === parentID);
-export const getMissionsWithoutDeletedParent = (parentID: number, missions: Array<Mission>) => {
-    // const childrenOfDeletedParent = getChildrenFromDeletedMission(parentID, missions);
-    // childrenOfDeletedParent.forEach(mission => mission.parentID = null);
-    // const missionsWithoutDeletedParent = missions.map(mission => {
-    //     childrenOfDeletedParent.includes(mission) ? 
-    // })
-    // console.log(childrenOfDeletedParent);
-}
