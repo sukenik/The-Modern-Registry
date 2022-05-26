@@ -1,8 +1,7 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { useState } from "react";
 import { useLocalStorageMissions } from "../Context/LocalStorageMissionsContext";
 import { defaultMission, useCurrentMission } from "../Context/MissionContext";
 import { useShowModalContext } from "../Context/ModalContext";
-import { Mission } from "../Custom-Typings/Mission";
 import { filterSelfAndLinkedChildrenMissions } from "../Logic/filterLinkToMissionFieldLogic";
 import { closeModal } from "../Logic/helperFunctions";
 import { addToLocalStorage, getLocalStorageKeys, getLocalStorageMissions, parseMissionToString, removeFromLocalStorage } from "../Logic/localStorageLogic";
@@ -26,7 +25,8 @@ export const DeleteModal = () => {
                 missionsToDelete.forEach(mission => removeFromLocalStorage(mission.id.toString()));
             } else {
                 currentMission.subMissions.forEach(subMission => {
-                    addToLocalStorage(subMission.id.toString(), parseMissionToString({ ...subMission, parentID: null }));
+                    addToLocalStorage(subMission.id.toString(), 
+                        parseMissionToString({ ...subMission, parentID: currentMission.parentID }));
                 });
             }
         }
