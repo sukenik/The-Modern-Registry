@@ -3,7 +3,7 @@ import React from 'react';
 import { Title } from "./Components/Title";
 import { FilterableMissionListContainer } from "./Components/FilterableMissionListContainer";
 import { SearchBar } from "./Components/SearchBar";
-import { MissionListContainer } from "./Components/MissionList";
+import { MissionListContainer } from "./Components/MissionListContainer";
 import { CreateMissionButton } from "./Components/CreateMissionButton";
 import { MissionModal } from "./Components/MissionModal";
 import { CurrentMissionProvider } from "./Context/MissionContext";
@@ -17,7 +17,7 @@ const App: React.FC = () => {
     return (
         <CurrentMissionProvider>
             <LocalStorageMissionsProvider>
-                <Title />
+                <Title titleName={"The Modern Registry"} />
                 <div id='app-flex'>
                     <FilterableMissionListContainer>
                         <SearchBar />

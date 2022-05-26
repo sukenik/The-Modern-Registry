@@ -1,5 +1,4 @@
 import React from "react";
-import { useState } from "react";
 
 interface iCheckboxProps {
     label: string,
@@ -8,7 +7,6 @@ interface iCheckboxProps {
 }
 
 export const Checkbox: React.FC<iCheckboxProps> = ({ label, checked, handleCheckboxChange }) => {
-
     return (
         <label>
             <input type="checkbox" checked={checked} onChange={handleCheckboxChange} />
