@@ -1,18 +1,13 @@
-import React, { useEffect } from "react";
-import { useLocalStorageMissions } from "../Context/LocalStorageMissionsContext";
+import React from "react";
 import { defaultMission, useCurrentMission } from "../Context/MissionContext";
 import { useShowModalContext } from "../Context/ModalContext";
-import { Mission } from "../Custom-Typings/Mission";
-import { getLocalStorageKeys, getLocalStorageMissions } from "../Logic/localStorageLogic";
+import { closeModal } from "../Logic/helperFunctions";
 import { MissionForm } from "./MissionForm";
 
 export const MissionModal: React.FC = () => {
     const { setShowMissionModal } = useShowModalContext();
     const { currentMission, setCurrentMission } = useCurrentMission();
-    const handleOutsideClick = () => {
-        setShowMissionModal(false);
-        setCurrentMission(defaultMission);
-    };
+    const handleOutsideClick = () => closeModal(setShowMissionModal, setCurrentMission);
     const handleContentClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => e.stopPropagation();
     
     return (

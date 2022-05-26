@@ -24,7 +24,7 @@ export const MissionRow: React.FC<iMissionRowProps> = ({ mission }) => {
     }, [mission]);
     const handleOnMouseEnter = () => setShowOptionButtons(true);
     const handleOnMouseLeave = () => setShowOptionButtons(false);
-    const isSubMissionListShown = showSubMissionList && mission.subMissions.length;
+    const isSubMissionListShown = showSubMissionList && !!mission.subMissions.length;
 
     return (
         <li 
