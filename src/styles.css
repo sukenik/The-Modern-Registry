@@ -216,3 +216,6 @@ html {
 #unlink-option {
     color: red;
 }
+#delete-modal-title {
+    font-size: 25px;
+}

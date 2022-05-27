@@ -1,23 +1,20 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { defaultMission } from "../Context/MissionContext";
+import React, { useEffect, useState } from "react";
+import { useLocalStorageMissions } from "../Context/LocalStorageMissionsContext";
+import { defaultMission, useCurrentMission } from "../Context/MissionContext";
+import { useShowModalContext } from "../Context/ModalContext";
 import { Mission } from "../Custom-Typings/Mission";
 import { getNewMission, getNewMissionUpdate } from "../Logic/createMissionLogic";
 import { getLinkToMissionOptions } from "../Logic/filterLinkToMissionFieldLogic";
-import { addToLocalStorage, getMissionsFromLocalStorage, parseMissionToString } from "../Logic/localStorageLogic";
+import { modalAction } from "../Logic/helperFunctions";
+import { addToLocalStorage, getLocalStorageKeys, getLocalStorageMissions, parseMissionToString } from "../Logic/localStorageLogic";
 import { getDefaultLinkToMissionElement, getMissionsToLinkElements, getStatusElements, iFormFields, validateFormFields } from "../Logic/missionFormLogic";
 import { getMissionsWithSubMissions } from "../Logic/subMissionLogic";
 
 interface iMissionFormProps {
-    mission: Mission,
-    setShowModal: Dispatch<SetStateAction<boolean>>,
-    setCurrentMission: Dispatch<SetStateAction<Mission>>,
-    localStorageMissions: Array<Mission>,
-    setLocalStorageMissions: React.Dispatch<React.SetStateAction<Array<Mission>>>,
-    localStorageKeys: Array<string>
+    mission: Mission
 };
 
-export const MissionForm: React.FC<iMissionFormProps> = ({ mission, setShowModal, setCurrentMission, 
-        localStorageMissions, setLocalStorageMissions, localStorageKeys }) => {
+export const MissionForm: React.FC<iMissionFormProps> = ({ mission }) => {
     const modalType = mission.id === defaultMission.id ? 'Create' : 'Edit';
     const initialValues = { 
         name: mission.description, 
@@ -27,22 +24,24 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission, setShowModal
     const [formValues, setFormValues] = useState(initialValues);
     const [formErrors, setFormErrors] = useState({} as iFormFields);
     const [isSubmit, setIsSubmit] = useState(false);
+    const { setShowMissionModal } = useShowModalContext();
+    const { localStorageMissions, setLocalStorageMissions } = useLocalStorageMissions();
+    const { setCurrentMission } = useCurrentMission();
     useEffect(() => {
         if (Object.keys(formErrors).length === 0 && isSubmit) {
             if (modalType === 'Create') {
                 const newMission = getNewMission(formValues.name, formValues.status, formValues.linkToMission);
                 addToLocalStorage(newMission.id.toString(), parseMissionToString(newMission));
-                localStorageKeys.push(newMission.id.toString());
-                setLocalStorageMissions(prevState => prevState.concat(newMission));
+                const missionsWithSubMissions = getMissionsWithSubMissions(getLocalStorageMissions(getLocalStorageKeys()));
+                setLocalStorageMissions(missionsWithSubMissions);
             } else {
                 const newMissionUpdate = getNewMissionUpdate(mission.id, formValues.name, formValues.status, formValues.linkToMission, 
                     mission.subMissions);
                 addToLocalStorage(mission.id.toString(), parseMissionToString(newMissionUpdate));
-                const missionsWithSubMissions = getMissionsWithSubMissions(getMissionsFromLocalStorage(localStorageKeys));
+                const missionsWithSubMissions = getMissionsWithSubMissions(getLocalStorageMissions(getLocalStorageKeys()));
                 setLocalStorageMissions(missionsWithSubMissions);
             }
-            setShowModal(false);
-            setCurrentMission(defaultMission);
+            modalAction(setShowMissionModal, setCurrentMission);
         }
     }, [formErrors]);
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -54,11 +53,7 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission, setShowModal
         setFormErrors(validateFormFields(formValues));
         setIsSubmit(true);
     };
-    const handleCancelClick = (e: React.FormEvent) => {
-        e.preventDefault();
-        setShowModal(false);
-        setCurrentMission(defaultMission);
-    };
+    const handleCancelClick = (e: React.FormEvent) => modalAction(setShowMissionModal, setCurrentMission)
     const statusElements = getStatusElements(modalType, formValues);
     const linkToMissionOptions = getLinkToMissionOptions(mission, localStorageMissions);
     const missionsFitToLinkOptionElements = getMissionsToLinkElements(linkToMissionOptions);

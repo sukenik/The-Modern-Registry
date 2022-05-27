@@ -1,25 +1,13 @@
 import React from "react";
 import { defaultMission, useCurrentMission } from "../Context/MissionContext";
 import { useShowModalContext } from "../Context/ModalContext";
-import { Mission } from "../Custom-Typings/Mission";
+import { modalAction } from "../Logic/helperFunctions";
 import { MissionForm } from "./MissionForm";
 
-interface iMissionModalProps {
-    localStorageMissions: Array<Mission>,
-    setLocalStorageMissions: React.Dispatch<React.SetStateAction<Array<Mission>>>,
-    localStorageKeys: Array<string>
-}
-
-export const MissionModal: React.FC<iMissionModalProps> = ({ localStorageMissions, setLocalStorageMissions, localStorageKeys }) => {
-    const { showModal, setShowModal } = useShowModalContext();
+export const MissionModal: React.FC = () => {
+    const { setShowMissionModal } = useShowModalContext();
     const { currentMission, setCurrentMission } = useCurrentMission();
-    if (!showModal) {
-        return null;
-    };
-    const handleOutsideClick = () => {
-        setShowModal(false);
-        setCurrentMission(defaultMission);
-    };
+    const handleOutsideClick = () => modalAction(setShowMissionModal, setCurrentMission);
     const handleContentClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => e.stopPropagation();
     
     return (
@@ -31,13 +19,7 @@ export const MissionModal: React.FC<iMissionModalProps> = ({ localStorageMission
                     </h4>
                 </div>
                 <div className="modal-body">
-                    <MissionForm 
-                        mission={currentMission} 
-                        setShowModal={setShowModal} 
-                        setCurrentMission={setCurrentMission}
-                        localStorageMissions={localStorageMissions} 
-                        setLocalStorageMissions={setLocalStorageMissions}
-                        localStorageKeys={localStorageKeys} />
+                    <MissionForm mission={currentMission} />
                 </div>
             </div>
         </div>

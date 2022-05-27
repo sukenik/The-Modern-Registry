@@ -13,11 +13,14 @@ const getMissionFromLocalStorage = (key: string) => {
     }
     return {} as Mission;
 };
-export const getMissionsFromLocalStorage = (keys: Array<string>) => keys.map(key => getMissionFromLocalStorage(key));
+export const getLocalStorageMissions = (keys: Array<string>) => keys.map(key => getMissionFromLocalStorage(key));
 export const getLocalStorageKeys = () => {
     const keys: Array<string> = [];
     for (let i = 0; i < localStorage.length; i++) {
         keys.push(localStorage.key(i)!);
     }
     return keys;
-}
+};
+export const removeFromLocalStorage = (key: string) => localStorage.removeItem(key);
+export const getChildrenFromDeletedMission = (parentID: number, missions: Array<Mission>) => 
+    missions.filter(mission => mission.parentID === parentID);
