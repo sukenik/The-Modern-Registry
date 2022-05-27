@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useLocalStorageMissions } from "../Context/LocalStorageMissionsContext";
-import { defaultMission, useCurrentMission } from "../Context/MissionContext";
+import { useCurrentMission } from "../Context/MissionContext";
 import { useShowModalContext } from "../Context/ModalContext";
 import { filterSelfAndLinkedChildrenMissions } from "../Logic/filterLinkToMissionFieldLogic";
-import { closeModal } from "../Logic/helperFunctions";
+import { modalAction } from "../Logic/helperFunctions";
 import { addToLocalStorage, getLocalStorageKeys, getLocalStorageMissions, parseMissionToString, removeFromLocalStorage } from "../Logic/localStorageLogic";
 import { getMissionsWithSubMissions } from "../Logic/subMissionLogic";
 import { Checkbox } from "./Checkbox";
@@ -14,10 +14,9 @@ export const DeleteModal = () => {
     const { currentMission, setCurrentMission } = useCurrentMission();
     const { setLocalStorageMissions } = useLocalStorageMissions();
     const labelText = "Delete linked children missions";
-    const handleOutsideClick = () => closeModal(setShowDeleteModal, setCurrentMission);
+    const handleOutsideClick = () => modalAction(setShowDeleteModal, setCurrentMission);
     const handleContentClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => e.stopPropagation();
     const handleDelete = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        e.preventDefault();
         removeFromLocalStorage(currentMission.id.toString());
         if (currentMission.subMissions.length) {
             if (checked) {
@@ -32,10 +31,9 @@ export const DeleteModal = () => {
         }
         const missionsWithSubMissions = getMissionsWithSubMissions(getLocalStorageMissions(getLocalStorageKeys()));
         setLocalStorageMissions(missionsWithSubMissions);
-        setShowDeleteModal(false);
-        setCurrentMission(defaultMission);
+        modalAction(setShowDeleteModal, setCurrentMission);
     }
-    const handleCancelClick = () => closeModal(setShowDeleteModal, setCurrentMission);
+    const handleCancelClick = () => modalAction(setShowDeleteModal, setCurrentMission);
     const handleCheckboxChange = () => setChecked(!checked);
 
     return (
@@ -43,9 +41,9 @@ export const DeleteModal = () => {
             <div className="modal-content" onClick={handleContentClick}>
                 <div className="modal-header">
                     <p className="modal-title" id="delete-modal-title">
-                        {'Sure You Want To Delete'}
+                        Sure You Want To Delete
                         <br />
-                        {`"${currentMission.description}"?`}
+                        "<b>{currentMission.description}</b>"?
                     </p>
                 </div>
                 <div className="modal-body">

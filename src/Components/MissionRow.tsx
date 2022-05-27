@@ -12,7 +12,7 @@ interface iMissionRowProps {
 };
 
 export const MissionRow: React.FC<iMissionRowProps> = ({ mission }) => {
-    const [showSubMissionList, setShowSubMissionList] = useState(false);
+    const [showSubMissionList, setShowSubMissionList] = useState(false && !!mission.subMissions.length);
     const [showOptionButtons, setShowOptionButtons] = useState(false);
     const [showArrowButton, setShowArrowButton] = useState(false);
     const { localStorageMissions, setLocalStorageMissions } = useLocalStorageMissions();
@@ -20,18 +20,18 @@ export const MissionRow: React.FC<iMissionRowProps> = ({ mission }) => {
         setMissionElementWidth(mission.parentID, mission.id);
         const missionsWithSubMissions = getMissionsWithSubMissions(localStorageMissions);
         setLocalStorageMissions(missionsWithSubMissions);
-        mission.subMissions.length ? setShowArrowButton(true) : setShowArrowButton(false);
+        if (mission.subMissions.length) {
+            setShowArrowButton(true);
+        } else {
+            setShowArrowButton(false);
+            setShowSubMissionList(false);
+        }
     }, [mission]);
     const handleOnMouseEnter = () => setShowOptionButtons(true);
     const handleOnMouseLeave = () => setShowOptionButtons(false);
-    const isSubMissionListShown = showSubMissionList && !!mission.subMissions.length;
 
     return (
-        <li 
-            className='Mission'
-            id={`Mission-${mission.id}`}
-            onMouseEnter={handleOnMouseEnter}
-            onMouseLeave={handleOnMouseLeave}>
+        <li className='Mission' id={`Mission-${mission.id}`} onMouseEnter={handleOnMouseEnter} onMouseLeave={handleOnMouseLeave}>
             {showArrowButton && <ArrowButton setShowSubMissionList={setShowSubMissionList} />}
             <div className="MissionField name" id="MissionName">{mission.description}</div>
             <div className="MissionInfoField" id="MissionStatus">
@@ -40,7 +40,7 @@ export const MissionRow: React.FC<iMissionRowProps> = ({ mission }) => {
             <div className="MissionField" id="MissionInfo">
                 {showOptionButtons && <><EditButton mission={mission} /><DeleteButton mission={mission} /></>}
             </div>
-            {isSubMissionListShown && <SubMissionList setAreButtonsShown={setShowOptionButtons} currentMission={mission} />}
+            {showSubMissionList && <SubMissionList setAreButtonsShown={setShowOptionButtons} currentMission={mission} />}
         </li>
     );
 };

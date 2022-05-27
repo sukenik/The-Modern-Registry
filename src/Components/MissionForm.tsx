@@ -5,7 +5,7 @@ import { useShowModalContext } from "../Context/ModalContext";
 import { Mission } from "../Custom-Typings/Mission";
 import { getNewMission, getNewMissionUpdate } from "../Logic/createMissionLogic";
 import { getLinkToMissionOptions } from "../Logic/filterLinkToMissionFieldLogic";
-import { closeModal } from "../Logic/helperFunctions";
+import { modalAction } from "../Logic/helperFunctions";
 import { addToLocalStorage, getLocalStorageKeys, getLocalStorageMissions, parseMissionToString } from "../Logic/localStorageLogic";
 import { getDefaultLinkToMissionElement, getMissionsToLinkElements, getStatusElements, iFormFields, validateFormFields } from "../Logic/missionFormLogic";
 import { getMissionsWithSubMissions } from "../Logic/subMissionLogic";
@@ -41,7 +41,7 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission }) => {
                 const missionsWithSubMissions = getMissionsWithSubMissions(getLocalStorageMissions(getLocalStorageKeys()));
                 setLocalStorageMissions(missionsWithSubMissions);
             }
-            closeModal(setShowMissionModal, setCurrentMission);
+            modalAction(setShowMissionModal, setCurrentMission);
         }
     }, [formErrors]);
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -53,7 +53,7 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission }) => {
         setFormErrors(validateFormFields(formValues));
         setIsSubmit(true);
     };
-    const handleCancelClick = (e: React.FormEvent) => closeModal(setShowMissionModal, setCurrentMission)
+    const handleCancelClick = (e: React.FormEvent) => modalAction(setShowMissionModal, setCurrentMission)
     const statusElements = getStatusElements(modalType, formValues);
     const linkToMissionOptions = getLinkToMissionOptions(mission, localStorageMissions);
     const missionsFitToLinkOptionElements = getMissionsToLinkElements(linkToMissionOptions);

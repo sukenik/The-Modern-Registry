@@ -8,8 +8,7 @@ interface iLocalStorageMissionsContext {
 }
 const LocalStorageMissionsContext = React.createContext<iLocalStorageMissionsContext | null>(null);
 
-export const useLocalStorageMissions = () => 
-    useContext(LocalStorageMissionsContext) as iLocalStorageMissionsContext;
+export const useLocalStorageMissions = () => useContext(LocalStorageMissionsContext) as iLocalStorageMissionsContext;
 
 export const LocalStorageMissionsProvider: React.FC = ({ children }) => {
     const [localStorageMissions, setLocalStorageMissions] = 

@@ -2,12 +2,13 @@ import { Dispatch, SetStateAction } from "react";
 import { defaultMission } from "../Context/MissionContext";
 import { Mission } from "../Custom-Typings/Mission";
 
-export const closeModal = (setShowModal: Dispatch<SetStateAction<boolean>>, setCurrentMission: Dispatch<SetStateAction<Mission>>) => {
-    setShowModal(false);
-    setCurrentMission(defaultMission);
-};
-export const openModalWithMission = 
-    (setShowModal: Dispatch<SetStateAction<boolean>>, setCurrentMission: Dispatch<SetStateAction<Mission>>, mission: Mission) => {
-    setShowModal(true);
-    setCurrentMission(mission);
-};
+export const modalAction = 
+    (setShowModal: Dispatch<SetStateAction<boolean>>, setCurrentMission: Dispatch<SetStateAction<Mission>>, mission?: Mission) => {
+        if (mission) {
+            setShowModal(true);
+            setCurrentMission(mission);
+        } else {
+            setShowModal(false);
+            setCurrentMission(defaultMission);
+        }
+    }

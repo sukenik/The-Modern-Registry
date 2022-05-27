@@ -1,13 +1,13 @@
 import React from "react";
 import { defaultMission, useCurrentMission } from "../Context/MissionContext";
 import { useShowModalContext } from "../Context/ModalContext";
-import { closeModal } from "../Logic/helperFunctions";
+import { modalAction } from "../Logic/helperFunctions";
 import { MissionForm } from "./MissionForm";
 
 export const MissionModal: React.FC = () => {
     const { setShowMissionModal } = useShowModalContext();
     const { currentMission, setCurrentMission } = useCurrentMission();
-    const handleOutsideClick = () => closeModal(setShowMissionModal, setCurrentMission);
+    const handleOutsideClick = () => modalAction(setShowMissionModal, setCurrentMission);
     const handleContentClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => e.stopPropagation();
     
     return (
