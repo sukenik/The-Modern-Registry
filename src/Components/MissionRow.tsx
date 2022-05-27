@@ -20,7 +20,7 @@ export const MissionRow: React.FC<iMissionRowProps> = ({ mission }) => {
         setMissionElementWidth(mission.parentID, mission.id);
         const missionsWithSubMissions = getMissionsWithSubMissions(localStorageMissions);
         setLocalStorageMissions(missionsWithSubMissions);
-        if (mission.subMissions.length) setShowArrowButton(true);
+        mission.subMissions.length ? setShowArrowButton(true) : setShowArrowButton(false);
     }, [mission]);
     const handleOnMouseEnter = () => setShowOptionButtons(true);
     const handleOnMouseLeave = () => setShowOptionButtons(false);

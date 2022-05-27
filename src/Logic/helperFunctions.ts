@@ -6,3 +6,8 @@ export const closeModal = (setShowModal: Dispatch<SetStateAction<boolean>>, setC
     setShowModal(false);
     setCurrentMission(defaultMission);
 };
+export const openModalWithMission = 
+    (setShowModal: Dispatch<SetStateAction<boolean>>, setCurrentMission: Dispatch<SetStateAction<Mission>>, mission: Mission) => {
+    setShowModal(true);
+    setCurrentMission(mission);
+};
