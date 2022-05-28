@@ -1,9 +1,16 @@
 import React from "react";
 
-export const SearchBar: React.FC = () => {
+interface iSearchBarProps {
+    searchText: string,
+    debounceText: string,
+    handleSearchTextChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+}
+
+export const SearchBar: React.FC<iSearchBarProps> = ({ searchText, debounceText, handleSearchTextChange }) => {
     return (
-        <div id="SearchBar">
-            <input type="text" placeholder="Search..." />
+        <div id="search-bar">
+            <p>{debounceText}</p>
+            <input type="text" placeholder="Search..." value={searchText} onChange={handleSearchTextChange} />
             <div>
                 <label htmlFor="status">Filter by: </label>
                 <select name="status" id="StatusFilter">

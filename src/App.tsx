@@ -1,5 +1,5 @@
 import { hot } from "react-hot-loader";
-import React from 'react';
+import React, { useState } from 'react';
 import { Title } from "./Components/Title";
 import { FilterableMissionListContainer } from "./Components/FilterableMissionListContainer";
 import { SearchBar } from "./Components/SearchBar";
@@ -10,18 +10,21 @@ import { CurrentMissionProvider } from "./Context/MissionContext";
 import { useShowModalContext } from "./Context/ModalContext";
 import { LocalStorageMissionsProvider } from "./Context/LocalStorageMissionsContext";
 import { DeleteModal } from "./Components/DeleteModal";
+import { useDebounce } from "./Hooks/useDebounce";
 
 const App: React.FC = () => {
     const { showMissionModal, showDeleteModal } = useShowModalContext();
-    
+    const [debounceText, searchText, setSearchText] = useDebounce('', 500);
+    const handleSearchTextChange = (e: React.ChangeEvent<HTMLInputElement>) => setSearchText(e.target.value);
+
     return (
         <CurrentMissionProvider>
             <LocalStorageMissionsProvider>
                 <Title titleName={"The Modern Registry"} />
                 <div id='app-flex'>
                     <FilterableMissionListContainer>
-                        <SearchBar />
-                        <MissionListContainer />
+                        <SearchBar searchText={searchText} debounceText={debounceText} handleSearchTextChange={handleSearchTextChange}  />
+                        <MissionListContainer debounceText={debounceText} />
                     </FilterableMissionListContainer>
                 </div>
                 {!showMissionModal && <CreateMissionButton />}

@@ -16,7 +16,7 @@ export const DeleteModal = () => {
     const labelText = "Delete linked children missions";
     const handleOutsideClick = () => modalAction(setShowDeleteModal, setCurrentMission);
     const handleContentClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => e.stopPropagation();
-    const handleDelete = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const handleDelete = () => {
         removeFromLocalStorage(currentMission.id.toString());
         if (currentMission.subMissions.length) {
             if (checked) {

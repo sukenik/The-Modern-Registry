@@ -11,4 +11,11 @@ export const modalAction =
             setShowModal(false);
             setCurrentMission(defaultMission);
         }
-    }
+}
+// export const debounce = (callback: Function, timeout = 300) => {
+//     let timer: ReturnType<typeof setTimeout>;
+//     return (...args: []) => {
+//         clearTimeout(timer);
+//         setTimeout(() => callback(...args), timeout);
+//     }
+// }
