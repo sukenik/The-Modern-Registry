@@ -12,7 +12,7 @@ interface iMissionRowProps {
 };
 
 export const MissionRow: React.FC<iMissionRowProps> = ({ mission }) => {
-    const [showSubMissionList, setShowSubMissionList] = useState(false && !!mission.subMissions.length);
+    const [showSubMissionList, setShowSubMissionList] = useState(false);
     const [showOptionButtons, setShowOptionButtons] = useState(false);
     const [showArrowButton, setShowArrowButton] = useState(false);
     const { localStorageMissions, setLocalStorageMissions } = useLocalStorageMissions();
