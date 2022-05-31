@@ -22,6 +22,7 @@ export const getSelfAndParentMissions = (mission: Mission, linkedParentStack: Ar
         linkedParents.push(mission);
     }
     if (mission.parentID) {
+        console.log(getMissionFromLocalStorage(mission.parentID.toString()));
         getSelfAndParentMissions(getMissionFromLocalStorage(mission.parentID.toString()), linkedParentStack);
     }
     return linkedParents;

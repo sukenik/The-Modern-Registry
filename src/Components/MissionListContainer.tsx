@@ -18,13 +18,17 @@ export const MissionListContainer: React.FC<iMissionListContainer> = ({ debounce
             mission => mission.description.toLowerCase().includes(debounceText.toLowerCase()));     // :)
 
         
-        const missionTrees = searchResults.map(mission => getSelfAndParentMissions(mission));          // 
+        const missionTrees = searchResults.map(mission => getSelfAndParentMissions(mission));          
+        /* 
+            # FOUND WHERE DAVID LOST HIS SON
+            --------------------------------
+            Inside missionTrees, we get a matrix where parent missions don't have subMissions,
+            I think the best idea will be to give them the subMissions *after* we unite them to one final mission list.
 
-        /*
-            # All in comments until we find out who's taking David Guetta's son!
+        [
+                [{David Guetta, ..., subMissions: []}, {Check, ..., parentID: David Guetta.id}]
+        ]
         */
-
-        console.log(localStorageMissions);
         
         // const finalMissionList = [] as Array<Mission>
         // for (let i = 0; i < missionTrees.length - 1; i++) {

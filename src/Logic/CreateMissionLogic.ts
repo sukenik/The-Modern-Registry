@@ -26,7 +26,7 @@ export const getMissionNameFromParentID = (parentID: number | null, missions: Ar
     const editMissionParentName = missions.filter(mission => mission.id === parentID)[0].description;
     return editMissionParentName;
 };
-const validateLinkToMission = (linkToMissionID: string | null | number): null | number => {
+export const validateLinkToMission = (linkToMissionID: string | null | number): null | number => {
     if (linkToMissionID === 'default' || linkToMissionID === null) return null;
     return (typeof linkToMissionID === 'number' ? linkToMissionID : parseFloat(linkToMissionID));
 }
