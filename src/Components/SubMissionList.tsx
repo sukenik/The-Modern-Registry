@@ -15,8 +15,7 @@ export const SubMissionList: React.FC<iSubMissionListProps> = ({ currentMission,
 
     return (
         <ul id="sub-mission-list" onMouseEnter={handleOnMouseEnter} onMouseLeave={handleOnMouseLeave}>
-            {localStorageMissions.filter(mission => mission.parentID === currentMission.id).map(
-                mission => <MissionRow key={mission.id} mission={mission} />)}
+            {currentMission.subMissions.map(mission => <MissionRow key={mission.id} mission={mission} />)}
         </ul>
     );
 };

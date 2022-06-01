@@ -32,7 +32,6 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission }) => {
             if (modalType === 'Create') {
                 const newMission = getNewMission(formValues.name, formValues.status, formValues.linkToMission);
                 const parentID = validateLinkToMission(formValues.linkToMission);
-                console.log(parentID);
                 if (parentID) setParentSubMission(newMission, parentID);
                 addToLocalStorage(newMission.id.toString(), parseMissionToString(newMission));
                 const missionsWithSubMissions = getMissionsWithSubMissions(getLocalStorageMissions(getLocalStorageKeys()));
