@@ -24,11 +24,11 @@ export const MissionListContainer: React.FC<iMissionListContainer> = ({ debounce
             })
         });
         setMissions(getMissionsWithSubMissions(finalMissionList).filter(mission => !mission.parentID));
-    }, [debounceText, localStorageMissions])
+    }, [debounceText, localStorageMissions]);
 
     return (
         <ul id="mission-list">
-            {missions.map(mission => <MissionRow key={mission.id} mission={mission} />)}
+            {missions.map(mission => <MissionRow key={mission.id} mission={mission} debounceText={debounceText} />)}
         </ul>
     );
 };

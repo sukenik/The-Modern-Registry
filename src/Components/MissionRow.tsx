@@ -8,13 +8,15 @@ import { EditButton } from "./EditButton";
 import { SubMissionList } from "./SubMissionList";
 
 interface iMissionRowProps {
-    mission: Mission
+    mission: Mission,
+    debounceText: string
 };
 
-export const MissionRow: React.FC<iMissionRowProps> = ({ mission }) => {
+export const MissionRow: React.FC<iMissionRowProps> = ({ mission, debounceText }) => {
     const [showSubMissionList, setShowSubMissionList] = useState(false);
     const [showOptionButtons, setShowOptionButtons] = useState(false);
     const [showArrowButton, setShowArrowButton] = useState(false);
+    const [arrowButtonClicked, setArrowButtonClicked] = useState(false);
     const { localStorageMissions, setLocalStorageMissions } = useLocalStorageMissions();
     useEffect(() => {
         setMissionElementWidth(mission.parentID, mission.id);
@@ -27,12 +29,27 @@ export const MissionRow: React.FC<iMissionRowProps> = ({ mission }) => {
             setShowSubMissionList(false);
         }
     }, [mission]);
+    useEffect(() => {
+        if (debounceText !== '') {
+            if (mission.subMissions.length) {
+                setShowSubMissionList(true);
+                setArrowButtonClicked(true);
+            }
+        } else {
+            setShowSubMissionList(false);
+            setArrowButtonClicked(false);
+        } 
+    }, [debounceText]);
     const handleOnMouseEnter = () => setShowOptionButtons(true);
     const handleOnMouseLeave = () => setShowOptionButtons(false);
 
     return (
         <li className='Mission' id={`Mission-${mission.id}`} onMouseEnter={handleOnMouseEnter} onMouseLeave={handleOnMouseLeave}>
-            {showArrowButton && <ArrowButton setShowSubMissionList={setShowSubMissionList} />}
+            {showArrowButton && <ArrowButton 
+                setShowSubMissionList={setShowSubMissionList}
+                setArrowButtonClicked={setArrowButtonClicked} 
+                arrowButtonClicked={arrowButtonClicked}
+                mission={mission} />}
             <div className="MissionField name" id="MissionName">{mission.description}</div>
             <div className="MissionInfoField" id="MissionStatus">
                 <div id="status">{mission.status}</div>
@@ -40,7 +57,10 @@ export const MissionRow: React.FC<iMissionRowProps> = ({ mission }) => {
             <div className="MissionField" id="MissionInfo">
                 {showOptionButtons && <><EditButton mission={mission} /><DeleteButton mission={mission} /></>}
             </div>
-            {showSubMissionList && <SubMissionList setAreButtonsShown={setShowOptionButtons} currentMission={mission} />}
+            {showSubMissionList && <SubMissionList 
+                setAreButtonsShown={setShowOptionButtons} 
+                currentMission={mission} 
+                debounceText={debounceText} />}
         </li>
     );
 };
