@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocalStorageMissions } from "../Context/LocalStorageMissionsContext";
 import { Mission } from "../Custom-Typings/Mission";
+import { hasSearchedMission } from "../Logic/searchBarLogic";
 import { getMissionsWithSubMissions, setMissionElementWidth } from "../Logic/subMissionLogic";
 import { ArrowButton } from "./ArrowButton";
 import { DeleteButton } from "./DeleteButton";
@@ -18,27 +19,23 @@ export const MissionRow: React.FC<iMissionRowProps> = ({ mission, debounceText }
     const [showArrowButton, setShowArrowButton] = useState(false);
     const [arrowButtonClicked, setArrowButtonClicked] = useState(false);
     const { localStorageMissions, setLocalStorageMissions } = useLocalStorageMissions();
+    const showSubMissions = (show: boolean) => {
+        setShowSubMissionList(show);
+        setArrowButtonClicked(show);
+    }
     useEffect(() => {
         setMissionElementWidth(mission.parentID, mission.id);
         const missionsWithSubMissions = getMissionsWithSubMissions(localStorageMissions);
         setLocalStorageMissions(missionsWithSubMissions);
-        if (mission.subMissions.length) {
-            setShowArrowButton(true);
-        } else {
-            setShowArrowButton(false);
-            setShowSubMissionList(false);
-        }
+        if (mission.subMissions.length) setShowArrowButton(true);
+        else showSubMissions(false);
     }, [mission]);
     useEffect(() => {
         if (debounceText !== '') {
-            if (mission.subMissions.length) {
-                setShowSubMissionList(true);
-                setArrowButtonClicked(true);
-            }
-        } else {
-            setShowSubMissionList(false);
-            setArrowButtonClicked(false);
-        } 
+            if (mission.subMissions.length && hasSearchedMission(mission.subMissions, debounceText)) 
+                showSubMissions(true);
+            else showSubMissions(false);
+        } else showSubMissions(false);
     }, [debounceText]);
     const handleOnMouseEnter = () => setShowOptionButtons(true);
     const handleOnMouseLeave = () => setShowOptionButtons(false);

@@ -13,7 +13,6 @@ export const ArrowButton: React.FC<iArrowButtonProps> = ({ setShowSubMissionList
         mission }) => {
     useEffect(() => {
         const element = document.getElementById(`Mission-${mission.id}`);
-        console.log(mission.description, arrowButtonClicked, element);
         if (arrowButtonClicked) {
             if (element) element.children[0].className = 'arrow-up';
         } else {
