@@ -1,5 +1,4 @@
 import { Mission } from "../Custom-Typings/Mission";
-import { validateLinkToMission } from "./createMissionLogic";
 import { addToLocalStorage, getMissionFromLocalStorage, parseMissionToString } from "./localStorageLogic";
 
 export const getMissionsWithSubMissions = (missions: Array<Mission>) => {
