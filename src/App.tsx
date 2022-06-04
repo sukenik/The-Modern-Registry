@@ -1,5 +1,5 @@
 import { hot } from "react-hot-loader";
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import { Title } from "./Components/Title";
 import { FilterableMissionListContainer } from "./Components/FilterableMissionListContainer";
 import { SearchBar } from "./Components/SearchBar";
@@ -12,6 +12,14 @@ import { LocalStorageMissionsProvider } from "./Context/LocalStorageMissionsCont
 import { DeleteModal } from "./Components/DeleteModal";
 import { useDebounce } from "./Hooks/useDebounce";
 
+const APP_STYLES = {
+    display: 'flex',
+    flexDirection: 'row-reverse',
+    position: 'fixed',
+    width: '100%',
+    height: '90%'
+};
+
 const App: React.FC = () => {
     const { showMissionModal, showDeleteModal } = useShowModalContext();
     const [debounceText, searchText, setSearchText] = useDebounce('', 500);
@@ -21,7 +29,7 @@ const App: React.FC = () => {
         <CurrentMissionProvider>
             <LocalStorageMissionsProvider>
                 <Title titleName={"The Modern Registry"} />
-                <div id='app-flex'>
+                <div style={APP_STYLES as CSSProperties}>
                     <FilterableMissionListContainer>
                         <SearchBar searchText={searchText} handleSearchTextChange={handleSearchTextChange}  />
                         <MissionList debounceText={debounceText} />

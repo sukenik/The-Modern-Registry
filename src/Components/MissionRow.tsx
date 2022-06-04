@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { CSSProperties, useEffect, useState } from "react";
 import { useLocalStorageMissions } from "../Context/LocalStorageMissionsContext";
 import { Mission } from "../Custom-Typings/Mission";
 import { hasSearchedMission } from "../Logic/searchBarLogic";
@@ -7,6 +7,48 @@ import { ArrowButton } from "./ArrowButton";
 import { DeleteButton } from "./DeleteButton";
 import { EditButton } from "./EditButton";
 import { SubMissionList } from "./SubMissionList";
+
+const MISSION_STYLES: CSSProperties = {
+    backgroundColor: 'rgb(92, 91, 91)',
+    color: 'aliceblue',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+    width: 'var(--width)'
+};
+const MISSION_INFO_STYLES: CSSProperties = {
+    display: 'block',
+    width: 85,
+    maxHeight: 20,
+    order: 4
+};
+const MISSION_STATUS_STYLES: CSSProperties = {
+    flexGrow: 1,
+    marginTop: 8,
+    marginRight: 0,
+    marginBottom: 7,
+    marginLeft: 0,
+    cursor: 'default',
+    order: 3,
+    display: 'flex',
+    justifyContent: 'flex-end'
+};
+const ACTIVE_STATUS_STYLES: CSSProperties = {
+    paddingTop: 2,
+    paddingRight: 27,
+    paddingBottom: 2,
+    paddingLeft: 25,
+    backgroundColor: 'rgb(39, 39, 39)',
+    display: 'block',
+};
+const COMPLETE_STATUS_STYLES: CSSProperties = {
+    paddingTop: 2,
+    paddingRight: 13,
+    paddingBottom: 2,
+    paddingLeft: 13,
+    backgroundColor: 'rgb(39, 39, 39)'
+};
 
 interface iMissionRowProps {
     mission: Mission,
@@ -41,17 +83,17 @@ export const MissionRow: React.FC<iMissionRowProps> = ({ mission, debounceText }
     const handleOnMouseLeave = () => setShowOptionButtons(false);
 
     return (
-        <li className='Mission' id={`Mission-${mission.id}`} onMouseEnter={handleOnMouseEnter} onMouseLeave={handleOnMouseLeave}>
+        <li style={MISSION_STYLES} id={`Mission-${mission.id}`} onMouseEnter={handleOnMouseEnter} onMouseLeave={handleOnMouseLeave}>
             {showArrowButton && <ArrowButton 
                 setShowSubMissionList={setShowSubMissionList}
                 setArrowButtonClicked={setArrowButtonClicked} 
                 arrowButtonClicked={arrowButtonClicked}
                 mission={mission} />}
             <div className="MissionField name" id="MissionName">{mission.description}</div>
-            <div className="MissionInfoField" id="MissionStatus">
-                <div id="status">{mission.status}</div>
+            <div className="MissionInfoField" style={MISSION_STATUS_STYLES}>
+                <div style={mission.status === 'Active' ? ACTIVE_STATUS_STYLES : COMPLETE_STATUS_STYLES}>{mission.status}</div>
             </div>
-            <div className="MissionField" id="MissionInfo">
+            <div className="MissionField" style={MISSION_INFO_STYLES}>
                 {showOptionButtons && <><EditButton mission={mission} /><DeleteButton mission={mission} /></>}
             </div>
             {showSubMissionList && <SubMissionList 

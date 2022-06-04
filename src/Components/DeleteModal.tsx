@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { CSSProperties, useState } from "react";
 import { useLocalStorageMissions } from "../Context/LocalStorageMissionsContext";
 import { useCurrentMission } from "../Context/MissionContext";
 import { useShowModalContext } from "../Context/ModalContext";
@@ -7,6 +7,31 @@ import { modalAction } from "../Logic/helperFunctions";
 import { addToLocalStorage, getLocalStorageKeys, getLocalStorageMissions, parseMissionToString, removeFromLocalStorage } from "../Logic/localStorageLogic";
 import { getMissionsWithSubMissions, setLocalStorageParentSubMission, unlinkLocalStorageParentSubMission } from "../Logic/subMissionLogic";
 import { Checkbox } from "./Checkbox";
+
+const MODAL_STYLES: CSSProperties = {
+    position: 'fixed',
+    left: 0,
+    top: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+};
+const MODAL_CONTENT_STYLES: CSSProperties = {
+    width: 500,
+    backgroundColor: '#fff',
+};
+const MODAL_TITLE_STYLES: CSSProperties = {
+    textAlign: 'center',
+    margin: 0,
+    fontSize: 30
+};
+const MODAL_BODY_STYLES: CSSProperties = {
+    padding: 10,
+    borderTop: '1px solid #eee'
+};
 
 export const DeleteModal = () => {
     const [checked, setChecked] = useState(false);
@@ -40,16 +65,16 @@ export const DeleteModal = () => {
     const handleCheckboxChange = () => setChecked(!checked);
 
     return (
-        <div className="modal" onClick={handleOutsideClick}>
-            <div className="modal-content" onClick={handleContentClick}>
-                <div className="modal-header">
-                    <p className="modal-title" id="delete-modal-title">
+        <div style={MODAL_STYLES} onClick={handleOutsideClick}>
+            <div style={MODAL_CONTENT_STYLES} onClick={handleContentClick}>
+                <div style={{ padding: 10 }}>
+                    <p style={MODAL_TITLE_STYLES} id="delete-modal-title">
                         Sure You Want To Delete
                         <br />
                         "<b>{currentMission.description}</b>"?
                     </p>
                 </div>
-                <div className="modal-body">
+                <div style={MODAL_BODY_STYLES}>
                     {!!currentMission.subMissions.length &&
                         <Checkbox label={labelText} checked={checked} handleCheckboxChange={handleCheckboxChange} />}
                     <div className="modal-footer">
