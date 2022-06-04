@@ -32,11 +32,11 @@ export const MissionRow: React.FC<iMissionRowProps> = ({ mission, debounceText }
     }, [mission]);
     useEffect(() => {
         if (debounceText !== '') {
-            if (mission.subMissions.length && hasSearchedMission(mission.subMissions, debounceText)) 
+            if (mission.subMissions.length && hasSearchedMission(mission.subMissions, debounceText))
                 showSubMissions(true);
             else showSubMissions(false);
         } else showSubMissions(false);
-    }, [debounceText]);
+    }, [debounceText, mission]);
     const handleOnMouseEnter = () => setShowOptionButtons(true);
     const handleOnMouseLeave = () => setShowOptionButtons(false);
 

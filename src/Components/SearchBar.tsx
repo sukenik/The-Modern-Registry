@@ -9,7 +9,6 @@ interface iSearchBarProps {
 export const SearchBar: React.FC<iSearchBarProps> = ({ searchText, debounceText, handleSearchTextChange }) => {
     return (
         <div id="search-bar">
-            <p>{debounceText}</p>
             <input type="text" placeholder="Search..." value={searchText} onChange={handleSearchTextChange} />
             <div>
                 <label htmlFor="status">Filter by: </label>

@@ -21,7 +21,7 @@ export const MissionListContainer: React.FC<iMissionListContainer> = ({ debounce
         missionTrees.forEach((missionList) => {missionList.forEach(mission => {
                 if (!finalMissionList.some(finalMission => mission.id === finalMission.id))
                     finalMissionList.push(mission);
-            })
+            });
         });
         setMissions(getMissionsWithSubMissions(finalMissionList).filter(mission => !mission.parentID));
     }, [debounceText, localStorageMissions]);
