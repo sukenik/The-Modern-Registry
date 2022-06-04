@@ -8,7 +8,7 @@ import { getLinkToMissionOptions } from "../Logic/filterLinkToMissionFieldLogic"
 import { modalAction } from "../Logic/helperFunctions";
 import { addToLocalStorage, getLocalStorageKeys, getLocalStorageMissions, parseMissionToString } from "../Logic/localStorageLogic";
 import { getDefaultLinkToMissionElement, getMissionsToLinkElements, getStatusElements, iFormFields, validateFormFields } from "../Logic/missionFormLogic";
-import { getMissionsWithSubMissions, setParentSubMission, unlinkParentSubMission } from "../Logic/subMissionLogic";
+import { getMissionsWithSubMissions, setLocalStorageParentSubMission, unlinkLocalStorageParentSubMission } from "../Logic/subMissionLogic";
 
 interface iMissionFormProps {
     mission: Mission
@@ -32,16 +32,16 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission }) => {
             if (modalType === 'Create') {
                 const newMission = getNewMission(formValues.name, formValues.status, formValues.linkToMission);
                 const parentID = validateLinkToMission(formValues.linkToMission);
-                if (parentID) setParentSubMission(newMission, parentID);
+                if (parentID) setLocalStorageParentSubMission(newMission, parentID);
                 addToLocalStorage(newMission.id.toString(), parseMissionToString(newMission));
                 const missionsWithSubMissions = getMissionsWithSubMissions(getLocalStorageMissions(getLocalStorageKeys()));
                 setLocalStorageMissions(missionsWithSubMissions);
             } else {
-                if (formValues.linkToMission && mission.parentID) unlinkParentSubMission(mission.id, mission.parentID);
+                if (formValues.linkToMission && mission.parentID) unlinkLocalStorageParentSubMission(mission.id, mission.parentID);
                 const newMissionUpdate = getNewMissionUpdate(mission.id, formValues.name, formValues.status, formValues.linkToMission, 
                     mission.subMissions);
                 const parentID = validateLinkToMission(formValues.linkToMission);
-                if (parentID) setParentSubMission(newMissionUpdate, parentID);
+                if (parentID) setLocalStorageParentSubMission(newMissionUpdate, parentID);
                 addToLocalStorage(mission.id.toString(), parseMissionToString(newMissionUpdate));
                 const missionsWithSubMissions = getMissionsWithSubMissions(getLocalStorageMissions(getLocalStorageKeys()));
                 setLocalStorageMissions(missionsWithSubMissions);

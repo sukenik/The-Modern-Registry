@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { useCurrentMission } from "../Context/MissionContext";
 import { Mission } from "../Custom-Typings/Mission";
 
 interface iArrowButtonProps {
@@ -9,8 +8,11 @@ interface iArrowButtonProps {
     mission: Mission
 };
 
-export const ArrowButton: React.FC<iArrowButtonProps> = ({ setShowSubMissionList, setArrowButtonClicked, arrowButtonClicked, 
-        mission }) => {
+export const ArrowButton: React.FC<iArrowButtonProps> = ({ 
+    setShowSubMissionList, 
+    setArrowButtonClicked, 
+    arrowButtonClicked, 
+    mission }) => {
     useEffect(() => {
         const element = document.getElementById(`Mission-${mission.id}`);
         if (arrowButtonClicked) {

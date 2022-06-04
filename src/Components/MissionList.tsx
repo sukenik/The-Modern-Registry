@@ -13,7 +13,7 @@ export const MissionList: React.FC<iMissionListProps> = ({ debounceText }) => {
     const { localStorageMissions } = useLocalStorageMissions();
     const [missions, setMissions] = useState(localStorageMissions);
     useEffect(() => {
-        if (debounceText === '') return setMissions(localStorageMissions.filter(mission => !mission.parentID));
+        if (!debounceText) return setMissions(localStorageMissions.filter(mission => !mission.parentID));
         let searchResults: Array<Mission> = localStorageMissions.filter(
             mission => mission.description.toLowerCase().includes(debounceText.toLowerCase()));
         const missionTrees = searchResults.map(mission => getSelfAndParentMissions(mission));

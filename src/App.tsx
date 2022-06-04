@@ -1,5 +1,5 @@
 import { hot } from "react-hot-loader";
-import React, { useState } from 'react';
+import React from 'react';
 import { Title } from "./Components/Title";
 import { FilterableMissionListContainer } from "./Components/FilterableMissionListContainer";
 import { SearchBar } from "./Components/SearchBar";

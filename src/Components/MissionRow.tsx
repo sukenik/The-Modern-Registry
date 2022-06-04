@@ -36,7 +36,7 @@ export const MissionRow: React.FC<iMissionRowProps> = ({ mission, debounceText }
                 showSubMissions(true);
             else showSubMissions(false);
         } else showSubMissions(false);
-    }, [debounceText, mission]);
+    }, [debounceText]);
     const handleOnMouseEnter = () => setShowOptionButtons(true);
     const handleOnMouseLeave = () => setShowOptionButtons(false);
 
