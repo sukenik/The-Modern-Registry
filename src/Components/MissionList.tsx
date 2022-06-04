@@ -5,11 +5,11 @@ import { getSelfAndParentMissions } from "../Logic/searchBarLogic";
 import { getMissionsWithSubMissions } from "../Logic/subMissionLogic";
 import { MissionRow } from "./MissionRow";
 
-interface iMissionListContainer {
+interface iMissionListProps {
     debounceText: string
 }
 
-export const MissionListContainer: React.FC<iMissionListContainer> = ({ debounceText }) => {
+export const MissionList: React.FC<iMissionListProps> = ({ debounceText }) => {
     const { localStorageMissions } = useLocalStorageMissions();
     const [missions, setMissions] = useState(localStorageMissions);
     useEffect(() => {

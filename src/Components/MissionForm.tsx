@@ -68,7 +68,14 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission }) => {
     return (
         <form id="mission-form" onSubmit={handleSubmit}>
             <label>Name:</label>
-            <input name="name" type="text" placeholder="Name" value={formValues.name} onChange={handleChange} maxLength={50} />
+            <input 
+                name="name" 
+                type="text" 
+                placeholder="Name" 
+                value={formValues.name} 
+                onChange={handleChange} 
+                maxLength={50}
+                autoComplete="off" />
             <p>{ formErrors.name }</p>
             <label>Status:</label>
             <select name="status" id="StatusFilter" defaultValue={formValues.status} onChange={handleChange}>
