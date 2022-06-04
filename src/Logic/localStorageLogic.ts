@@ -6,7 +6,7 @@ export const addMissionsToLocalStorage = (missions: Array<Mission>) => missions.
 const getFromLocalStorage = (key: string): string | null => localStorage.getItem(key);
 const parseStringToMission = (stringObject: string): Mission => JSON.parse(stringObject);
 export const parseMissionToString = (mission: Mission): string => JSON.stringify(mission);
-const getMissionFromLocalStorage = (key: string) => {
+export const getMissionFromLocalStorage = (key: string) => {
     const mission = getFromLocalStorage(key)
     if (mission) {
         return parseStringToMission(mission);

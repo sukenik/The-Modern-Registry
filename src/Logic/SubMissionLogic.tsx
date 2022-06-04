@@ -1,4 +1,6 @@
 import { Mission } from "../Custom-Typings/Mission";
+import { validateLinkToMission } from "./createMissionLogic";
+import { addToLocalStorage, getMissionFromLocalStorage, parseMissionToString } from "./localStorageLogic";
 
 export const getMissionsWithSubMissions = (missions: Array<Mission>) => {
     const missionsWithSubMissions = missions;
@@ -8,7 +10,7 @@ export const getMissionsWithSubMissions = (missions: Array<Mission>) => {
 const getMissionSubMissions = (currentMission: Mission, missions: Array<Mission>) => 
     missions.filter(mission => mission.parentID === currentMission.id);
 export const setMissionElementWidth = (parentMissionID: number | null, missionID: number) => {
-    if (parentMissionID === null) return setPrimaryMissionWidth(missionID);
+    if (!parentMissionID) return setPrimaryMissionWidth(missionID);
     const missionWidthPixelMinimum = 380;
     const parentMissionElement = document.getElementById(`Mission-${parentMissionID}`) as HTMLElement;
     const missionElement = document.getElementById(`Mission-${missionID}`) as HTMLElement;
@@ -45,3 +47,13 @@ const getParentMissionWidthPixelNum = (parentMissionElement: HTMLElement): numbe
 const setSubMissionElementPadding = (missionElement: HTMLElement, padding: string) => {
     if (missionElement.parentElement) setElementPadding(missionElement.parentElement, padding);
 }
+export const setLocalStorageParentSubMission = (subMission: Mission, missionID: number) => {
+    const parentMission = getMissionFromLocalStorage(missionID.toString());
+    parentMission.subMissions.push(subMission);
+    addToLocalStorage(missionID.toString(), parseMissionToString(parentMission));
+};
+export const unlinkLocalStorageParentSubMission = (subMissionID: number, parentID: number) => {
+    const parentMission = getMissionFromLocalStorage(parentID.toString());
+    parentMission.subMissions = parentMission.subMissions.filter(mission => mission.id !== subMissionID);
+    addToLocalStorage(parentID.toString(), parseMissionToString(parentMission));
+};
