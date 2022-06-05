@@ -1,3 +1,4 @@
+import { arrowBorderCSS } from "../Components/ArrowButton";
 import { Mission } from "../Custom-Typings/Mission";
 import { addToLocalStorage, getMissionFromLocalStorage, parseMissionToString } from "./localStorageLogic";
 
@@ -55,4 +56,16 @@ export const unlinkLocalStorageParentSubMission = (subMissionID: number, parentI
     const parentMission = getMissionFromLocalStorage(parentID.toString());
     parentMission.subMissions = parentMission.subMissions.filter(mission => mission.id !== subMissionID);
     addToLocalStorage(parentID.toString(), parseMissionToString(parentMission));
+};
+export const setArrowBorder = (missionID: number, isArrowUp: boolean) => {
+    const element = document.getElementById(`Mission-${missionID}`)?.querySelector('div');
+    if (element) {
+        if (isArrowUp) {
+            element.style.borderBottom = arrowBorderCSS;
+            element.style.borderTop = '0'; 
+        } else {
+            element.style.borderTop = arrowBorderCSS;
+            element.style.borderBottom = '0';
+        }
+    }
 };

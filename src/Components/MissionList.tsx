@@ -1,13 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { CSSProperties, useEffect, useState } from "react";
 import { useLocalStorageMissions } from "../Context/LocalStorageMissionsContext";
 import { Mission } from "../Custom-Typings/Mission";
 import { getSelfAndParentMissions } from "../Logic/searchBarLogic";
 import { getMissionsWithSubMissions } from "../Logic/subMissionLogic";
 import { MissionRow } from "./MissionRow";
 
+const MISSION_LIST_STYLES: CSSProperties = {
+    marginBottom: 30,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: 5,
+    marginTop: 0
+};
+
 interface iMissionListProps {
     debounceText: string
-}
+};
 
 export const MissionList: React.FC<iMissionListProps> = ({ debounceText }) => {
     const { localStorageMissions } = useLocalStorageMissions();
@@ -27,7 +36,7 @@ export const MissionList: React.FC<iMissionListProps> = ({ debounceText }) => {
     }, [debounceText, localStorageMissions]);
 
     return (
-        <ul id="mission-list">
+        <ul style={MISSION_LIST_STYLES}>
             {missions.map(mission => <MissionRow key={mission.id} mission={mission} debounceText={debounceText} />)}
         </ul>
     );

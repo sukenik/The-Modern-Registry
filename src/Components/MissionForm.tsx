@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { CSSProperties, useEffect, useState } from "react";
 import { useLocalStorageMissions } from "../Context/LocalStorageMissionsContext";
 import { defaultMission, useCurrentMission } from "../Context/MissionContext";
 import { useShowModalContext } from "../Context/ModalContext";
@@ -9,6 +9,42 @@ import { modalAction } from "../Logic/helperFunctions";
 import { addToLocalStorage, getLocalStorageKeys, getLocalStorageMissions, parseMissionToString } from "../Logic/localStorageLogic";
 import { getDefaultLinkToMissionElement, getMissionsToLinkElements, getStatusElements, iFormFields, validateFormFields } from "../Logic/missionFormLogic";
 import { getMissionsWithSubMissions, setLocalStorageParentSubMission, unlinkLocalStorageParentSubMission } from "../Logic/subMissionLogic";
+
+const MISSION_FORM_STYLES: CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column'
+};
+const LABEL_INPUT_STYLES: CSSProperties = {
+    margin: 5,
+    width: '80%'
+};
+const SELECT_STYLES: CSSProperties = {
+    width: '35%',
+    textAlign: 'center',
+    margin: 5,
+    cursor: 'pointer'
+};
+const ERROR_STYLES: CSSProperties = {
+    marginTop: 0,
+    marginRight: 0,
+    marginBottom: 0,
+    marginLeft: 5,
+    fontSize: 15,
+    fontWeight: 'lighter',
+    color: 'red'
+};
+const BUTTON_STYLES: CSSProperties = {
+    backgroundColor: 'cornflowerblue',
+    border: 'none',
+    color: 'white',
+    paddingTop: 10,
+    paddingRight: 16,
+    paddingBottom: 10,
+    paddingLeft: 16,
+    fontSize: 16,
+    cursor: 'pointer',
+    margin: 5
+};
 
 interface iMissionFormProps {
     mission: Mission
@@ -66,8 +102,8 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission }) => {
     const defaultLinkToMissionOption = getDefaultLinkToMissionElement(mission, localStorageMissions);
 
     return (
-        <form id="mission-form" onSubmit={handleSubmit}>
-            <label>Name:</label>
+        <form style={MISSION_FORM_STYLES} onSubmit={handleSubmit}>
+            <label style={LABEL_INPUT_STYLES}>Name:</label>
             <input 
                 name="name" 
                 type="text" 
@@ -75,29 +111,36 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission }) => {
                 value={formValues.name} 
                 onChange={handleChange} 
                 maxLength={50}
-                autoComplete="off" />
-            <p>{ formErrors.name }</p>
-            <label>Status:</label>
-            <select name="status" id="StatusFilter" defaultValue={formValues.status} onChange={handleChange}>
+                autoComplete="off"
+                style={LABEL_INPUT_STYLES} />
+            <p style={ERROR_STYLES}>{ formErrors.name }</p>
+            <label style={LABEL_INPUT_STYLES}>Status:</label>
+            <select 
+                name="status" 
+                id="StatusFilter" 
+                defaultValue={formValues.status} 
+                onChange={handleChange}
+                style={SELECT_STYLES}>
                 <option value="default" disabled hidden>
                     Choose a status...
                 </option>
                 {statusElements}
             </select>
-            <p>{ formErrors.status }</p>
-            <label>Link to mission:</label>
+            <p style={ERROR_STYLES}>{ formErrors.status }</p>
+            <label style={LABEL_INPUT_STYLES}>Link to mission:</label>
             <select 
                 name="linkToMission" 
                 defaultValue={mission.parentID === null ? 'default' : mission.parentID} 
                 onChange={handleChange} 
-                disabled={mission.parentID !== null ? false : hasMissionsForLink}>
+                disabled={mission.parentID !== null ? false : hasMissionsForLink}
+                style={SELECT_STYLES}>
                 {defaultLinkToMissionOption}
                 {missionsFitToLinkOptionElements}
             </select>
-            <div className="modal-footer">
-                <button onClick={handleSubmit} className="button" id="SaveButton" type="submit">Save</button>
-                <button onClick={handleCancelClick} className="button" id="CancelButton">Cancel</button>
+            <div style={{ marginTop: 20 }}>
+                <button style={{...BUTTON_STYLES, paddingRight : 20, paddingLeft: 20}} onClick={handleSubmit} type="submit">Save</button>
+                <button style={{...BUTTON_STYLES, backgroundColor : 'rgb(49, 49, 49)'}} onClick={handleCancelClick}>Cancel</button>
             </div>
         </form>
     );
-}
+};

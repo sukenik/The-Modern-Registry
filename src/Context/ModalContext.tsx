@@ -19,4 +19,4 @@ export const ShowModalProvider: React.FC = ({ children }) => {
             {children}
         </ShowModalContext.Provider>
     );
-}
+};

@@ -5,7 +5,7 @@ import { Mission } from '../Custom-Typings/Mission';
 interface iMissionContext {
     currentMission: Mission,
     setCurrentMission: Dispatch<SetStateAction<Mission>>
-}
+};
 const CurrentMissionContext = React.createContext<iMissionContext | null>(null);
 
 export const useCurrentMission = () => useContext(CurrentMissionContext) as iMissionContext;
@@ -25,4 +25,4 @@ export const CurrentMissionProvider: React.FC = ({ children }) => {
             {children}
         </CurrentMissionContext.Provider>
     );
-}
+};

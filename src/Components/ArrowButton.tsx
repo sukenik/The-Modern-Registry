@@ -1,5 +1,20 @@
-import React, { useEffect } from "react";
+import React, { CSSProperties, useEffect } from "react";
 import { Mission } from "../Custom-Typings/Mission";
+import { setArrowBorder } from "../Logic/subMissionLogic";
+
+export const arrowBorderCSS = '15px solid rgb(255, 255, 255)';
+const ARROW_STYLES: CSSProperties = {
+    width: 0,
+    height: 0,
+    borderLeft: '12px solid transparent',
+    borderRight: '12px solid transparent',
+    borderTop: arrowBorderCSS,
+    borderBottom: 0,
+    alignSelf: 'center',
+    marginLeft: 5,
+    order: 1,
+    cursor: 'pointer'
+};
 
 interface iArrowButtonProps {
     setShowSubMissionList: React.Dispatch<React.SetStateAction<boolean>>,
@@ -13,27 +28,20 @@ export const ArrowButton: React.FC<iArrowButtonProps> = ({
     setArrowButtonClicked, 
     arrowButtonClicked, 
     mission }) => {
-    useEffect(() => {
-        const element = document.getElementById(`Mission-${mission.id}`);
-        if (arrowButtonClicked) {
-            if (element) element.children[0].className = 'arrow-up';
-        } else {
-            if (element) element.children[0].className = 'arrow';
-        }
-    }, [arrowButtonClicked, mission]);
+    useEffect(() => setArrowBorder(mission.id, arrowButtonClicked), [arrowButtonClicked, mission]);
     const handleArrowClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        if (e.currentTarget.className.includes('up')) {
-            e.currentTarget.className="arrow";
+        if (arrowButtonClicked) {
+            e.currentTarget.style.borderTop = arrowBorderCSS;
+            e.currentTarget.style.borderBottom = '0';
             setShowSubMissionList(false);
             setArrowButtonClicked(false);
         } else {
-            e.currentTarget.className="arrow-up";
+            e.currentTarget.style.borderBottom = arrowBorderCSS;
+            e.currentTarget.style.borderTop = '0';
             setShowSubMissionList(true);
             setArrowButtonClicked(true);
         }
     }
 
-    return (
-        <div className="arrow" onClick={handleArrowClick}></div>
-    );
+    return <div style={ARROW_STYLES} onClick={handleArrowClick} />
 };
