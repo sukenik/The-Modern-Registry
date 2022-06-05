@@ -1,7 +1,14 @@
-import React from "react";
-import { useLocalStorageMissions } from "../Context/LocalStorageMissionsContext";
+import React, { CSSProperties } from "react";
 import { Mission } from "../Custom-Typings/Mission";
 import { MissionRow } from "./MissionRow";
+
+const SUB_MISSION_LIST_STYLES: CSSProperties = {
+    backgroundColor: 'rgba(218, 218, 218)',
+    display: 'flex',
+    flexDirection: 'column',
+    order: 5,
+    paddingLeft: 30
+};
 
 interface iSubMissionListProps {
     setAreButtonsShown: React.Dispatch<React.SetStateAction<boolean>>,
@@ -10,12 +17,11 @@ interface iSubMissionListProps {
 };
 
 export const SubMissionList: React.FC<iSubMissionListProps> = ({ currentMission, setAreButtonsShown, debounceText }) => {
-    const { localStorageMissions } = useLocalStorageMissions();
     const handleOnMouseEnter = () => setAreButtonsShown(false);
     const handleOnMouseLeave = () => setAreButtonsShown(true);
 
     return (
-        <ul id="sub-mission-list" onMouseEnter={handleOnMouseEnter} onMouseLeave={handleOnMouseLeave}>
+        <ul style={SUB_MISSION_LIST_STYLES} onMouseEnter={handleOnMouseEnter} onMouseLeave={handleOnMouseLeave}>
             {currentMission.subMissions.map(mission => <MissionRow key={mission.id} mission={mission} debounceText={debounceText} />)}
         </ul>
     );

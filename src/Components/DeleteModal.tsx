@@ -26,11 +26,23 @@ const MODAL_CONTENT_STYLES: CSSProperties = {
 const MODAL_TITLE_STYLES: CSSProperties = {
     textAlign: 'center',
     margin: 0,
-    fontSize: 30
+    fontSize: 25
 };
 const MODAL_BODY_STYLES: CSSProperties = {
     padding: 10,
     borderTop: '1px solid #eee'
+};
+const BUTTON_STYLES: CSSProperties = {
+    backgroundColor: 'cornflowerblue',
+    border: 'none',
+    color: 'white',
+    paddingTop: 10,
+    paddingRight: 16,
+    paddingBottom: 10,
+    paddingLeft: 16,
+    fontSize: 16,
+    cursor: 'pointer',
+    margin: 5
 };
 
 export const DeleteModal = () => {
@@ -77,9 +89,9 @@ export const DeleteModal = () => {
                 <div style={MODAL_BODY_STYLES}>
                     {!!currentMission.subMissions.length &&
                         <Checkbox label={labelText} checked={checked} handleCheckboxChange={handleCheckboxChange} />}
-                    <div className="modal-footer">
-                        <button onClick={handleDelete} className="button" id="SaveButton">Delete</button>
-                        <button onClick={handleCancelClick} className="button" id="CancelButton">Cancel</button>
+                    <div style={{ marginTop: 20 }}>
+                        <button style={BUTTON_STYLES} onClick={handleDelete}>Delete</button>
+                        <button style={{...BUTTON_STYLES, backgroundColor : 'rgb(49, 49, 49)'}} onClick={handleCancelClick}>Cancel</button>
                     </div>
                 </div>
             </div>

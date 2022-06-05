@@ -23,7 +23,7 @@ export const SearchBar: React.FC<iSearchBarProps> = ({ searchText, handleSearchT
             <input style={INPUT_STYLES} type="text" placeholder="Search..." value={searchText} onChange={handleSearchTextChange} />
             <div>
                 <label htmlFor="status">Filter by: </label>
-                <select name="status" id="StatusFilter">
+                <select style={{ cursor: 'pointer' }} name="status" id="StatusFilter">
                     <option value="Active">Active</option>
                     <option value="Complete">Complete</option>
                 </select>

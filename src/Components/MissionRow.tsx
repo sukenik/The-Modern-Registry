@@ -15,7 +15,8 @@ const MISSION_STYLES: CSSProperties = {
     alignItems: 'center',
     justifyContent: 'center',
     flexWrap: 'wrap',
-    width: 'var(--width)'
+    width: 'var(--width)',
+    marginTop: 5
 };
 const MISSION_INFO_STYLES: CSSProperties = {
     display: 'block',
@@ -39,8 +40,7 @@ const ACTIVE_STATUS_STYLES: CSSProperties = {
     paddingRight: 27,
     paddingBottom: 2,
     paddingLeft: 25,
-    backgroundColor: 'rgb(39, 39, 39)',
-    display: 'block',
+    backgroundColor: 'rgb(39, 39, 39)'
 };
 const COMPLETE_STATUS_STYLES: CSSProperties = {
     paddingTop: 2,
@@ -48,6 +48,15 @@ const COMPLETE_STATUS_STYLES: CSSProperties = {
     paddingBottom: 2,
     paddingLeft: 13,
     backgroundColor: 'rgb(39, 39, 39)'
+};
+const MISSION_NAME_STYLES: CSSProperties = {
+    marginLeft: 20,
+    order: 2,
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    maxWidth: 265,
+    whiteSpace: 'nowrap',
+    cursor: 'default'
 };
 
 interface iMissionRowProps {
@@ -61,16 +70,17 @@ export const MissionRow: React.FC<iMissionRowProps> = ({ mission, debounceText }
     const [showArrowButton, setShowArrowButton] = useState(false);
     const [arrowButtonClicked, setArrowButtonClicked] = useState(false);
     const { localStorageMissions, setLocalStorageMissions } = useLocalStorageMissions();
+    const renderSubMissionsElement = !!mission.subMissions.length && showSubMissionList;
     const showSubMissions = (show: boolean) => {
         setShowSubMissionList(show);
         setArrowButtonClicked(show);
-    }
+    };
     useEffect(() => {
         setMissionElementWidth(mission.parentID, mission.id);
         const missionsWithSubMissions = getMissionsWithSubMissions(localStorageMissions);
         setLocalStorageMissions(missionsWithSubMissions);
         if (mission.subMissions.length) setShowArrowButton(true);
-        else showSubMissions(false);
+        else setShowArrowButton(false);
     }, [mission]);
     useEffect(() => {
         if (debounceText !== '') {
@@ -89,14 +99,14 @@ export const MissionRow: React.FC<iMissionRowProps> = ({ mission, debounceText }
                 setArrowButtonClicked={setArrowButtonClicked} 
                 arrowButtonClicked={arrowButtonClicked}
                 mission={mission} />}
-            <div className="MissionField name" id="MissionName">{mission.description}</div>
+            <div style={MISSION_NAME_STYLES} className="MissionField name">{mission.description}</div>
             <div className="MissionInfoField" style={MISSION_STATUS_STYLES}>
                 <div style={mission.status === 'Active' ? ACTIVE_STATUS_STYLES : COMPLETE_STATUS_STYLES}>{mission.status}</div>
             </div>
             <div className="MissionField" style={MISSION_INFO_STYLES}>
                 {showOptionButtons && <><EditButton mission={mission} /><DeleteButton mission={mission} /></>}
             </div>
-            {showSubMissionList && <SubMissionList 
+            {renderSubMissionsElement && <SubMissionList 
                 setAreButtonsShown={setShowOptionButtons} 
                 currentMission={mission} 
                 debounceText={debounceText} />}
