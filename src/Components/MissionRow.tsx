@@ -35,14 +35,7 @@ const MISSION_STATUS_STYLES: CSSProperties = {
     display: 'flex',
     justifyContent: 'flex-end'
 };
-const ACTIVE_STATUS_STYLES: CSSProperties = {
-    paddingTop: 2,
-    paddingRight: 27,
-    paddingBottom: 2,
-    paddingLeft: 25,
-    backgroundColor: 'rgb(39, 39, 39)'
-};
-const COMPLETE_STATUS_STYLES: CSSProperties = {
+const STATUS_STYLES: CSSProperties = {
     paddingTop: 2,
     paddingRight: 13,
     paddingBottom: 2,
@@ -103,11 +96,13 @@ export const MissionRow: React.FC<iMissionRowProps> = ({ mission, debounceText }
                 setArrowButtonClicked={setArrowButtonClicked} 
                 arrowButtonClicked={arrowButtonClicked}
                 mission={mission} />}
-            <div style={MISSION_NAME_STYLES} className="MissionField name">{mission.description}</div>
-            <div className="MissionInfoField" style={MISSION_STATUS_STYLES}>
-                <div style={mission.status === 'Active' ? ACTIVE_STATUS_STYLES : COMPLETE_STATUS_STYLES}>{mission.status}</div>
+            <div style={MISSION_NAME_STYLES} className="name">{mission.description}</div>
+            <div style={MISSION_STATUS_STYLES}>
+                <div style={mission.status === 'Active' ? 
+                    {...STATUS_STYLES, paddingRight: 26, paddingLeft: 26} : STATUS_STYLES}>
+                    {mission.status}</div>
             </div>
-            <div className="MissionField" style={MISSION_INFO_STYLES}>
+            <div style={MISSION_INFO_STYLES}>
                 {showOptionButtons && <><EditButton mission={mission} /><DeleteButton mission={mission} /></>}
             </div>
             {renderSubMissionsElement && <SubMissionList 

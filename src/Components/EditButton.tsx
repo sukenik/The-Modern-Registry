@@ -25,7 +25,7 @@ export const EditButton: React.FC<iEditButtonProps> = ({ mission }) => {
     const handleEditButtonClick = () => modalAction(setShowMissionModal, setCurrentMission, mission);
 
     return (
-        <button style={BUTTON_STYLES} className="MissionInfoField" onClick={handleEditButtonClick}>
+        <button style={BUTTON_STYLES} onClick={handleEditButtonClick}>
             <img style={ICON_STYLES} src={pencilIcon} alt="Edit button" />
         </button>
     );

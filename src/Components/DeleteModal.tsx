@@ -80,7 +80,7 @@ export const DeleteModal = () => {
         <div style={MODAL_STYLES} onClick={handleOutsideClick}>
             <div style={MODAL_CONTENT_STYLES} onClick={handleContentClick}>
                 <div style={{ padding: 10 }}>
-                    <p style={MODAL_TITLE_STYLES} id="delete-modal-title">
+                    <p style={MODAL_TITLE_STYLES}>
                         Sure You Want To Delete
                         <br />
                         "<b>{currentMission.description}</b>"?

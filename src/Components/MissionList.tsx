@@ -10,7 +10,8 @@ const MISSION_LIST_STYLES: CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: 5
+    padding: 5,
+    marginTop: 0
 };
 
 interface iMissionListProps {

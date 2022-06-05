@@ -68,4 +68,4 @@ export const setArrowBorder = (missionID: number, isArrowUp: boolean) => {
             element.style.borderBottom = '0';
         }
     }
-}
+};

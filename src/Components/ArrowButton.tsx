@@ -1,4 +1,4 @@
-import React, { CSSProperties, useEffect, useRef } from "react";
+import React, { CSSProperties, useEffect } from "react";
 import { Mission } from "../Custom-Typings/Mission";
 import { setArrowBorder } from "../Logic/subMissionLogic";
 
@@ -8,8 +8,8 @@ const ARROW_STYLES: CSSProperties = {
     height: 0,
     borderLeft: '12px solid transparent',
     borderRight: '12px solid transparent',
-    borderTop: 0,
-    borderBottom: arrowBorderCSS,
+    borderTop: arrowBorderCSS,
+    borderBottom: 0,
     alignSelf: 'center',
     marginLeft: 5,
     order: 1,
