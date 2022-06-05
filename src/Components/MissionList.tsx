@@ -15,7 +15,7 @@ const MISSION_LIST_STYLES: CSSProperties = {
 
 interface iMissionListProps {
     debounceText: string
-}
+};
 
 export const MissionList: React.FC<iMissionListProps> = ({ debounceText }) => {
     const { localStorageMissions } = useLocalStorageMissions();

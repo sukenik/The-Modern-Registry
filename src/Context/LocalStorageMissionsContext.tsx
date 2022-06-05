@@ -5,7 +5,7 @@ import { getLocalStorageKeys, getLocalStorageMissions } from "../Logic/localStor
 interface iLocalStorageMissionsContext {
     localStorageMissions: Array<Mission>,
     setLocalStorageMissions: Dispatch<SetStateAction<Array<Mission>>>
-}
+};
 const LocalStorageMissionsContext = React.createContext<iLocalStorageMissionsContext | null>(null);
 
 export const useLocalStorageMissions = () => useContext(LocalStorageMissionsContext) as iLocalStorageMissionsContext;
@@ -19,4 +19,4 @@ export const LocalStorageMissionsProvider: React.FC = ({ children }) => {
             {children}
         </LocalStorageMissionsContext.Provider>
     );
-}
+};

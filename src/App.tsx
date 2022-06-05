@@ -12,7 +12,7 @@ import { LocalStorageMissionsProvider } from "./Context/LocalStorageMissionsCont
 import { DeleteModal } from "./Components/DeleteModal";
 import { useDebounce } from "./Hooks/useDebounce";
 
-const APP_STYLES = {
+const APP_STYLES: CSSProperties = {
     display: 'flex',
     flexDirection: 'row-reverse',
     position: 'fixed',
@@ -29,7 +29,7 @@ const App: React.FC = () => {
         <CurrentMissionProvider>
             <LocalStorageMissionsProvider>
                 <Title titleName={"The Modern Registry"} />
-                <div style={APP_STYLES as CSSProperties}>
+                <div style={APP_STYLES}>
                     <FilterableMissionListContainer>
                         <SearchBar searchText={searchText} handleSearchTextChange={handleSearchTextChange}  />
                         <MissionList debounceText={debounceText} />

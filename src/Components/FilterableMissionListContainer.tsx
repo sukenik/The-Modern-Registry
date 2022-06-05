@@ -1,6 +1,6 @@
 import React, { CSSProperties } from "react";
 
-const FILTERABLE_MISSION_LIST_CONTAINER_STYLES = {
+const FILTERABLE_MISSION_LIST_CONTAINER_STYLES: CSSProperties = {
     backgroundColor: 'rgb(218, 218, 218)',
     height: '100%',
     width: '70%',
@@ -11,7 +11,7 @@ const FILTERABLE_MISSION_LIST_CONTAINER_STYLES = {
 
 export const FilterableMissionListContainer: React.FC = ({children}) => {
     return (
-        <div style={FILTERABLE_MISSION_LIST_CONTAINER_STYLES as CSSProperties}>
+        <div style={FILTERABLE_MISSION_LIST_CONTAINER_STYLES}>
             {children}
         </div>
     );

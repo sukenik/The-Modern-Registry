@@ -1,10 +1,6 @@
 import React, { CSSProperties } from "react";
 
-interface iTitleProps {
-    titleName: string
-}
-
-const TITLE_STYLES = {
+const TITLE_STYLES: CSSProperties = {
     marginTop: -10,
     marginRight: -10,
     marginBottom: 0,
@@ -16,10 +12,14 @@ const TITLE_STYLES = {
     cursor: 'default'
 };
 
+interface iTitleProps {
+    titleName: string
+};
+
 export const Title: React.FC<iTitleProps> = ({ titleName }) => {
     return (
         <header>
-            <h1 style={TITLE_STYLES as CSSProperties}>{titleName}</h1>
+            <h1 style={TITLE_STYLES}>{titleName}</h1>
         </header>
     );
 };

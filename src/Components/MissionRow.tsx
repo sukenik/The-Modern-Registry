@@ -93,7 +93,11 @@ export const MissionRow: React.FC<iMissionRowProps> = ({ mission, debounceText }
     const handleOnMouseLeave = () => setShowOptionButtons(false);
 
     return (
-        <li style={MISSION_STYLES} id={`Mission-${mission.id}`} onMouseEnter={handleOnMouseEnter} onMouseLeave={handleOnMouseLeave}>
+        <li 
+            style={mission.parentID ? MISSION_STYLES : {...MISSION_STYLES, marginTop: 10}} 
+            id={`Mission-${mission.id}`} 
+            onMouseEnter={handleOnMouseEnter} 
+            onMouseLeave={handleOnMouseLeave}>
             {showArrowButton && <ArrowButton 
                 setShowSubMissionList={setShowSubMissionList}
                 setArrowButtonClicked={setArrowButtonClicked} 

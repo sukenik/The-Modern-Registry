@@ -4,7 +4,7 @@ interface iCheckboxProps {
     label: string,
     checked: boolean,
     handleCheckboxChange: () => void
-}
+};
 
 export const Checkbox: React.FC<iCheckboxProps> = ({ label, checked, handleCheckboxChange }) => {
     return (
@@ -13,4 +13,4 @@ export const Checkbox: React.FC<iCheckboxProps> = ({ label, checked, handleCheck
             {label}
         </label>
     );
-}
+};
