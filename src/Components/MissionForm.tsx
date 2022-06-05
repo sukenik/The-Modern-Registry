@@ -1,7 +1,7 @@
 import React, { CSSProperties, useEffect, useState } from "react";
-import { useLocalStorageMissions } from "../Context/LocalStorageMissionsContext";
-import { defaultMission, useCurrentMission } from "../Context/MissionContext";
-import { useShowModalContext } from "../Context/ModalContext";
+import { useLocalStorageMissionsContext } from "../Context/LocalStorageMissionsContext";
+import { defaultMission, useCurrentMissionContext } from "../Context/CurrentMissionContext";
+import { useShowModalContext } from "../Context/ShowModalContext";
 import { Mission } from "../Custom-Typings/Mission";
 import { getNewMission, getNewMissionUpdate, validateLinkToMission } from "../Logic/createMissionLogic";
 import { getLinkToMissionOptions } from "../Logic/filterLinkToMissionFieldLogic";
@@ -61,8 +61,8 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission }) => {
     const [formErrors, setFormErrors] = useState({} as iFormFields);
     const [isSubmit, setIsSubmit] = useState(false);
     const { setShowMissionModal } = useShowModalContext();
-    const { localStorageMissions, setLocalStorageMissions } = useLocalStorageMissions();
-    const { setCurrentMission } = useCurrentMission();
+    const { localStorageMissions, setLocalStorageMissions } = useLocalStorageMissionsContext();
+    const { setCurrentMission } = useCurrentMissionContext();
     useEffect(() => {
         if (Object.keys(formErrors).length === 0 && isSubmit) {
             if (modalType === 'Create') {

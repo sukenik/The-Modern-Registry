@@ -1,14 +1,13 @@
 import React, { Dispatch, SetStateAction, useContext, useState } from "react";
 
-interface iModalContext {
+interface iShowModalContext {
     showMissionModal: boolean,
     setShowMissionModal: Dispatch<SetStateAction<boolean>>,
     showDeleteModal: boolean,
     setShowDeleteModal: Dispatch<SetStateAction<boolean>>
 };
-const ShowModalContext = React.createContext<iModalContext | null>(null);
-
-export const useShowModalContext = () => useContext(ShowModalContext) as iModalContext;
+const ShowModalContext = React.createContext<iShowModalContext | null>(null);
+export const useShowModalContext = () => useContext(ShowModalContext) as iShowModalContext;
 
 export const ShowModalProvider: React.FC = ({ children }) => {
     const [showMissionModal, setShowMissionModal] = useState(false);

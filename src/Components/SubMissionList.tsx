@@ -1,5 +1,5 @@
 import React, { CSSProperties } from "react";
-import { useLocalStorageMissions } from "../Context/LocalStorageMissionsContext";
+import { useLocalStorageMissionsContext } from "../Context/LocalStorageMissionsContext";
 import { Mission } from "../Custom-Typings/Mission";
 import { MissionRow } from "./MissionRow";
 
@@ -18,14 +18,13 @@ interface iSubMissionListProps {
 };
 
 export const SubMissionList: React.FC<iSubMissionListProps> = ({ currentMission, setAreButtonsShown, debounceText }) => {
-    const { localStorageMissions } = useLocalStorageMissions();
+    const { localStorageMissions } = useLocalStorageMissionsContext();
     const handleOnMouseEnter = () => setAreButtonsShown(false);
     const handleOnMouseLeave = () => setAreButtonsShown(true);
 
     return (
         <ul style={SUB_MISSION_LIST_STYLES} onMouseEnter={handleOnMouseEnter} onMouseLeave={handleOnMouseLeave}>
-            {localStorageMissions.filter(mission => mission.parentID === currentMission.id)
-                .map(mission => <MissionRow key={mission.id} mission={mission} debounceText={debounceText} />)}
+            {currentMission.subMissions.map(mission => <MissionRow key={mission.id} mission={mission} debounceText={debounceText} />)}
         </ul>
     );
 };

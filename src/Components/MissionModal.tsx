@@ -1,6 +1,6 @@
 import React, { CSSProperties } from "react";
-import { defaultMission, useCurrentMission } from "../Context/MissionContext";
-import { useShowModalContext } from "../Context/ModalContext";
+import { defaultMission, useCurrentMissionContext } from "../Context/CurrentMissionContext";
+import { useShowModalContext } from "../Context/ShowModalContext";
 import { modalAction } from "../Logic/helperFunctions";
 import { MissionForm } from "./MissionForm";
 
@@ -31,7 +31,7 @@ const MODAL_BODY_STYLES: CSSProperties = {
 
 export const MissionModal: React.FC = () => {
     const { setShowMissionModal } = useShowModalContext();
-    const { currentMission, setCurrentMission } = useCurrentMission();
+    const { currentMission, setCurrentMission } = useCurrentMissionContext();
     const handleOutsideClick = () => modalAction(setShowMissionModal, setCurrentMission);
     const handleContentClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => e.stopPropagation();
     

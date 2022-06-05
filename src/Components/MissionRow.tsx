@@ -1,5 +1,5 @@
 import React, { CSSProperties, useEffect, useState } from "react";
-import { useLocalStorageMissions } from "../Context/LocalStorageMissionsContext";
+import { useLocalStorageMissionsContext } from "../Context/LocalStorageMissionsContext";
 import { Mission } from "../Custom-Typings/Mission";
 import { hasSearchedMission } from "../Logic/searchBarLogic";
 import { getMissionsWithSubMissions, setMissionElementWidth } from "../Logic/subMissionLogic";
@@ -62,7 +62,7 @@ export const MissionRow: React.FC<iMissionRowProps> = ({ mission, debounceText }
     const [showOptionButtons, setShowOptionButtons] = useState(false);
     const [showArrowButton, setShowArrowButton] = useState(false);
     const [arrowButtonClicked, setArrowButtonClicked] = useState(false);
-    const { localStorageMissions, setLocalStorageMissions } = useLocalStorageMissions();
+    const { localStorageMissions, setLocalStorageMissions } = useLocalStorageMissionsContext();
     const renderSubMissionsElement = !!mission.subMissions.length && showSubMissionList;
     const showSubMissions = (show: boolean) => {
         setShowSubMissionList(show);

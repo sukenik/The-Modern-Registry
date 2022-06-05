@@ -2,13 +2,12 @@ import React, { Dispatch, SetStateAction, useContext } from "react";
 import { useState } from "react";
 import { Mission } from '../Custom-Typings/Mission'; 
 
-interface iMissionContext {
+interface iCurrentMissionContext {
     currentMission: Mission,
     setCurrentMission: Dispatch<SetStateAction<Mission>>
 };
-const CurrentMissionContext = React.createContext<iMissionContext | null>(null);
-
-export const useCurrentMission = () => useContext(CurrentMissionContext) as iMissionContext;
+const CurrentMissionContext = React.createContext<iCurrentMissionContext | null>(null);
+export const useCurrentMissionContext = () => useContext(CurrentMissionContext) as iCurrentMissionContext;
 export const defaultMission: Mission = {
     id: 0,
     description: '',

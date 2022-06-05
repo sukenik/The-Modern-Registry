@@ -6,11 +6,12 @@ import { SearchBar } from "./Components/SearchBar";
 import { MissionList } from "./Components/MissionList";
 import { CreateMissionButton } from "./Components/CreateMissionButton";
 import { MissionModal } from "./Components/MissionModal";
-import { CurrentMissionProvider } from "./Context/MissionContext";
-import { useShowModalContext } from "./Context/ModalContext";
+import { CurrentMissionProvider } from "./Context/CurrentMissionContext";
+import { useShowModalContext } from "./Context/ShowModalContext";
 import { LocalStorageMissionsProvider } from "./Context/LocalStorageMissionsContext";
 import { DeleteModal } from "./Components/DeleteModal";
 import { useDebounce } from "./Hooks/useDebounce";
+import { FilteringProvider } from "./Context/FilteringContext";
 
 const APP_STYLES: CSSProperties = {
     display: 'flex',
@@ -28,16 +29,18 @@ const App: React.FC = () => {
     return (
         <CurrentMissionProvider>
             <LocalStorageMissionsProvider>
-                <Title titleName={"The Modern Registry"} />
-                <div style={APP_STYLES}>
-                    <FilterableMissionListContainer>
-                        <SearchBar searchText={searchText} handleSearchTextChange={handleSearchTextChange}  />
-                        <MissionList debounceText={debounceText} />
-                    </FilterableMissionListContainer>
-                </div>
-                {!showMissionModal && <CreateMissionButton />}
-                {showMissionModal && <MissionModal />}
-                {showDeleteModal && <DeleteModal />}
+                <FilteringProvider>
+                    <Title titleName={"The Modern Registry"} />
+                        <div style={APP_STYLES}>
+                            <FilterableMissionListContainer>
+                                <SearchBar searchText={searchText} handleSearchTextChange={handleSearchTextChange}  />
+                                <MissionList debounceText={debounceText} />
+                            </FilterableMissionListContainer>
+                        </div>
+                        {!showMissionModal && <CreateMissionButton />}
+                        {showMissionModal && <MissionModal />}
+                        {showDeleteModal && <DeleteModal />}
+                </FilteringProvider>
             </LocalStorageMissionsProvider>
         </CurrentMissionProvider>
     );

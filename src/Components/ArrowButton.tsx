@@ -1,6 +1,6 @@
 import React, { CSSProperties, useEffect } from "react";
 import { Mission } from "../Custom-Typings/Mission";
-import { setArrowBorder } from "../Logic/subMissionLogic";
+import { setArrowBorder } from "../Logic/helperFunctions";
 
 export const arrowBorderCSS = '15px solid rgb(255, 255, 255)';
 const ARROW_STYLES: CSSProperties = {
