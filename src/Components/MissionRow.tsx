@@ -90,25 +90,30 @@ export const MissionRow: React.FC<iMissionRowProps> = ({ mission, debounceText }
             style={mission.parentID ? MISSION_STYLES : {...MISSION_STYLES, marginTop: 10}} 
             id={`Mission-${mission.id}`} 
             onMouseEnter={handleOnMouseEnter} 
-            onMouseLeave={handleOnMouseLeave}>
-            {showArrowButton && <ArrowButton 
-                setShowSubMissionList={setShowSubMissionList}
-                setArrowButtonClicked={setArrowButtonClicked} 
-                arrowButtonClicked={arrowButtonClicked}
-                mission={mission} />}
+            onMouseLeave={handleOnMouseLeave}
+        >
+            {showArrowButton &&
+                <ArrowButton
+                    setShowSubMissionList={setShowSubMissionList}
+                    setArrowButtonClicked={setArrowButtonClicked}
+                    arrowButtonClicked={arrowButtonClicked}
+                    mission={mission}
+                />
+            }
             <div style={MISSION_NAME_STYLES} className="name">{mission.description}</div>
             <div style={MISSION_STATUS_STYLES}>
-                <div style={mission.status === 'Active' ? 
-                    {...STATUS_STYLES, paddingRight: 26, paddingLeft: 26} : STATUS_STYLES}>
-                    {mission.status}</div>
+                <div 
+                    style={mission.status === 'Active' ? {...STATUS_STYLES, paddingRight: 26, paddingLeft: 26} : STATUS_STYLES}
+                >
+                    {mission.status}
+                </div>
             </div>
             <div style={MISSION_INFO_STYLES}>
                 {showOptionButtons && <><EditButton mission={mission} /><DeleteButton mission={mission} /></>}
             </div>
-            {renderSubMissionsElement && <SubMissionList 
-                setAreButtonsShown={setShowOptionButtons} 
-                currentMission={mission} 
-                debounceText={debounceText} />}
+            {renderSubMissionsElement && 
+                mission.subMissions.map(mission => <MissionRow key={mission.id} mission={mission} debounceText={debounceText} />)
+            }
         </li>
     );
 };

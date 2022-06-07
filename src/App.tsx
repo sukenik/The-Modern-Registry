@@ -32,7 +32,9 @@ const App: React.FC = () => {
                 <div style={APP_STYLES}>
                     <FilterableMissionListContainer>
                         <SearchBar searchText={searchText} handleSearchTextChange={handleSearchTextChange}  />
-                        <MissionList debounceText={debounceText} />
+                        {/* ArrowButtonClick.Provider */}
+                            <MissionList debounceText={debounceText} />
+                        {/* ArrowButtonClick.Provider */}
                     </FilterableMissionListContainer>
                 </div>
                 {!showMissionModal && <CreateMissionButton />}

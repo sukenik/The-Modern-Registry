@@ -11,8 +11,7 @@ const LocalStorageMissionsContext = React.createContext<iLocalStorageMissionsCon
 export const useLocalStorageMissions = () => useContext(LocalStorageMissionsContext) as iLocalStorageMissionsContext;
 
 export const LocalStorageMissionsProvider: React.FC = ({ children }) => {
-    const [localStorageMissions, setLocalStorageMissions] = 
-        useState(getLocalStorageMissions(getLocalStorageKeys()));
+    const [localStorageMissions, setLocalStorageMissions] = useState(getLocalStorageMissions(getLocalStorageKeys()));
 
     return (
         <LocalStorageMissionsContext.Provider value={{ localStorageMissions, setLocalStorageMissions }}>
