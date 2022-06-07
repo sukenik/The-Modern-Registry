@@ -2,6 +2,7 @@ import React, { CSSProperties } from "react";
 import { defaultMission, useCurrentMission } from "../Context/MissionContext";
 import { useShowModalContext } from "../Context/ModalContext";
 import { modalAction } from "../Logic/helperFunctions";
+import { onCreate, onUpdate } from "../Logic/missionFormLogic";
 import { MissionForm } from "./MissionForm";
 
 const MODAL_STYLES: CSSProperties = {
@@ -40,11 +41,11 @@ export const MissionModal: React.FC = () => {
             <div style={MODAL_CONTENT_STYLES} onClick={handleContentClick}>
                 <div style={{ padding: 10 }}>
                     <h4 style={MODAL_TITLE_STYLES}>
-                        {currentMission.id === defaultMission.id ? 'Create a Mission' : 'Edit a Mission'}
+                        {currentMission.id ? 'Edit a Mission' : 'Create a Mission'}
                     </h4>
                 </div>
                 <div style={MODAL_BODY_STYLES}>
-                    <MissionForm mission={currentMission} />
+                    <MissionForm mission={currentMission} handleSave={currentMission.id ? onUpdate : onCreate} />
                 </div>
             </div>
         </div>

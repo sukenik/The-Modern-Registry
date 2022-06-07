@@ -47,11 +47,12 @@ const BUTTON_STYLES: CSSProperties = {
 };
 
 interface iMissionFormProps {
-    mission: Mission
+    mission: Mission,
+    handleSave: (name: string, status: string, linkToMission: string | number | null, mission: Mission) => Array<Mission>
 };
 
-export const MissionForm: React.FC<iMissionFormProps> = ({ mission }) => {
-    const modalType = mission.id === defaultMission.id ? 'Create' : 'Edit';
+export const MissionForm: React.FC<iMissionFormProps> = ({ mission, handleSave }) => {
+    const modalType = mission.id ? 'Edit' : 'Create';
     const initialValues = { 
         name: mission.description, 
         status: modalType === 'Create' ? 'default' : mission.status, 
@@ -65,23 +66,7 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission }) => {
     const { setCurrentMission } = useCurrentMission();
     useEffect(() => {
         if (Object.keys(formErrors).length === 0 && isSubmit) {
-            if (modalType === 'Create') {
-                const newMission = getNewMission(formValues.name, formValues.status, formValues.linkToMission);
-                const parentID = validateLinkToMission(formValues.linkToMission);
-                if (parentID) setLocalStorageParentSubMission(newMission, parentID);
-                addToLocalStorage(newMission.id.toString(), parseMissionToString(newMission));
-                const missionsWithSubMissions = getMissionsWithSubMissions(getLocalStorageMissions(getLocalStorageKeys()));
-                setLocalStorageMissions(missionsWithSubMissions);
-            } else {
-                if (formValues.linkToMission && mission.parentID) unlinkLocalStorageParentSubMission(mission.id, mission.parentID);
-                const newMissionUpdate = getNewMissionUpdate(mission.id, formValues.name, formValues.status, formValues.linkToMission, 
-                    mission.subMissions);
-                const parentID = validateLinkToMission(formValues.linkToMission);
-                if (parentID) setLocalStorageParentSubMission(newMissionUpdate, parentID);
-                addToLocalStorage(mission.id.toString(), parseMissionToString(newMissionUpdate));
-                const missionsWithSubMissions = getMissionsWithSubMissions(getLocalStorageMissions(getLocalStorageKeys()));
-                setLocalStorageMissions(missionsWithSubMissions);
-            }
+            setLocalStorageMissions(handleSave(formValues.name, formValues.status, formValues.linkToMission, mission))
             modalAction(setShowMissionModal, setCurrentMission);
         }
     }, [formErrors]);
@@ -112,7 +97,8 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission }) => {
                 onChange={handleChange} 
                 maxLength={50}
                 autoComplete="off"
-                style={LABEL_INPUT_STYLES} />
+                style={LABEL_INPUT_STYLES} 
+            />
             <p style={ERROR_STYLES}>{ formErrors.name }</p>
             <label style={LABEL_INPUT_STYLES}>Status:</label>
             <select 
@@ -120,7 +106,8 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission }) => {
                 id="StatusFilter" 
                 defaultValue={formValues.status} 
                 onChange={handleChange}
-                style={SELECT_STYLES}>
+                style={SELECT_STYLES}
+            >
                 <option value="default" disabled hidden>
                     Choose a status...
                 </option>
@@ -133,7 +120,8 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission }) => {
                 defaultValue={mission.parentID === null ? 'default' : mission.parentID} 
                 onChange={handleChange} 
                 disabled={mission.parentID !== null ? false : hasMissionsForLink}
-                style={SELECT_STYLES}>
+                style={SELECT_STYLES}
+            >
                 {defaultLinkToMissionOption}
                 {missionsFitToLinkOptionElements}
             </select>
