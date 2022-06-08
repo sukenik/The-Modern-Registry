@@ -8,9 +8,14 @@ import { CreateMissionButton } from "./Components/CreateMissionButton";
 import { MissionModal } from "./Components/MissionModal";
 import { CurrentMissionProvider } from "./Context/MissionContext";
 import { useShowModalContext } from "./Context/ModalContext";
-import { LocalStorageMissionsProvider } from "./Context/LocalStorageMissionsContext";
+import { LocalStorageMissionsProvider, useLocalStorageMissions } from "./Context/LocalStorageMissionsContext";
 import { DeleteModal } from "./Components/DeleteModal";
 import { useDebounce } from "./Hooks/useDebounce";
+import { ArrowButtonClickProvider } from "./Context/ArrowButtonClickContext";
+import { MissionRow } from "./Components/MissionRow";
+import { getMissionsData } from "./Logic/subMissionLogic";
+import { getLocalStorageKeys, getLocalStorageMissions } from "./Logic/localStorageLogic";
+import { MissionRowRec } from "./Components/MissionRowRec";
 
 const APP_STYLES: CSSProperties = {
     display: 'flex',
@@ -32,9 +37,12 @@ const App: React.FC = () => {
                 <div style={APP_STYLES}>
                     <FilterableMissionListContainer>
                         <SearchBar searchText={searchText} handleSearchTextChange={handleSearchTextChange}  />
-                        {/* ArrowButtonClick.Provider */}
-                            <MissionList debounceText={debounceText} />
-                        {/* ArrowButtonClick.Provider */}
+                        <ArrowButtonClickProvider>
+                            <MissionList 
+                                debounceText={debounceText} 
+                                missionsData={getMissionsData(getLocalStorageMissions(getLocalStorageKeys()))} 
+                            />
+                        </ArrowButtonClickProvider>
                     </FilterableMissionListContainer>
                 </div>
                 {!showMissionModal && <CreateMissionButton />}

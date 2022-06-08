@@ -3,5 +3,6 @@ export interface Mission {
     description: string,
     status: string,
     parentID: number | null,
-    subMissions: Array<Mission>
+    subMissions: Array<Mission>,
+    hasChildren: boolean
 };

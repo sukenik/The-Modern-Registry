@@ -69,3 +69,9 @@ export const setArrowBorder = (missionID: number, isArrowUp: boolean) => {
         }
     }
 };
+export const getMissionsData = (missions: Array<Mission>) => {
+    return missions.map((mission) => ({
+        ...mission,
+        hasChildren: missions.filter(m => m.parentID === mission.id).length > 0
+    }))
+}

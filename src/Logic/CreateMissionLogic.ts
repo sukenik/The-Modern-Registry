@@ -7,7 +7,8 @@ export const getNewMission = (name: string, status: string, linkToMissionID: str
         description: name,
         status: status,
         parentID: validateLinkToMission(linkToMissionID),
-        subMissions: [] as Array<Mission>
+        subMissions: [] as Array<Mission>,
+        hasChildren: false
     };
 };
 export const getNewMissionUpdate = (id: number, name: string, status: string, linkToMissionID: string | null | number, 
@@ -17,7 +18,8 @@ export const getNewMissionUpdate = (id: number, name: string, status: string, li
         description: name,
         status: status,
         parentID: validateLinkToMission(linkToMissionID),
-        subMissions: subMissions
+        subMissions: subMissions,
+        hasChildren: false
     };
 }
 const getParentID = (mission: Mission) => mission.parentID;

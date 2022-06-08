@@ -14,7 +14,8 @@ export const defaultMission: Mission = {
     description: '',
     status: 'Active',
     parentID: null,
-    subMissions: [] as Array<Mission>
+    subMissions: [] as Array<Mission>,
+    hasChildren: false
 };
 
 export const CurrentMissionProvider: React.FC = ({ children }) => {

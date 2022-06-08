@@ -3,7 +3,7 @@ import { useLocalStorageMissions } from "../Context/LocalStorageMissionsContext"
 import { Mission } from "../Custom-Typings/Mission";
 import { MissionRow } from "./MissionRow";
 
-const SUB_MISSION_LIST_STYLES: CSSProperties = {
+export const SUB_MISSION_LIST_STYLES: CSSProperties = {
     backgroundColor: 'rgba(218, 218, 218)',
     display: 'flex',
     flexDirection: 'column',
@@ -24,8 +24,8 @@ export const SubMissionList: React.FC<iSubMissionListProps> = ({ currentMission,
 
     return (
         <ul style={SUB_MISSION_LIST_STYLES} onMouseEnter={handleOnMouseEnter} onMouseLeave={handleOnMouseLeave}>
-            {localStorageMissions.filter(mission => mission.parentID === currentMission.id)
-                .map(mission => <MissionRow key={mission.id} mission={mission} debounceText={debounceText} />)}
+            {/* {localStorageMissions.filter(mission => mission.parentID === currentMission.id)
+                .map(mission => <MissionRow key={mission.id} mission={mission} debounceText={debounceText} />)} */}
         </ul>
     );
 };

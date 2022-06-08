@@ -28,6 +28,7 @@ export const ArrowButton: React.FC<iArrowButtonProps> = ({
     setArrowButtonClicked, 
     arrowButtonClicked, 
     mission }) => {
+    
     useEffect(() => setArrowBorder(mission.id, arrowButtonClicked), [arrowButtonClicked, mission]);
     const handleArrowClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         if (arrowButtonClicked) {
