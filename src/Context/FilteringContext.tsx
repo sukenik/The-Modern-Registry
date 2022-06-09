@@ -7,7 +7,7 @@ interface iFilteringContext {
     handleSearchTextChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-const FilteringContext = React.createContext<iFilteringContext | null>(null)
+const FilteringContext = React.createContext<iFilteringContext | string>('')
 export const useFilteringContext = () => useContext(FilteringContext) as iFilteringContext
 
 export const FilteringProvider: React.FC = ({ children }) => {

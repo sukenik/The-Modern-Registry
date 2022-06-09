@@ -74,21 +74,13 @@ export const MissionRow: React.FC<iMissionRowProps> = ({ mission, children, leve
     const { debounceText } = useFilteringContext()
 
     useEffect(() => mission.hasChildren ? setShowArrowButton(true) : setShowArrowButton(false), [mission])
-    // const renderSubMissionsElement = !!subMissions.length && showSubMissionList;
     const showSubMissions = (show: boolean) => {
         setShowSubMissionList(show);
         setArrowButtonClicked(show);
     };
     // useEffect(() => {
-    //     // setMissionElementWidth(mission.parentID, mission.id);
-    //     const missionsWithSubMissions = getMissionsWithSubMissions(localStorageMissions);
-    //     setLocalStorageMissions(missionsWithSubMissions);
-    //     if (subMissions.length) setShowArrowButton(true);
-    //     else setShowArrowButton(false);
-    // }, [mission]);
-    // useEffect(() => {
     //     if (debounceText !== '') {
-    //         if (subMissions.length && hasSearchedMission(subMissions, debounceText))
+    //         if (mission.hasChildren && hasSearchedMission(subMissions, debounceText))
     //             showSubMissions(true);
     //         else showSubMissions(false);
     //     } else showSubMissions(false);

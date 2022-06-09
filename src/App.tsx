@@ -16,6 +16,7 @@ import { MissionRow } from "./Components/MissionRow";
 import { getMissionsData } from "./Logic/subMissionLogic";
 import { getLocalStorageKeys, getLocalStorageMissions } from "./Logic/localStorageLogic";
 import { MissionRowRec } from "./Components/MissionRowRec";
+import { FilteringProvider } from "./Context/FilteringContext";
 
 const APP_STYLES: CSSProperties = {
     display: 'flex',
@@ -27,8 +28,6 @@ const APP_STYLES: CSSProperties = {
 
 const App: React.FC = () => {
     const { showMissionModal, showDeleteModal } = useShowModalContext();
-    const [debounceText, searchText, setSearchText] = useDebounce('', 500);
-    const handleSearchTextChange = (e: React.ChangeEvent<HTMLInputElement>) => setSearchText(e.target.value);
 
     return (
         <CurrentMissionProvider>
@@ -36,11 +35,12 @@ const App: React.FC = () => {
                 <Title titleName={"The Modern Registry"} />
                 <div style={APP_STYLES}>
                     <FilterableMissionListContainer>
-                        <SearchBar />
-                        <ArrowButtonClickProvider>
-                            <MissionList missionsData={getMissionsData(getLocalStorageMissions(getLocalStorageKeys()))} 
-                            />
-                        </ArrowButtonClickProvider>
+                        <FilteringProvider>
+                            <SearchBar />
+                            <ArrowButtonClickProvider>
+                                <MissionList missionsData={getMissionsData(getLocalStorageMissions(getLocalStorageKeys()))} />
+                            </ArrowButtonClickProvider>
+                        </FilteringProvider>
                     </FilterableMissionListContainer>
                 </div>
                 {!showMissionModal && <CreateMissionButton />}

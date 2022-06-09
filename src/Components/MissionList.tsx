@@ -20,36 +20,34 @@ export const MISSION_LIST_STYLES: CSSProperties = {
 interface iMissionListProps {
     missionsData: Array<Mission>,
     parentID?: number,
-    level?: number,
-    setAreButtonsShown?: React.Dispatch<React.SetStateAction<boolean>>,
+    level?: number
 };
 
-export const MissionList: React.FC<iMissionListProps> = ({ 
-        missionsData, 
-        parentID = null, 
-        level = 0, 
-        setAreButtonsShown }) => {
-    
-    const { localStorageMissions } = useLocalStorageMissionsContext();
-    const [missions, setMissions] = useState(localStorageMissions);
-    const { debounceText } = useFilteringContext()
-    const { arrowButtonClicked } = useArrowButtonClick();
+export const MissionList: React.FC<iMissionListProps> = ({ missionsData, parentID = null, level = 0 }) => {
     const renderMissions = missionsData.filter(mission => mission.parentID === parentID)
     if (!renderMissions.length) return null
+    const { debounceText } = useFilteringContext()
 
-    // useEffect(() => {
-    //     if (!debounceText) return setMissions(localStorageMissions.filter(mission => !mission.parentID));
-    //     let searchResults: Array<Mission> = localStorageMissions.filter(
-    //         mission => mission.description.toLowerCase().includes(debounceText.toLowerCase()));
-    //     const missionTrees = searchResults.map(mission => getSelfAndParentMissions(mission));
-    //     const finalMissionList = [] as Array<Mission>;
-    //     missionTrees.forEach((missionList) => {missionList.forEach(mission => {
-    //             if (!finalMissionList.some(finalMission => mission.id === finalMission.id))
-    //                 finalMissionList.push(mission);
-    //         });
-    //     });
-    //     setMissions(getMissionsWithSubMissions(finalMissionList).filter(mission => !mission.parentID));
-    // }, [debounceText, localStorageMissions]);
+    useEffect(() => {
+        const searchResults: Array<Mission> = missionsData.filter(
+            mission => mission.description.toLowerCase().includes(debounceText.toLowerCase())
+        );
+        const missionTrees = searchResults.map(mission => getSelfAndParentMissions(mission));
+        console.log(missionTrees);
+
+        const finalMissionList: Array<Mission> = missionTrees.reduce((accum, iterator, index) => {
+            // TODO :)
+            return [...iterator.filter(mission => accum.some(accumMission => !(accumMission.id === mission.id)))]
+        }, [] as Array<Mission>)
+        
+        console.log(finalMissionList);
+        // missionTrees.forEach((missionList) => {missionList.forEach(mission => {
+        //         if (!finalMissionList.some(finalMission => mission.id === finalMission.id))
+        //             finalMissionList.push(mission);
+        //     });
+        // });
+        // setMissions(getMissionsWithSubMissions(finalMissionList).filter(mission => !mission.parentID));
+    }, [debounceText, missionsData]);
 
     return (
         <ul 
@@ -58,12 +56,7 @@ export const MissionList: React.FC<iMissionListProps> = ({
             {
                 renderMissions.map(mission => 
                     <MissionRow key={mission.id} mission={mission} debounceText={debounceText} level={level}>
-                        <MissionList 
-                            missionsData={missionsData} 
-                            parentID={mission.id} 
-                            level={level + 1} 
-                            setAreButtonsShown={setAreButtonsShown} 
-                        />
+                        <MissionList missionsData={missionsData} parentID={mission.id} level={level + 1} />
                     </MissionRow>
                 )
             }

@@ -19,10 +19,11 @@ const INPUT_STYLES: CSSProperties = {
 // };
 
 export const SearchBar: React.FC = () => {
-    const { searchText, handleSearchTextChange } = useFilteringContext()
+    const { debounceText, searchText, handleSearchTextChange } = useFilteringContext()
 
     return (
         <div style={SEARCH_BAR_STYLES}>
+            <p>{debounceText}</p>
             <input style={INPUT_STYLES} type="text" placeholder="Search..." value={searchText} onChange={handleSearchTextChange} />
             <div>
                 <label htmlFor="status">Filter by: </label>
