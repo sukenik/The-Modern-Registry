@@ -1,4 +1,5 @@
 import React, { CSSProperties } from "react";
+import { useFilteringContext } from "../Context/FilteringContext";
 
 const SEARCH_BAR_STYLES: CSSProperties = {
     paddingTop: 10,
@@ -12,12 +13,14 @@ const INPUT_STYLES: CSSProperties = {
     fontSize: 15
 };
 
-interface iSearchBarProps {
-    searchText: string,
-    handleSearchTextChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-};
+// interface iSearchBarProps {
+//     searchText: string,
+//     handleSearchTextChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+// };
 
-export const SearchBar: React.FC<iSearchBarProps> = ({ searchText, handleSearchTextChange }) => {
+export const SearchBar: React.FC = () => {
+    const { searchText, handleSearchTextChange } = useFilteringContext()
+
     return (
         <div style={SEARCH_BAR_STYLES}>
             <input style={INPUT_STYLES} type="text" placeholder="Search..." value={searchText} onChange={handleSearchTextChange} />

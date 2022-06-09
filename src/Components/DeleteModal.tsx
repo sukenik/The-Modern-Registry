@@ -1,6 +1,6 @@
 import React, { CSSProperties, useState } from "react";
-import { useLocalStorageMissions } from "../Context/LocalStorageMissionsContext";
-import { useCurrentMission } from "../Context/MissionContext";
+import { useLocalStorageMissionsContext } from "../Context/LocalStorageMissionsContext";
+import { useCurrentMissionContext } from "../Context/MissionContext";
 import { useShowModalContext } from "../Context/ModalContext";
 import { filterSelfAndLinkedChildrenMissions } from "../Logic/filterLinkToMissionFieldLogic";
 import { modalAction } from "../Logic/helperFunctions";
@@ -48,8 +48,8 @@ const BUTTON_STYLES: CSSProperties = {
 export const DeleteModal = () => {
     const [checked, setChecked] = useState(false);
     const { setShowDeleteModal } = useShowModalContext();
-    const { currentMission, setCurrentMission } = useCurrentMission();
-    const { setLocalStorageMissions } = useLocalStorageMissions();
+    const { currentMission, setCurrentMission } = useCurrentMissionContext();
+    const { setLocalStorageMissions } = useLocalStorageMissionsContext();
     const labelText = "Delete linked children missions";
     const handleOutsideClick = () => modalAction(setShowDeleteModal, setCurrentMission);
     const handleContentClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => e.stopPropagation();

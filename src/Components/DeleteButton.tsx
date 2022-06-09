@@ -1,6 +1,6 @@
 import React, { CSSProperties } from "react";
 import trashCanIcon from '../../Assets/garbage-g0e5e69325_640.png';
-import { useCurrentMission } from "../Context/MissionContext";
+import { useCurrentMissionContext } from "../Context/MissionContext";
 import { useShowModalContext } from "../Context/ModalContext";
 import { Mission } from "../Custom-Typings/Mission";
 import { modalAction } from "../Logic/helperFunctions";
@@ -21,7 +21,7 @@ interface iDeleteButtonProps {
 
 export const DeleteButton: React.FC<iDeleteButtonProps> = ({ mission }) => {
     const { setShowDeleteModal } = useShowModalContext();
-    const { setCurrentMission } = useCurrentMission();
+    const { setCurrentMission } = useCurrentMissionContext();
     const handleDeleteButtonClick = () => modalAction(setShowDeleteModal, setCurrentMission, mission);
 
     return (

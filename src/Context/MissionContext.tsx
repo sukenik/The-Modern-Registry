@@ -8,7 +8,7 @@ interface iMissionContext {
 };
 const CurrentMissionContext = React.createContext<iMissionContext | null>(null);
 
-export const useCurrentMission = () => useContext(CurrentMissionContext) as iMissionContext;
+export const useCurrentMissionContext = () => useContext(CurrentMissionContext) as iMissionContext;
 export const defaultMission: Mission = {
     id: 0,
     description: '',

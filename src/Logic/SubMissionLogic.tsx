@@ -59,7 +59,7 @@ export const unlinkLocalStorageParentSubMission = (subMissionID: number, parentI
     addToLocalStorage(parentID.toString(), parseMissionToString(parentMission));
 };
 export const setArrowBorder = (missionID: number, isArrowUp: boolean) => {
-    const element = document.getElementById(`Mission-${missionID}`)?.querySelector('div');
+    const element = document.getElementById(`Mission-${missionID}`)?.querySelector('div')?.querySelector('div');
     if (element) {
         if (isArrowUp) {
             element.style.borderBottom = arrowBorderCSS;
@@ -78,7 +78,11 @@ export const getMissionsData = (missions: Array<Mission>) => {
 }
 export const getMissionWidth = (css: CSSProperties, level: number) => {
     const missionWidthPixelMinimum = 380;
-    if (level === 5) return {...css, width: missionWidthPixelMinimum};
+    if (level >= 6) return {...css, width: missionWidthPixelMinimum};
     const primaryWidth = 530;
     return {...css, width: primaryWidth - level * 25} as CSSProperties
+}
+export const getSubMissionPadding = (css: CSSProperties, level: number) => {
+    if (level >= 7) return {...css, paddingLeft: 0} as CSSProperties
+    return css
 }

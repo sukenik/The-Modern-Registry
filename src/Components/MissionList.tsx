@@ -1,9 +1,10 @@
 import React, { CSSProperties, useEffect, useState } from "react";
 import { useArrowButtonClick } from "../Context/ArrowButtonClickContext";
-import { useLocalStorageMissions } from "../Context/LocalStorageMissionsContext";
+import { useFilteringContext } from "../Context/FilteringContext";
+import { useLocalStorageMissionsContext } from "../Context/LocalStorageMissionsContext";
 import { Mission } from "../Custom-Typings/Mission";
 import { getSelfAndParentMissions } from "../Logic/searchBarLogic";
-import { getMissionsData, getMissionsWithSubMissions } from "../Logic/subMissionLogic";
+import { getMissionsData, getMissionsWithSubMissions, getSubMissionPadding } from "../Logic/subMissionLogic";
 import { MissionRow } from "./MissionRow";
 import { SUB_MISSION_LIST_STYLES } from "./SubMissionList";
 
@@ -17,7 +18,6 @@ export const MISSION_LIST_STYLES: CSSProperties = {
 };
 
 interface iMissionListProps {
-    debounceText: string,
     missionsData: Array<Mission>,
     parentID?: number,
     level?: number,
@@ -25,25 +25,17 @@ interface iMissionListProps {
 };
 
 export const MissionList: React.FC<iMissionListProps> = ({ 
-        debounceText, 
         missionsData, 
         parentID = null, 
         level = 0, 
         setAreButtonsShown }) => {
     
-    const { localStorageMissions } = useLocalStorageMissions();
+    const { localStorageMissions } = useLocalStorageMissionsContext();
     const [missions, setMissions] = useState(localStorageMissions);
+    const { debounceText } = useFilteringContext()
     const { arrowButtonClicked } = useArrowButtonClick();
     const renderMissions = missionsData.filter(mission => mission.parentID === parentID)
     if (!renderMissions.length) return null
-    const handleOnMouseEnter = () => {
-        
-        if (parentID && setAreButtonsShown) {
-            setAreButtonsShown(false)
-            console.log(parentID);
-        }
-    };
-    const handleOnMouseLeave = () => {if (setAreButtonsShown) setAreButtonsShown(true)};
 
     // useEffect(() => {
     //     if (!debounceText) return setMissions(localStorageMissions.filter(mission => !mission.parentID));
@@ -61,18 +53,17 @@ export const MissionList: React.FC<iMissionListProps> = ({
 
     return (
         <ul 
-            style={!parentID ? MISSION_LIST_STYLES : SUB_MISSION_LIST_STYLES}
-            onMouseEnter={handleOnMouseEnter}
-            onMouseLeave={handleOnMouseLeave}>
+            style={!parentID ? MISSION_LIST_STYLES : getSubMissionPadding(SUB_MISSION_LIST_STYLES, level)}
+        >
             {
                 renderMissions.map(mission => 
                     <MissionRow key={mission.id} mission={mission} debounceText={debounceText} level={level}>
                         <MissionList 
-                            debounceText={debounceText} 
                             missionsData={missionsData} 
                             parentID={mission.id} 
                             level={level + 1} 
-                            setAreButtonsShown={setAreButtonsShown} />
+                            setAreButtonsShown={setAreButtonsShown} 
+                        />
                     </MissionRow>
                 )
             }

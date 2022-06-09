@@ -8,7 +8,7 @@ import { CreateMissionButton } from "./Components/CreateMissionButton";
 import { MissionModal } from "./Components/MissionModal";
 import { CurrentMissionProvider } from "./Context/MissionContext";
 import { useShowModalContext } from "./Context/ModalContext";
-import { LocalStorageMissionsProvider, useLocalStorageMissions } from "./Context/LocalStorageMissionsContext";
+import { LocalStorageMissionsProvider, useLocalStorageMissionsContext } from "./Context/LocalStorageMissionsContext";
 import { DeleteModal } from "./Components/DeleteModal";
 import { useDebounce } from "./Hooks/useDebounce";
 import { ArrowButtonClickProvider } from "./Context/ArrowButtonClickContext";
@@ -36,11 +36,9 @@ const App: React.FC = () => {
                 <Title titleName={"The Modern Registry"} />
                 <div style={APP_STYLES}>
                     <FilterableMissionListContainer>
-                        <SearchBar searchText={searchText} handleSearchTextChange={handleSearchTextChange}  />
+                        <SearchBar />
                         <ArrowButtonClickProvider>
-                            <MissionList 
-                                debounceText={debounceText} 
-                                missionsData={getMissionsData(getLocalStorageMissions(getLocalStorageKeys()))} 
+                            <MissionList missionsData={getMissionsData(getLocalStorageMissions(getLocalStorageKeys()))} 
                             />
                         </ArrowButtonClickProvider>
                     </FilterableMissionListContainer>

@@ -1,5 +1,6 @@
 import React, { CSSProperties, MouseEventHandler, useEffect, useState } from "react";
-import { useLocalStorageMissions } from "../Context/LocalStorageMissionsContext";
+import { useFilteringContext } from "../Context/FilteringContext";
+import { useLocalStorageMissionsContext } from "../Context/LocalStorageMissionsContext";
 import { Mission } from "../Custom-Typings/Mission";
 import { hasSearchedMission } from "../Logic/searchBarLogic";
 import { getMissionsWithSubMissions, getMissionWidth, setMissionElementWidth } from "../Logic/subMissionLogic";
@@ -52,17 +53,10 @@ const MISSION_NAME_STYLES: CSSProperties = {
     whiteSpace: 'nowrap',
     cursor: 'default'
 };
-const STYLES_FUNCTION = (width: number) => {
-    return {
-        backgroundColor: 'rgb(92, 91, 91)',
-        color: 'aliceblue',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexWrap: 'wrap',
-        width: 'var(--width)',
-        marginTop: 5
-    } as CSSProperties
+const LIST_ITEM_STYLE: CSSProperties = {
+    margin: 0,
+    padding: 0,
+    listStyleType: 'none'
 }
 
 interface iMissionRowProps {
@@ -71,15 +65,14 @@ interface iMissionRowProps {
     level: number
 };
 
-export const MissionRow: React.FC<iMissionRowProps> = ({ debounceText, mission, children, level }) => {
+export const MissionRow: React.FC<iMissionRowProps> = ({ mission, children, level }) => {
     const [showSubMissionList, setShowSubMissionList] = useState(false);
     const [showOptionButtons, setShowOptionButtons] = useState(false);
     const [showArrowButton, setShowArrowButton] = useState(false);
     const [arrowButtonClicked, setArrowButtonClicked] = useState(false);
-    const [currentMissionHover, setCurrentMissionHover] = useState<number>(0);
-    const { localStorageMissions, setLocalStorageMissions } = useLocalStorageMissions();
+    const { localStorageMissions, setLocalStorageMissions } = useLocalStorageMissionsContext();
+    const { debounceText } = useFilteringContext()
 
-    // const renderOptionButtons = showOptionButtons && currentMissionHover === mission.id
     useEffect(() => mission.hasChildren ? setShowArrowButton(true) : setShowArrowButton(false), [mission])
     // const renderSubMissionsElement = !!subMissions.length && showSubMissionList;
     const showSubMissions = (show: boolean) => {
@@ -100,49 +93,45 @@ export const MissionRow: React.FC<iMissionRowProps> = ({ debounceText, mission, 
     //         else showSubMissions(false);
     //     } else showSubMissions(false);
     // }, [debounceText]);
-    const handleOnMouseEnter = (e: React.MouseEvent<HTMLLIElement>) => {
-        e.stopPropagation()
-        setShowOptionButtons(true);
-    }
-    const handleOnMouseLeave = (e: React.MouseEvent<HTMLLIElement>) => {
-        e.stopPropagation()
-        setShowOptionButtons(false);
-    }
-    const handleOnMouseEnterSubMissionList = () => setShowOptionButtons(false);
-    const handleOnMouseLeaveSubMissionList = () => setShowOptionButtons(false);
+    const handleOnMouseEnter = () => setShowOptionButtons(true);
+    const handleOnMouseLeave = () => setShowOptionButtons(false);
     
     return (
             <li 
                 key={mission.id}
-                style={mission.parentID ? 
+                style={LIST_ITEM_STYLE} 
+                id={`Mission-${mission.id}`}
+            >
+                <div 
+                    style={mission.parentID ? 
                         getMissionWidth(MISSION_STYLES, level) : 
                         getMissionWidth({...MISSION_STYLES, marginTop: 10}, level)
-                    } 
-                id={`Mission-${mission.id}`} 
-                onMouseEnter={handleOnMouseEnter} 
-                onMouseLeave={handleOnMouseLeave}
-            >
-                {showArrowButton &&
-                    <ArrowButton
-                        setShowSubMissionList={setShowSubMissionList}
-                        setArrowButtonClicked={setArrowButtonClicked}
-                        arrowButtonClicked={arrowButtonClicked}
-                        mission={mission}
-                    />
-                }
-                <div style={MISSION_NAME_STYLES} className="name">{mission.description}</div>
-                <div style={MISSION_STATUS_STYLES}>
-                    <div 
-                        style={mission.status === 'Active' ? 
-                            {...STATUS_STYLES, paddingRight: 26, paddingLeft: 26} : 
-                            STATUS_STYLES
-                        }
-                    >
-                        {mission.status}
+                    }
+                    onMouseEnter={handleOnMouseEnter} 
+                    onMouseLeave={handleOnMouseLeave}
+                >
+                    {showArrowButton &&
+                        <ArrowButton
+                            setShowSubMissionList={setShowSubMissionList}
+                            setArrowButtonClicked={setArrowButtonClicked}
+                            arrowButtonClicked={arrowButtonClicked}
+                            mission={mission}
+                        />
+                    }
+                    <div style={MISSION_NAME_STYLES} className="name">{mission.description}</div>
+                    <div style={MISSION_STATUS_STYLES}>
+                        <div 
+                            style={mission.status === 'Active' ? 
+                                {...STATUS_STYLES, paddingRight: 26, paddingLeft: 26} : 
+                                STATUS_STYLES
+                            }
+                        >
+                            {mission.status}
+                        </div>
                     </div>
-                </div>
-                <div style={MISSION_INFO_STYLES}>
-                    {showOptionButtons && <><EditButton mission={mission} /><DeleteButton mission={mission} /></>}
+                    <div style={MISSION_INFO_STYLES}>
+                        {showOptionButtons && <><EditButton mission={mission} /><DeleteButton mission={mission} /></>}
+                    </div>
                 </div>
                 {showSubMissionList && children}
         </li>
