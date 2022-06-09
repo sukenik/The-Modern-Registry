@@ -1,3 +1,4 @@
+import { CSSProperties } from "react";
 import { arrowBorderCSS } from "../Components/ArrowButton";
 import { Mission } from "../Custom-Typings/Mission";
 import { addToLocalStorage, getMissionFromLocalStorage, parseMissionToString } from "./localStorageLogic";
@@ -74,4 +75,10 @@ export const getMissionsData = (missions: Array<Mission>) => {
         ...mission,
         hasChildren: missions.filter(m => m.parentID === mission.id).length > 0
     }))
+}
+export const getMissionWidth = (css: CSSProperties, level: number) => {
+    const missionWidthPixelMinimum = 380;
+    if (level === 5) return {...css, width: missionWidthPixelMinimum};
+    const primaryWidth = 530;
+    return {...css, width: primaryWidth - level * 25} as CSSProperties
 }

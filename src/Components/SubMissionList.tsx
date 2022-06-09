@@ -8,7 +8,7 @@ export const SUB_MISSION_LIST_STYLES: CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
     order: 5,
-    paddingLeft: 30
+    paddingLeft: 25
 };
 
 interface iSubMissionListProps {

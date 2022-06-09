@@ -5,6 +5,7 @@ import { Mission } from "../Custom-Typings/Mission";
 import { getSelfAndParentMissions } from "../Logic/searchBarLogic";
 import { getMissionsData, getMissionsWithSubMissions } from "../Logic/subMissionLogic";
 import { MissionRow } from "./MissionRow";
+import { SUB_MISSION_LIST_STYLES } from "./SubMissionList";
 
 export const MISSION_LIST_STYLES: CSSProperties = {
     marginBottom: 30,
@@ -19,15 +20,30 @@ interface iMissionListProps {
     debounceText: string,
     missionsData: Array<Mission>,
     parentID?: number,
-    level?: number
+    level?: number,
+    setAreButtonsShown?: React.Dispatch<React.SetStateAction<boolean>>,
 };
 
-export const MissionList: React.FC<iMissionListProps> = ({ debounceText, missionsData, parentID = null, level = 0 }) => {
+export const MissionList: React.FC<iMissionListProps> = ({ 
+        debounceText, 
+        missionsData, 
+        parentID = null, 
+        level = 0, 
+        setAreButtonsShown }) => {
+    
     const { localStorageMissions } = useLocalStorageMissions();
     const [missions, setMissions] = useState(localStorageMissions);
     const { arrowButtonClicked } = useArrowButtonClick();
     const renderMissions = missionsData.filter(mission => mission.parentID === parentID)
     if (!renderMissions.length) return null
+    const handleOnMouseEnter = () => {
+        
+        if (parentID && setAreButtonsShown) {
+            setAreButtonsShown(false)
+            console.log(parentID);
+        }
+    };
+    const handleOnMouseLeave = () => {if (setAreButtonsShown) setAreButtonsShown(true)};
 
     // useEffect(() => {
     //     if (!debounceText) return setMissions(localStorageMissions.filter(mission => !mission.parentID));
@@ -44,11 +60,19 @@ export const MissionList: React.FC<iMissionListProps> = ({ debounceText, mission
     // }, [debounceText, localStorageMissions]);
 
     return (
-        <ul style={MISSION_LIST_STYLES}>
+        <ul 
+            style={!parentID ? MISSION_LIST_STYLES : SUB_MISSION_LIST_STYLES}
+            onMouseEnter={handleOnMouseEnter}
+            onMouseLeave={handleOnMouseLeave}>
             {
                 renderMissions.map(mission => 
-                    <MissionRow key={mission.id} mission={mission} debounceText={debounceText}>
-                        <MissionList debounceText={debounceText} missionsData={missionsData} parentID={mission.id} level={level + 1} />
+                    <MissionRow key={mission.id} mission={mission} debounceText={debounceText} level={level}>
+                        <MissionList 
+                            debounceText={debounceText} 
+                            missionsData={missionsData} 
+                            parentID={mission.id} 
+                            level={level + 1} 
+                            setAreButtonsShown={setAreButtonsShown} />
                     </MissionRow>
                 )
             }

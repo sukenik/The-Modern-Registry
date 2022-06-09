@@ -2,7 +2,7 @@ import React, { CSSProperties, MouseEventHandler, useEffect, useState } from "re
 import { useLocalStorageMissions } from "../Context/LocalStorageMissionsContext";
 import { Mission } from "../Custom-Typings/Mission";
 import { hasSearchedMission } from "../Logic/searchBarLogic";
-import { getMissionsWithSubMissions, setMissionElementWidth } from "../Logic/subMissionLogic";
+import { getMissionsWithSubMissions, getMissionWidth, setMissionElementWidth } from "../Logic/subMissionLogic";
 import { ArrowButton } from "./ArrowButton";
 import { DeleteButton } from "./DeleteButton";
 import { EditButton } from "./EditButton";
@@ -52,13 +52,26 @@ const MISSION_NAME_STYLES: CSSProperties = {
     whiteSpace: 'nowrap',
     cursor: 'default'
 };
+const STYLES_FUNCTION = (width: number) => {
+    return {
+        backgroundColor: 'rgb(92, 91, 91)',
+        color: 'aliceblue',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexWrap: 'wrap',
+        width: 'var(--width)',
+        marginTop: 5
+    } as CSSProperties
+}
 
 interface iMissionRowProps {
     mission: Mission,
-    debounceText?: string
+    debounceText?: string,
+    level: number
 };
 
-export const MissionRow: React.FC<iMissionRowProps> = ({ debounceText, mission, children }) => {
+export const MissionRow: React.FC<iMissionRowProps> = ({ debounceText, mission, children, level }) => {
     const [showSubMissionList, setShowSubMissionList] = useState(false);
     const [showOptionButtons, setShowOptionButtons] = useState(false);
     const [showArrowButton, setShowArrowButton] = useState(false);
@@ -88,17 +101,23 @@ export const MissionRow: React.FC<iMissionRowProps> = ({ debounceText, mission, 
     //     } else showSubMissions(false);
     // }, [debounceText]);
     const handleOnMouseEnter = (e: React.MouseEvent<HTMLLIElement>) => {
+        e.stopPropagation()
         setShowOptionButtons(true);
-        setCurrentMissionHover(parseFloat(e.currentTarget.id.split('-')[1]))
     }
-    const handleOnMouseLeave = () => setShowOptionButtons(false);
+    const handleOnMouseLeave = (e: React.MouseEvent<HTMLLIElement>) => {
+        e.stopPropagation()
+        setShowOptionButtons(false);
+    }
     const handleOnMouseEnterSubMissionList = () => setShowOptionButtons(false);
     const handleOnMouseLeaveSubMissionList = () => setShowOptionButtons(false);
     
     return (
             <li 
                 key={mission.id}
-                style={mission.parentID ? MISSION_STYLES : {...MISSION_STYLES, marginTop: 10}} 
+                style={mission.parentID ? 
+                        getMissionWidth(MISSION_STYLES, level) : 
+                        getMissionWidth({...MISSION_STYLES, marginTop: 10}, level)
+                    } 
                 id={`Mission-${mission.id}`} 
                 onMouseEnter={handleOnMouseEnter} 
                 onMouseLeave={handleOnMouseLeave}
