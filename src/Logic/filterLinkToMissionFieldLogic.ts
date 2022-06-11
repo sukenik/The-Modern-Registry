@@ -14,7 +14,7 @@ export const filterSelfAndLinkedChildrenMissions = (mission: Mission, linkedChil
     if (!linkedChildrenStack.includes(mission)) {
         linkedChildren.push(mission);
     }
-    if (mission.subMissions.length > 0) {
+    if (mission.hasChildren) {
         mission.subMissions.forEach(subMission => filterSelfAndLinkedChildrenMissions(subMission, linkedChildren));
     }
     return linkedChildren;

@@ -1,5 +1,5 @@
 import { hot } from "react-hot-loader";
-import React, { CSSProperties } from 'react';
+import React, { CSSProperties, useEffect } from 'react';
 import { Title } from "./Components/Title";
 import { FilterableMissionListContainer } from "./Components/FilterableMissionListContainer";
 import { SearchBar } from "./Components/SearchBar";
@@ -16,7 +16,7 @@ import { MissionRow } from "./Components/MissionRow";
 import { getMissionsData } from "./Logic/subMissionLogic";
 import { getLocalStorageKeys, getLocalStorageMissions } from "./Logic/localStorageLogic";
 import { MissionRowRec } from "./Components/MissionRowRec";
-import { FilteringProvider } from "./Context/FilteringContext";
+import { FilteringProvider, useFilteringContext } from "./Context/FilteringContext";
 
 const APP_STYLES: CSSProperties = {
     display: 'flex',
@@ -27,26 +27,23 @@ const APP_STYLES: CSSProperties = {
 };
 
 const App: React.FC = () => {
-    const { showMissionModal, showDeleteModal } = useShowModalContext();
+    const { showMissionModal, showDeleteModal } = useShowModalContext()
+    const { localStorageMissions } = useLocalStorageMissionsContext()
 
     return (
         <CurrentMissionProvider>
-            <LocalStorageMissionsProvider>
-                <Title titleName={"The Modern Registry"} />
-                <div style={APP_STYLES}>
-                    <FilterableMissionListContainer>
-                        <FilteringProvider>
-                            <SearchBar />
-                            <ArrowButtonClickProvider>
-                                <MissionList missionsData={getMissionsData(getLocalStorageMissions(getLocalStorageKeys()))} />
-                            </ArrowButtonClickProvider>
-                        </FilteringProvider>
-                    </FilterableMissionListContainer>
-                </div>
-                {!showMissionModal && <CreateMissionButton />}
-                {showMissionModal && <MissionModal />}
-                {showDeleteModal && <DeleteModal />}
-            </LocalStorageMissionsProvider>
+            <Title titleName={"The Modern Registry"} />
+            <div style={APP_STYLES}>
+                <FilterableMissionListContainer>
+                    <FilteringProvider>
+                        <SearchBar />
+                        <MissionList missionsData={getMissionsData(localStorageMissions)} />
+                    </FilteringProvider>
+                </FilterableMissionListContainer>
+            </div>
+            {!showMissionModal && <CreateMissionButton />}
+            {showMissionModal && <MissionModal />}
+            {showDeleteModal && <DeleteModal />}
         </CurrentMissionProvider>
     );
 };

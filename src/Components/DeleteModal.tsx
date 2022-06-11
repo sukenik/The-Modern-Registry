@@ -50,13 +50,17 @@ export const DeleteModal = () => {
     const { setShowDeleteModal } = useShowModalContext();
     const { currentMission, setCurrentMission } = useCurrentMissionContext();
     const { setLocalStorageMissions } = useLocalStorageMissionsContext();
+
     const labelText = "Delete linked children missions";
     const handleOutsideClick = () => modalAction(setShowDeleteModal, setCurrentMission);
     const handleContentClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => e.stopPropagation();
+    const handleCancelClick = () => modalAction(setShowDeleteModal, setCurrentMission);
+    const handleCheckboxChange = () => setChecked(!checked);
+
     const handleDelete = () => {
         removeFromLocalStorage(currentMission.id.toString());
         if (currentMission.parentID) unlinkLocalStorageParentSubMission(currentMission.id, currentMission.parentID);
-        if (currentMission.subMissions.length) {
+        if (currentMission.hasChildren) {
             if (checked) {
                 const missionsToDelete = filterSelfAndLinkedChildrenMissions(currentMission, []);
                 missionsToDelete.forEach(mission => removeFromLocalStorage(mission.id.toString()));
@@ -65,7 +69,7 @@ export const DeleteModal = () => {
                 if (parentID) currentMission.subMissions.forEach(subMission => setLocalStorageParentSubMission(subMission, parentID));
                 currentMission.subMissions.forEach(subMission => {
                     addToLocalStorage(subMission.id.toString(), 
-                        parseMissionToString({ ...subMission, parentID: currentMission.parentID }));
+                    parseMissionToString({ ...subMission, parentID: currentMission.parentID }));
                 });
             }
         }
@@ -73,8 +77,6 @@ export const DeleteModal = () => {
         setLocalStorageMissions(missionsWithSubMissions);
         modalAction(setShowDeleteModal, setCurrentMission);
     }
-    const handleCancelClick = () => modalAction(setShowDeleteModal, setCurrentMission);
-    const handleCheckboxChange = () => setChecked(!checked);
 
     return (
         <div style={MODAL_STYLES} onClick={handleOutsideClick}>
@@ -87,11 +89,14 @@ export const DeleteModal = () => {
                     </p>
                 </div>
                 <div style={MODAL_BODY_STYLES}>
-                    {!!currentMission.subMissions.length &&
-                        <Checkbox label={labelText} checked={checked} handleCheckboxChange={handleCheckboxChange} />}
+                    {currentMission.hasChildren &&
+                        <Checkbox label={labelText} checked={checked} handleCheckboxChange={handleCheckboxChange} />
+                    }
                     <div style={{ marginTop: 20 }}>
                         <button style={BUTTON_STYLES} onClick={handleDelete}>Delete</button>
-                        <button style={{...BUTTON_STYLES, backgroundColor : 'rgb(49, 49, 49)'}} onClick={handleCancelClick}>Cancel</button>
+                        <button style={{...BUTTON_STYLES, backgroundColor : 'rgb(49, 49, 49)'}} onClick={handleCancelClick}>
+                            Cancel
+                        </button>
                     </div>
                 </div>
             </div>

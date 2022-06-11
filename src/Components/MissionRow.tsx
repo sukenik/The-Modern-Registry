@@ -1,14 +1,10 @@
-import React, { CSSProperties, MouseEventHandler, useEffect, useState } from "react";
+import React, { CSSProperties, useEffect, useState } from "react";
 import { useFilteringContext } from "../Context/FilteringContext";
-import { useLocalStorageMissionsContext } from "../Context/LocalStorageMissionsContext";
 import { Mission } from "../Custom-Typings/Mission";
-import { hasSearchedMission } from "../Logic/searchBarLogic";
-import { getMissionsWithSubMissions, getMissionWidth, setMissionElementWidth } from "../Logic/subMissionLogic";
+import { getMissionWidth } from "../Logic/subMissionLogic";
 import { ArrowButton } from "./ArrowButton";
 import { DeleteButton } from "./DeleteButton";
 import { EditButton } from "./EditButton";
-import { MISSION_LIST_STYLES } from "./MissionList";
-import { SubMissionList, SUB_MISSION_LIST_STYLES } from "./SubMissionList";
 
 const MISSION_STYLES: CSSProperties = {
     backgroundColor: 'rgb(92, 91, 91)',
@@ -61,7 +57,6 @@ const LIST_ITEM_STYLE: CSSProperties = {
 
 interface iMissionRowProps {
     mission: Mission,
-    debounceText?: string,
     level: number
 };
 
@@ -69,31 +64,15 @@ export const MissionRow: React.FC<iMissionRowProps> = ({ mission, children, leve
     const [showSubMissionList, setShowSubMissionList] = useState(false);
     const [showOptionButtons, setShowOptionButtons] = useState(false);
     const [showArrowButton, setShowArrowButton] = useState(false);
-    const [arrowButtonClicked, setArrowButtonClicked] = useState(false);
-    const { localStorageMissions, setLocalStorageMissions } = useLocalStorageMissionsContext();
     const { debounceText } = useFilteringContext()
 
     useEffect(() => mission.hasChildren ? setShowArrowButton(true) : setShowArrowButton(false), [mission])
-    const showSubMissions = (show: boolean) => {
-        setShowSubMissionList(show);
-        setArrowButtonClicked(show);
-    };
-    // useEffect(() => {
-    //     if (debounceText !== '') {
-    //         if (mission.hasChildren && hasSearchedMission(subMissions, debounceText))
-    //             showSubMissions(true);
-    //         else showSubMissions(false);
-    //     } else showSubMissions(false);
-    // }, [debounceText]);
+    useEffect(() => setShowSubMissionList(false), [debounceText]);
     const handleOnMouseEnter = () => setShowOptionButtons(true);
     const handleOnMouseLeave = () => setShowOptionButtons(false);
     
     return (
-            <li 
-                key={mission.id}
-                style={LIST_ITEM_STYLE} 
-                id={`Mission-${mission.id}`}
-            >
+            <li key={mission.id} style={LIST_ITEM_STYLE} id={`Mission-${mission.id}`}>
                 <div 
                     style={mission.parentID ? 
                         getMissionWidth(MISSION_STYLES, level) : 
@@ -102,14 +81,7 @@ export const MissionRow: React.FC<iMissionRowProps> = ({ mission, children, leve
                     onMouseEnter={handleOnMouseEnter} 
                     onMouseLeave={handleOnMouseLeave}
                 >
-                    {showArrowButton &&
-                        <ArrowButton
-                            setShowSubMissionList={setShowSubMissionList}
-                            setArrowButtonClicked={setArrowButtonClicked}
-                            arrowButtonClicked={arrowButtonClicked}
-                            mission={mission}
-                        />
-                    }
+                    {showArrowButton && <ArrowButton mission={mission} setShowSubMissionList={setShowSubMissionList} />}
                     <div style={MISSION_NAME_STYLES} className="name">{mission.description}</div>
                     <div style={MISSION_STATUS_STYLES}>
                         <div 
@@ -125,7 +97,7 @@ export const MissionRow: React.FC<iMissionRowProps> = ({ mission, children, leve
                         {showOptionButtons && <><EditButton mission={mission} /><DeleteButton mission={mission} /></>}
                     </div>
                 </div>
-                {showSubMissionList && children}
+                {(mission.hasChildren && showSubMissionList) && children}
         </li>
     );
 };
