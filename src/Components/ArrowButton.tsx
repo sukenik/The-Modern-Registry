@@ -29,19 +29,6 @@ interface iArrowButtonProps {
 
 export const ArrowButton: React.FC<iArrowButtonProps> = ({ setShowSubMissionList }) => {
     const [arrowButttonClicked, setArrowButttonClicked] = useState(false)
-    const { debounceText } = useFilteringContext()
-    const { localStorageMissions } = useLocalStorageMissionsContext()
-    const initialRenderRef = useRef(false)
-
-    useEffect(() => setArrowButttonClicked(false), [debounceText]);
-    useEffect(() => {
-        if (!initialRenderRef.current) initialRenderRef.current = true
-        else {
-            setArrowButttonClicked(prevState => !prevState)
-            setShowSubMissionList(prevState => !prevState)
-        }
-        console.log('Arrow useEffect');
-    }, [localStorageMissions]);
     
     const handleArrowClick = () => {
         setArrowButttonClicked(prevState => !prevState)

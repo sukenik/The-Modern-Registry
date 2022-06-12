@@ -15,7 +15,6 @@ import { ArrowButtonClickProvider } from "./Context/ArrowButtonClickContext";
 import { MissionRow } from "./Components/MissionRow";
 import { getMissionsData } from "./Logic/subMissionLogic";
 import { getLocalStorageKeys, getLocalStorageMissions } from "./Logic/localStorageLogic";
-import { MissionRowRec } from "./Components/MissionRowRec";
 import { FilteringProvider, useFilteringContext } from "./Context/FilteringContext";
 
 const APP_STYLES: CSSProperties = {

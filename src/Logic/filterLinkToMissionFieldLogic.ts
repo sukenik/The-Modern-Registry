@@ -1,4 +1,5 @@
 import { Mission } from "../Custom-Typings/Mission";
+import { getMissionChildren } from "./helperFunctions";
 
 export const getLinkToMissionOptions = (mission: Mission, missions: Array<Mission>): Array<Mission> => {
     let filteredOptionsList = [] as Array<Mission>;
@@ -21,3 +22,8 @@ export const filterSelfAndLinkedChildrenMissions = (mission: Mission, linkedChil
 };
 const filterChildrenFromMissionList = (linkedChildrenMissions: Array<Mission>, missions: Array<Mission>) => 
     missions.filter(mission => !linkedChildrenMissions.includes(mission));
+const removeChildren = (mission: Mission, missions: Array<Mission>) => {
+    if (mission.hasChildren) {
+        let children = getMissionChildren(mission.id, missions)
+    }
+}

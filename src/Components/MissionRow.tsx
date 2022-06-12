@@ -64,10 +64,9 @@ export const MissionRow: React.FC<iMissionRowProps> = ({ mission, children, leve
     const [showSubMissionList, setShowSubMissionList] = useState(false);
     const [showOptionButtons, setShowOptionButtons] = useState(false);
     const [showArrowButton, setShowArrowButton] = useState(false);
-    const { debounceText } = useFilteringContext()
 
     useEffect(() => mission.hasChildren ? setShowArrowButton(true) : setShowArrowButton(false), [mission])
-    useEffect(() => setShowSubMissionList(false), [debounceText]);
+
     const handleOnMouseEnter = () => setShowOptionButtons(true);
     const handleOnMouseLeave = () => setShowOptionButtons(false);
     

@@ -66,11 +66,11 @@ export const DeleteModal = () => {
                 missionsToDelete.forEach(mission => removeFromLocalStorage(mission.id.toString()));
             } else {
                 const parentID = currentMission.parentID;
-                if (parentID) currentMission.subMissions.forEach(subMission => setLocalStorageParentSubMission(subMission, parentID));
-                currentMission.subMissions.forEach(subMission => {
-                    addToLocalStorage(subMission.id.toString(), 
-                    parseMissionToString({ ...subMission, parentID: currentMission.parentID }));
-                });
+                // if (parentID) currentMission.subMissions.forEach(subMission => setLocalStorageParentSubMission(subMission, parentID));
+                // currentMission.subMissions.forEach(subMission => {
+                //     addToLocalStorage(subMission.id.toString(), 
+                //     parseMissionToString({ ...subMission, parentID: currentMission.parentID }));
+                // });
             }
         }
         const missionsWithSubMissions = getMissionsWithSubMissions(getLocalStorageMissions(getLocalStorageKeys()));

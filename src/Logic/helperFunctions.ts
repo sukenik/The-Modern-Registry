@@ -14,3 +14,5 @@ export const modalAction = (
             setCurrentMission(defaultMission);
         }
 };
+export const getMissionChildren = (missionID: number, missions: Array<Mission>) => 
+    missions.filter(mission => mission.parentID === missionID)
