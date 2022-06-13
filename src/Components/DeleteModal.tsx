@@ -2,10 +2,10 @@ import React, { CSSProperties, useState } from "react";
 import { useLocalStorageMissionsContext } from "../Context/LocalStorageMissionsContext";
 import { useCurrentMissionContext } from "../Context/MissionContext";
 import { useShowModalContext } from "../Context/ModalContext";
-import { filterSelfAndLinkedChildrenMissions } from "../Logic/filterLinkToMissionFieldLogic";
-import { modalAction } from "../Logic/helperFunctions";
+import { getSelfPlusChildrenMissions } from "../Logic/filterLinkToMissionFieldLogic";
+import { getMissionChildren, modalAction } from "../Logic/helperFunctions";
 import { addToLocalStorage, getLocalStorageKeys, getLocalStorageMissions, parseMissionToString, removeFromLocalStorage } from "../Logic/localStorageLogic";
-import { getMissionsWithSubMissions, setLocalStorageParentSubMission, unlinkLocalStorageParentSubMission } from "../Logic/subMissionLogic";
+import { getMissionsData } from "../Logic/subMissionLogic";
 import { Checkbox } from "./Checkbox";
 
 const MODAL_STYLES: CSSProperties = {
@@ -44,12 +44,16 @@ const BUTTON_STYLES: CSSProperties = {
     cursor: 'pointer',
     margin: 5
 };
+const MODAL_TITLE_TEXT_STYLES: CSSProperties = {
+    wordWrap: 'break-word',
+    padding: 10
+};
 
 export const DeleteModal = () => {
     const [checked, setChecked] = useState(false);
     const { setShowDeleteModal } = useShowModalContext();
     const { currentMission, setCurrentMission } = useCurrentMissionContext();
-    const { setLocalStorageMissions } = useLocalStorageMissionsContext();
+    const { localStorageMissions, setLocalStorageMissions } = useLocalStorageMissionsContext();
 
     const labelText = "Delete linked children missions";
     const handleOutsideClick = () => modalAction(setShowDeleteModal, setCurrentMission);
@@ -59,29 +63,27 @@ export const DeleteModal = () => {
 
     const handleDelete = () => {
         removeFromLocalStorage(currentMission.id.toString());
-        if (currentMission.parentID) unlinkLocalStorageParentSubMission(currentMission.id, currentMission.parentID);
         if (currentMission.hasChildren) {
             if (checked) {
-                const missionsToDelete = filterSelfAndLinkedChildrenMissions(currentMission, []);
+                const missionsToDelete = getSelfPlusChildrenMissions(currentMission, localStorageMissions)
                 missionsToDelete.forEach(mission => removeFromLocalStorage(mission.id.toString()));
             } else {
-                const parentID = currentMission.parentID;
-                // if (parentID) currentMission.subMissions.forEach(subMission => setLocalStorageParentSubMission(subMission, parentID));
-                // currentMission.subMissions.forEach(subMission => {
-                //     addToLocalStorage(subMission.id.toString(), 
-                //     parseMissionToString({ ...subMission, parentID: currentMission.parentID }));
-                // });
+                getMissionChildren(currentMission.id, localStorageMissions).forEach(subMission => {
+                    addToLocalStorage(
+                        subMission.id.toString(),
+                        parseMissionToString({ ...subMission, parentID: currentMission.parentID })
+                    ) 
+                })
             }
         }
-        const missionsWithSubMissions = getMissionsWithSubMissions(getLocalStorageMissions(getLocalStorageKeys()));
-        setLocalStorageMissions(missionsWithSubMissions);
+        setLocalStorageMissions(getMissionsData(getLocalStorageMissions(getLocalStorageKeys())));
         modalAction(setShowDeleteModal, setCurrentMission);
     }
 
     return (
         <div style={MODAL_STYLES} onClick={handleOutsideClick}>
             <div style={MODAL_CONTENT_STYLES} onClick={handleContentClick}>
-                <div style={{ padding: 10 }}>
+                <div style={MODAL_TITLE_TEXT_STYLES}>
                     <p style={MODAL_TITLE_STYLES}>
                         Sure You Want To Delete
                         <br />

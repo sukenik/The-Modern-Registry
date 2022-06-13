@@ -13,11 +13,6 @@ const INPUT_STYLES: CSSProperties = {
     fontSize: 15
 };
 
-// interface iSearchBarProps {
-//     searchText: string,
-//     handleSearchTextChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-// };
-
 export const SearchBar: React.FC = () => {
     const { searchText, handleSearchTextChange } = useFilteringContext()
 

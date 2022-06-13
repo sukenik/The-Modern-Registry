@@ -61,14 +61,16 @@ interface iMissionRowProps {
 };
 
 export const MissionRow: React.FC<iMissionRowProps> = ({ mission, children, level }) => {
-    const [showSubMissionList, setShowSubMissionList] = useState(false);
-    const [showOptionButtons, setShowOptionButtons] = useState(false);
-    const [showArrowButton, setShowArrowButton] = useState(false);
+    const [showSubMissionList, setShowSubMissionList] = useState(false)
+    const [showOptionButtons, setShowOptionButtons] = useState(false)
+    const [showArrowButton, setShowArrowButton] = useState(false)
+    const [arrowButttonClicked, setArrowButttonClicked] = useState(false)
 
     useEffect(() => mission.hasChildren ? setShowArrowButton(true) : setShowArrowButton(false), [mission])
+    useEffect(() => setArrowButttonClicked(false), [])
 
-    const handleOnMouseEnter = () => setShowOptionButtons(true);
-    const handleOnMouseLeave = () => setShowOptionButtons(false);
+    const handleOnMouseEnter = () => setShowOptionButtons(true)
+    const handleOnMouseLeave = () => setShowOptionButtons(false)
     
     return (
             <li key={mission.id} style={LIST_ITEM_STYLE} id={`Mission-${mission.id}`}>
@@ -80,7 +82,14 @@ export const MissionRow: React.FC<iMissionRowProps> = ({ mission, children, leve
                     onMouseEnter={handleOnMouseEnter} 
                     onMouseLeave={handleOnMouseLeave}
                 >
-                    {showArrowButton && <ArrowButton mission={mission} setShowSubMissionList={setShowSubMissionList} />}
+                    {showArrowButton && 
+                        <ArrowButton 
+                            mission={mission} 
+                            setShowSubMissionList={setShowSubMissionList} 
+                            arrowButttonClicked={arrowButttonClicked} 
+                            setArrowButttonClicked={setArrowButttonClicked}
+                        />
+                    }
                     <div style={MISSION_NAME_STYLES} className="name">{mission.description}</div>
                     <div style={MISSION_STATUS_STYLES}>
                         <div 

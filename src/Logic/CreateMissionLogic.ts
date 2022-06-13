@@ -7,18 +7,15 @@ export const getNewMission = (name: string, status: string, linkToMissionID: str
         description: name,
         status: status,
         parentID: validateLinkToMission(linkToMissionID),
-        subMissions: [] as Array<Mission>,
         hasChildren: false
     };
 };
-export const getNewMissionUpdate = (id: number, name: string, status: string, linkToMissionID: string | null | number, 
-    subMissions: Array<Mission>): Mission => {
+export const getNewMissionUpdate = (id: number, name: string, status: string, linkToMissionID: string | null | number): Mission => {
     return {
         id: id,
         description: name,
         status: status,
         parentID: validateLinkToMission(linkToMissionID),
-        subMissions: subMissions,
         hasChildren: false
     };
 }

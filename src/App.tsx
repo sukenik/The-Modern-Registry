@@ -36,7 +36,7 @@ const App: React.FC = () => {
                 <FilterableMissionListContainer>
                     <FilteringProvider>
                         <SearchBar />
-                        <MissionList missionsData={getMissionsData(localStorageMissions)} />
+                        <MissionList missionsData={localStorageMissions} />
                     </FilteringProvider>
                 </FilterableMissionListContainer>
             </div>

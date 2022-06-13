@@ -1,6 +1,7 @@
 import React, { Dispatch, SetStateAction, useContext, useState } from "react";
 import { Mission } from "../Custom-Typings/Mission";
 import { getLocalStorageKeys, getLocalStorageMissions } from "../Logic/localStorageLogic";
+import { getMissionsData } from "../Logic/subMissionLogic";
 
 interface iLocalStorageMissionsContext {
     localStorageMissions: Array<Mission>,
@@ -11,7 +12,7 @@ const LocalStorageMissionsContext = React.createContext<iLocalStorageMissionsCon
 export const useLocalStorageMissionsContext = () => useContext(LocalStorageMissionsContext) as iLocalStorageMissionsContext;
 
 export const LocalStorageMissionsProvider: React.FC = ({ children }) => {
-    const [localStorageMissions, setLocalStorageMissions] = useState(getLocalStorageMissions(getLocalStorageKeys()));
+    const [localStorageMissions, setLocalStorageMissions] = useState(getMissionsData(getLocalStorageMissions(getLocalStorageKeys())));
 
     return (
         <LocalStorageMissionsContext.Provider value={{ localStorageMissions, setLocalStorageMissions }}>

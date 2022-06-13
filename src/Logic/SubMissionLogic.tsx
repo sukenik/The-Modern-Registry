@@ -1,26 +1,8 @@
 import { CSSProperties } from "react";
 import { arrowBorderCSS } from "../Components/ArrowButton";
 import { Mission } from "../Custom-Typings/Mission";
-import { addToLocalStorage, getMissionFromLocalStorage, parseMissionToString } from "./localStorageLogic";
 import { getSelfAndParentMissions } from "./searchBarLogic";
 
-export const getMissionsWithSubMissions = (missions: Array<Mission>) => {
-    const missionsWithSubMissions = missions;
-    missionsWithSubMissions.forEach(currentMission => currentMission.subMissions = getMissionSubMissions(currentMission, missions));
-    return missionsWithSubMissions;
-};
-const getMissionSubMissions = (currentMission: Mission, missions: Array<Mission>) => 
-    missions.filter(mission => mission.parentID === currentMission.id);
-export const setLocalStorageParentSubMission = (subMission: Mission, missionID: number) => {
-    const parentMission = getMissionFromLocalStorage(missionID.toString());
-    parentMission.subMissions.push(subMission);
-    addToLocalStorage(missionID.toString(), parseMissionToString(parentMission));
-};
-export const unlinkLocalStorageParentSubMission = (subMissionID: number, parentID: number) => {
-    const parentMission = getMissionFromLocalStorage(parentID.toString());
-    parentMission.subMissions = parentMission.subMissions.filter(mission => mission.id !== subMissionID);
-    addToLocalStorage(parentID.toString(), parseMissionToString(parentMission));
-};
 export const setArrowBorder = (missionID: number, isArrowUp: boolean) => {
     const element = document.getElementById(`Mission-${missionID}`)?.querySelector('div')?.querySelector('div');
     if (element) {

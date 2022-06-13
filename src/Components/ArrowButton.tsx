@@ -24,11 +24,12 @@ const ARROW_DOWN_STYLES: CSSProperties = {
 
 interface iArrowButtonProps {
     mission: Mission,
-    setShowSubMissionList: React.Dispatch<React.SetStateAction<boolean>>
+    setShowSubMissionList: React.Dispatch<React.SetStateAction<boolean>>,
+    setArrowButttonClicked: React.Dispatch<React.SetStateAction<boolean>>,
+    arrowButttonClicked: boolean
 };
 
-export const ArrowButton: React.FC<iArrowButtonProps> = ({ setShowSubMissionList }) => {
-    const [arrowButttonClicked, setArrowButttonClicked] = useState(false)
+export const ArrowButton: React.FC<iArrowButtonProps> = ({ setShowSubMissionList, setArrowButttonClicked, arrowButttonClicked }) => {
     
     const handleArrowClick = () => {
         setArrowButttonClicked(prevState => !prevState)

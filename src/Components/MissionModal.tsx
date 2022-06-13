@@ -23,7 +23,9 @@ const MODAL_CONTENT_STYLES: CSSProperties = {
 const MODAL_TITLE_STYLES: CSSProperties = {
     textAlign: 'center',
     margin: 0,
-    fontSize: 30
+    fontSize: 30,
+    wordWrap: 'break-word',
+    padding: 10
 };
 const MODAL_BODY_STYLES: CSSProperties = {
     padding: 10,
@@ -41,7 +43,7 @@ export const MissionModal: React.FC = () => {
             <div style={MODAL_CONTENT_STYLES} onClick={handleContentClick}>
                 <div style={{ padding: 10 }}>
                     <h4 style={MODAL_TITLE_STYLES}>
-                        {currentMission.id ? 'Edit a Mission' : 'Create a Mission'}
+                        {currentMission.id ? `Edit ${currentMission.description}` : 'Create a Mission'}
                     </h4>
                 </div>
                 <div style={MODAL_BODY_STYLES}>
