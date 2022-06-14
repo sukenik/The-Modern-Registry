@@ -62,9 +62,6 @@ interface iMissionRowProps {
 export const MissionRow: React.FC<iMissionRowProps> = ({ mission, children, level }) => {
     const [showSubMissionList, setShowSubMissionList] = useState(false)
     const [showOptionButtons, setShowOptionButtons] = useState(false)
-    const [arrowButttonClicked, setArrowButttonClicked] = useState(false)
-
-    useEffect(() => setArrowButttonClicked(false), [])
 
     const handleOnMouseEnter = () => setShowOptionButtons(true)
     const handleOnMouseLeave = () => setShowOptionButtons(false)
@@ -79,13 +76,7 @@ export const MissionRow: React.FC<iMissionRowProps> = ({ mission, children, leve
                     onMouseEnter={handleOnMouseEnter} 
                     onMouseLeave={handleOnMouseLeave}
                 >
-                    {mission.hasChildren && 
-                        <ArrowButton 
-                            setShowSubMissionList={setShowSubMissionList} 
-                            arrowButttonClicked={arrowButttonClicked} 
-                            setArrowButttonClicked={setArrowButttonClicked}
-                        />
-                    }
+                    {mission.hasChildren && <ArrowButton setShowSubMissionList={setShowSubMissionList} />}
                     <div style={MISSION_NAME_STYLES} className="name">{mission.description}</div>
                     <div style={MISSION_STATUS_STYLES}>
                         <div 

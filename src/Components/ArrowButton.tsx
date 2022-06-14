@@ -1,4 +1,4 @@
-import React, { CSSProperties } from "react";
+import React, { CSSProperties, useEffect, useState } from "react";
 
 export const arrowBorderCSS = '15px solid rgb(255, 255, 255)';
 const ARROW_UP_STYLES: CSSProperties = {
@@ -20,13 +20,13 @@ const ARROW_DOWN_STYLES: CSSProperties = {
 }
 
 interface iArrowButtonProps {
-    setShowSubMissionList: React.Dispatch<React.SetStateAction<boolean>>,
-    setArrowButttonClicked: React.Dispatch<React.SetStateAction<boolean>>,
-    arrowButttonClicked: boolean
+    setShowSubMissionList: React.Dispatch<React.SetStateAction<boolean>>
 };
 
-export const ArrowButton: React.FC<iArrowButtonProps> = ({ setShowSubMissionList, setArrowButttonClicked, arrowButttonClicked }) => {
-    
+export const ArrowButton: React.FC<iArrowButtonProps> = ({ setShowSubMissionList }) => {
+    const [arrowButttonClicked, setArrowButttonClicked] = useState(false)
+    useEffect(() => setArrowButttonClicked(false), [])
+
     const handleArrowClick = () => {
         setArrowButttonClicked(prevState => !prevState)
         setShowSubMissionList(prevState => !prevState)
