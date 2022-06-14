@@ -1,7 +1,4 @@
-import React, { CSSProperties, useEffect, useRef, useState } from "react";
-import { useFilteringContext } from "../Context/FilteringContext";
-import { useLocalStorageMissionsContext } from "../Context/LocalStorageMissionsContext";
-import { Mission } from "../Custom-Typings/Mission";
+import React, { CSSProperties } from "react";
 
 export const arrowBorderCSS = '15px solid rgb(255, 255, 255)';
 const ARROW_UP_STYLES: CSSProperties = {
@@ -23,7 +20,6 @@ const ARROW_DOWN_STYLES: CSSProperties = {
 }
 
 interface iArrowButtonProps {
-    mission: Mission,
     setShowSubMissionList: React.Dispatch<React.SetStateAction<boolean>>,
     setArrowButttonClicked: React.Dispatch<React.SetStateAction<boolean>>,
     arrowButttonClicked: boolean

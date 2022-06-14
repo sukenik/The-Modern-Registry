@@ -1,4 +1,4 @@
-import React, { CSSProperties } from "react";
+import React, { CSSProperties, useState } from "react";
 import { useFilteringContext } from "../Context/FilteringContext";
 
 const SEARCH_BAR_STYLES: CSSProperties = {
@@ -14,14 +14,20 @@ const INPUT_STYLES: CSSProperties = {
 };
 
 export const SearchBar: React.FC = () => {
-    const { searchText, handleSearchTextChange } = useFilteringContext()
+    const { searchText, handleSearchTextChange, statusFilter, handleFilterStatusChange } = useFilteringContext()
 
     return (
         <div style={SEARCH_BAR_STYLES}>
             <input style={INPUT_STYLES} type="text" placeholder="Search..." value={searchText} onChange={handleSearchTextChange} />
             <div>
                 <label htmlFor="status">Filter by: </label>
-                <select style={{ cursor: 'pointer' }} name="status" id="StatusFilter">
+                <select 
+                    style={{ cursor: 'pointer' }} 
+                    name="status" 
+                    id="StatusFilter" 
+                    value={statusFilter} 
+                    onChange={handleFilterStatusChange}
+                >
                     <option value="default">No filter</option>
                     <option value="Active">Active</option>
                     <option value="Complete">Complete</option>

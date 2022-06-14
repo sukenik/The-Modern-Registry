@@ -1,5 +1,4 @@
 import React, { CSSProperties, useEffect, useState } from "react";
-import { useFilteringContext } from "../Context/FilteringContext";
 import { Mission } from "../Custom-Typings/Mission";
 import { getMissionWidth } from "../Logic/subMissionLogic";
 import { ArrowButton } from "./ArrowButton";
@@ -63,10 +62,8 @@ interface iMissionRowProps {
 export const MissionRow: React.FC<iMissionRowProps> = ({ mission, children, level }) => {
     const [showSubMissionList, setShowSubMissionList] = useState(false)
     const [showOptionButtons, setShowOptionButtons] = useState(false)
-    const [showArrowButton, setShowArrowButton] = useState(false)
     const [arrowButttonClicked, setArrowButttonClicked] = useState(false)
 
-    useEffect(() => mission.hasChildren ? setShowArrowButton(true) : setShowArrowButton(false), [mission])
     useEffect(() => setArrowButttonClicked(false), [])
 
     const handleOnMouseEnter = () => setShowOptionButtons(true)
@@ -82,9 +79,8 @@ export const MissionRow: React.FC<iMissionRowProps> = ({ mission, children, leve
                     onMouseEnter={handleOnMouseEnter} 
                     onMouseLeave={handleOnMouseLeave}
                 >
-                    {showArrowButton && 
+                    {mission.hasChildren && 
                         <ArrowButton 
-                            mission={mission} 
                             setShowSubMissionList={setShowSubMissionList} 
                             arrowButttonClicked={arrowButttonClicked} 
                             setArrowButttonClicked={setArrowButttonClicked}

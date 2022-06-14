@@ -15,8 +15,17 @@ export const setArrowBorder = (missionID: number, isArrowUp: boolean) => {
         }
     }
 };
-export const getMissionsData = (missions: Array<Mission>, debounceText?: string) => {
-    if (!debounceText) return setHasChildren(missions)
+export const getMissionsData = (missions: Array<Mission>, debounceText: string = '', statusFilter: string = 'default'): 
+    Array<Mission> => {
+
+    if (!debounceText && statusFilter === 'default') {
+        return setHasChildren(missions)
+    }
+    else if (!debounceText) {
+        console.log(filterMissionsByStatus(missions, statusFilter));
+        return setHasChildren(filterMissionsByStatus(missions, statusFilter))
+    }
+
     const searchResults: Array<Mission> = missions.filter(
         mission => mission.description.toLowerCase().includes(debounceText.toLowerCase())
     )
@@ -24,7 +33,10 @@ export const getMissionsData = (missions: Array<Mission>, debounceText?: string)
 
     return setHasChildren(missionTrees.reduce((accum, iterator) => {                
         iterator.forEach(mission => {
-            if (!accum.some(am => am.id === mission.id)) accum.push(mission)
+            if (!accum.some(am => am.id === mission.id) && validateStatusFilter(statusFilter, mission.status)) {
+                console.log(mission.description, mission.status, statusFilter);
+                accum.push(mission)
+            }
         })
         return accum
     }, [] as Array<Mission>))
@@ -44,4 +56,21 @@ const setHasChildren = (missions: Array<Mission>) => {
         ...mission,
         hasChildren: missions.filter(m => m.parentID === mission.id).length > 0
     }))
+}
+const validateStatusFilter = (statusFilter: string, missionStatus: string): boolean => 
+    statusFilter === 'default' ? true : statusFilter === missionStatus
+
+const filterMissionsByStatus = (missions: Array<Mission>, statusFilter: string): Array<Mission> => {
+    return missions.reduce((accum, mission) => {
+        if (validateStatusFilter(statusFilter, mission.status) && !accum.some(am => am.id === mission.id)) {
+            if (mission.parentID) {
+                getSelfAndParentMissions(mission).forEach(m => {
+                    if (!accum.some(am => am.id === m.id)) accum.push(m)
+                })
+            } else {
+                accum.push(mission)
+            }
+        }
+        return accum
+    }, [] as Array<Mission>)
 }

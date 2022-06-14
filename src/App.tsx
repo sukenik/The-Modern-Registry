@@ -1,5 +1,5 @@
 import { hot } from "react-hot-loader";
-import React, { CSSProperties, useEffect } from 'react';
+import React, { CSSProperties } from 'react';
 import { Title } from "./Components/Title";
 import { FilterableMissionListContainer } from "./Components/FilterableMissionListContainer";
 import { SearchBar } from "./Components/SearchBar";
@@ -8,14 +8,9 @@ import { CreateMissionButton } from "./Components/CreateMissionButton";
 import { MissionModal } from "./Components/MissionModal";
 import { CurrentMissionProvider } from "./Context/MissionContext";
 import { useShowModalContext } from "./Context/ModalContext";
-import { LocalStorageMissionsProvider, useLocalStorageMissionsContext } from "./Context/LocalStorageMissionsContext";
+import { useLocalStorageMissionsContext } from "./Context/LocalStorageMissionsContext";
 import { DeleteModal } from "./Components/DeleteModal";
-import { useDebounce } from "./Hooks/useDebounce";
-import { ArrowButtonClickProvider } from "./Context/ArrowButtonClickContext";
-import { MissionRow } from "./Components/MissionRow";
-import { getMissionsData } from "./Logic/subMissionLogic";
-import { getLocalStorageKeys, getLocalStorageMissions } from "./Logic/localStorageLogic";
-import { FilteringProvider, useFilteringContext } from "./Context/FilteringContext";
+import { FilteringProvider } from "./Context/FilteringContext";
 
 const APP_STYLES: CSSProperties = {
     display: 'flex',

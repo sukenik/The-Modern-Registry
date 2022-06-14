@@ -1,12 +1,10 @@
 import React, { CSSProperties, useEffect, useState } from "react";
 import { useLocalStorageMissionsContext } from "../Context/LocalStorageMissionsContext";
-import { defaultMission, useCurrentMissionContext } from "../Context/MissionContext";
+import { useCurrentMissionContext } from "../Context/MissionContext";
 import { useShowModalContext } from "../Context/ModalContext";
 import { Mission } from "../Custom-Typings/Mission";
-import { getNewMission, getNewMissionUpdate, validateLinkToMission } from "../Logic/createMissionLogic";
 import { getLinkToMissionOptions } from "../Logic/filterLinkToMissionFieldLogic";
 import { modalAction } from "../Logic/helperFunctions";
-import { addToLocalStorage, getLocalStorageKeys, getLocalStorageMissions, parseMissionToString } from "../Logic/localStorageLogic";
 import { getDefaultLinkToMissionElement, getMissionsToLinkElements, getStatusElements, iFormFields, validateFormFields } from "../Logic/missionFormLogic";
 import { getMissionsData } from "../Logic/subMissionLogic";
 
@@ -89,12 +87,9 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission, handleSave }
         e.preventDefault()
         modalAction(setShowMissionModal, setCurrentMission)
     }
-    const statusElements = getStatusElements(modalType, formValues);
-    const linkToMissionOptions = getLinkToMissionOptions(mission, getMissionsData(localStorageMissions));
-    const missionsFitToLinkOptionElements = getMissionsToLinkElements(linkToMissionOptions);
-
-    // TODO; Fix
-    const hasMissionsForLink = missionsFitToLinkOptionElements.length === 0;
+    const statusElements = getStatusElements(modalType, formValues)
+    const linkToMissionOptions = getLinkToMissionOptions(mission, getMissionsData(localStorageMissions))
+    const missionsFitToLinkOptionElements = getMissionsToLinkElements(linkToMissionOptions)
 
     const defaultLinkToMissionOption = getDefaultLinkToMissionElement(mission, getMissionsData(localStorageMissions));
 
@@ -129,9 +124,9 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission, handleSave }
             <label style={LABEL_INPUT_STYLES}>Link to mission:</label>
             <select 
                 name="linkToMission" 
-                defaultValue={mission.parentID === null ? 'default' : mission.parentID} 
+                defaultValue={mission.parentID ?? 'default'} 
                 onChange={handleChange} 
-                disabled={mission.parentID !== null ? false : hasMissionsForLink}
+                disabled={mission.parentID ? false : !missionsFitToLinkOptionElements.length}
                 style={SELECT_STYLES}
             >
                 {defaultLinkToMissionOption}

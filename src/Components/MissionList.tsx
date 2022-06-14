@@ -28,12 +28,15 @@ export const MissionList: React.FC<iMissionListProps> = ({ missionsData, parentI
     const [missionsDataProp, setMissionsDataProp] = useState(missionsData)
     if (!missionsData.filter(mission => mission.parentID === parentID).length) return null
     const { localStorageMissions } = useLocalStorageMissionsContext()
-    const { debounceText } = useFilteringContext()
+    const { debounceText, statusFilter } = useFilteringContext()
 
-    useEffect(
-        () => setMissionsDataProp(getMissionsData(localStorageMissions, debounceText)), 
-        [debounceText, localStorageMissions]
-    );
+    useEffect(() => {
+        if (!parentID) {
+            setMissionsDataProp(getMissionsData(localStorageMissions, debounceText, statusFilter))
+        } else if (!debounceText && statusFilter === 'default') {
+            setMissionsDataProp(getMissionsData(localStorageMissions))
+        }
+    }, [debounceText, localStorageMissions, statusFilter])
 
     return (
         <ul style={parentID ? getSubMissionPadding(SUB_MISSION_LIST_STYLES, level) : MISSION_LIST_STYLES}>
