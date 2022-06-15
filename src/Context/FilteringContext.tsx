@@ -7,7 +7,9 @@ interface iFilteringContext {
     handleSearchTextChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
     statusFilter: string,
     setStatusFilter: React.Dispatch<React.SetStateAction<string>>,
-    handleFilterStatusChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
+    handleFilterStatusChange: (e: React.ChangeEvent<HTMLSelectElement>) => void,
+    closeArrowButtonOnFilter: boolean,
+    setCloseArrowButtonOnFilter: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const FilteringContext = React.createContext<iFilteringContext | string>('')
@@ -16,12 +18,31 @@ export const useFilteringContext = () => useContext(FilteringContext) as iFilter
 export const FilteringProvider: React.FC = ({ children }) => {
     const [debounceText, searchText, setSearchText] = useDebounce('', 500)
     const [statusFilter, setStatusFilter] = useState('default')
-    const handleSearchTextChange = (e: React.ChangeEvent<HTMLInputElement>) => setSearchText(e.target.value)
-    const handleFilterStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => setStatusFilter(e.target.value)
+    const [closeArrowButtonOnFilter, setCloseArrowButtonOnFilter] = useState(false)
+
+    const handleSearchTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchText(e.target.value)
+        setCloseArrowButtonOnFilter(true)
+    }
+    const handleFilterStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setStatusFilter(e.target.value)
+        setCloseArrowButtonOnFilter(true)
+    }
 
     return (
         <FilteringContext.Provider 
-            value={{ debounceText, searchText, handleSearchTextChange, statusFilter, setStatusFilter, handleFilterStatusChange }}
+            value={
+                { 
+                    debounceText, 
+                    searchText, 
+                    handleSearchTextChange, 
+                    statusFilter, 
+                    setStatusFilter, 
+                    handleFilterStatusChange, 
+                    closeArrowButtonOnFilter, 
+                    setCloseArrowButtonOnFilter
+                }
+            }
         >
             {children}
         </FilteringContext.Provider>

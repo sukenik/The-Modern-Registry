@@ -1,4 +1,5 @@
-import React, { CSSProperties, useEffect, useState } from "react";
+import React, { CSSProperties, useEffect, useRef, useState } from "react";
+import { useFilteringContext } from "../Context/FilteringContext";
 
 export const arrowBorderCSS = '15px solid rgb(255, 255, 255)';
 const ARROW_UP_STYLES: CSSProperties = {
@@ -6,8 +7,8 @@ const ARROW_UP_STYLES: CSSProperties = {
     height: 0,
     borderLeft: '12px solid transparent',
     borderRight: '12px solid transparent',
-    borderTop: arrowBorderCSS,
-    borderBottom: 0,
+    borderTop: 0,
+    borderBottom: arrowBorderCSS,
     alignSelf: 'center',
     marginLeft: 5,
     order: 1,
@@ -15,8 +16,8 @@ const ARROW_UP_STYLES: CSSProperties = {
 };
 const ARROW_DOWN_STYLES: CSSProperties = {
     ...ARROW_UP_STYLES,
-    borderTop: 0,
-    borderBottom: arrowBorderCSS
+    borderTop: arrowBorderCSS,
+    borderBottom: 0
 }
 
 interface iArrowButtonProps {
@@ -24,13 +25,25 @@ interface iArrowButtonProps {
 };
 
 export const ArrowButton: React.FC<iArrowButtonProps> = ({ setShowSubMissionList }) => {
-    const [arrowButttonClicked, setArrowButttonClicked] = useState(false)
-    useEffect(() => setArrowButttonClicked(false), [])
+    const [arrowButtonClicked, setArrowButtonClicked] = useState(false)
+    const { closeArrowButtonOnFilter, setCloseArrowButtonOnFilter, debounceText, statusFilter } = useFilteringContext()
+    
+    useEffect(() => setArrowButtonClicked(false), [])
+    useEffect(() => {
+        setShowSubMissionList(false)
+        setArrowButtonClicked(false)
+    }, [debounceText, statusFilter])
 
     const handleArrowClick = () => {
-        setArrowButttonClicked(prevState => !prevState)
+        setArrowButtonClicked(prevState => !prevState)
         setShowSubMissionList(prevState => !prevState)
+        setCloseArrowButtonOnFilter(false)
     }
 
-    return <div style={arrowButttonClicked ? ARROW_DOWN_STYLES : ARROW_UP_STYLES} onClick={handleArrowClick} />
+    return (
+        <div 
+            style={!closeArrowButtonOnFilter && arrowButtonClicked ? ARROW_UP_STYLES : ARROW_DOWN_STYLES} 
+            onClick={handleArrowClick} 
+        />
+    )
 };

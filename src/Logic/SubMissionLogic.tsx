@@ -22,7 +22,6 @@ export const getMissionsData = (missions: Array<Mission>, debounceText: string =
         return setHasChildren(missions)
     }
     else if (!debounceText) {
-        console.log(filterMissionsByStatus(missions, statusFilter));
         return setHasChildren(filterMissionsByStatus(missions, statusFilter))
     }
 
@@ -34,7 +33,6 @@ export const getMissionsData = (missions: Array<Mission>, debounceText: string =
     return setHasChildren(missionTrees.reduce((accum, iterator) => {                
         iterator.forEach(mission => {
             if (!accum.some(am => am.id === mission.id) && validateStatusFilter(statusFilter, mission.status)) {
-                console.log(mission.description, mission.status, statusFilter);
                 accum.push(mission)
             }
         })
