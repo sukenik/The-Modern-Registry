@@ -1,15 +1,19 @@
-import React, { CSSProperties, useEffect, useMemo, useState } from "react";
-import { useArrowButtonClick } from "../Context/ArrowButtonClickContext";
+import React, { CSSProperties, useEffect, useState } from "react";
 import { useFilteringContext } from "../Context/FilteringContext";
 import { useLocalStorageMissionsContext } from "../Context/LocalStorageMissionsContext";
-import { defaultMission } from "../Context/MissionContext";
 import { Mission } from "../Custom-Typings/Mission";
-import { getSelfAndParentMissions } from "../Logic/searchBarLogic";
 import { getMissionsData, getSubMissionPadding } from "../Logic/subMissionLogic";
 import { MissionRow } from "./MissionRow";
-import { SUB_MISSION_LIST_STYLES } from "./SubMissionList";
 
-export const MISSION_LIST_STYLES: CSSProperties = {
+const SUB_MISSION_LIST_STYLES: CSSProperties = {
+    backgroundColor: 'rgba(218, 218, 218)',
+    display: 'flex',
+    flexDirection: 'column',
+    order: 5,
+    paddingLeft: 25
+};
+
+const MISSION_LIST_STYLES: CSSProperties = {
     marginBottom: 30,
     display: 'flex',
     flexDirection: 'column',

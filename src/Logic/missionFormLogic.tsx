@@ -2,6 +2,7 @@ import React from "react";
 import { Mission } from "../Custom-Typings/Mission";
 import { getNewMission, getNewMissionUpdate } from "./createMissionLogic";
 import { addToLocalStorage, getLocalStorageKeys, getLocalStorageMissions, parseMissionToString } from "./localStorageLogic";
+import { getMissionsData } from "./subMissionLogic";
 
 export interface iFormFields {
     name?: string,
@@ -53,12 +54,12 @@ const getMissionNameByID = (id: number, missions: Array<Mission>) => missions.fi
 const getUnlinkOptionElement = () => <option style={{ color: 'red' }} value="default">Unlink from parent</option>;
 
 export const onUpdate = (name: string, status: string, linkToMission: string | number | null, mission: Mission): Array<Mission> => {
-    const newMissionUpdate = getNewMissionUpdate(mission.id, name, status, linkToMission);
-    addToLocalStorage(mission.id.toString(), parseMissionToString(newMissionUpdate));
-    return getLocalStorageMissions(getLocalStorageKeys());
+    const newMissionUpdate = getNewMissionUpdate(mission.id, name, status, linkToMission)
+    addToLocalStorage(mission.id.toString(), parseMissionToString(newMissionUpdate))
+    return getMissionsData(getLocalStorageMissions(getLocalStorageKeys()))
 }
 export const onCreate = (name: string, status: string, linkToMission: string | number | null): Array<Mission> => {
-    const newMission = getNewMission(name, status, linkToMission);
-    addToLocalStorage(newMission.id.toString(), parseMissionToString(newMission));
-    return getLocalStorageMissions(getLocalStorageKeys());
+    const newMission = getNewMission(name, status, linkToMission)
+    addToLocalStorage(newMission.id.toString(), parseMissionToString(newMission))
+    return getMissionsData(getLocalStorageMissions(getLocalStorageKeys()))
 }

@@ -5,7 +5,7 @@ import { SearchBar } from "./Components/SearchBar";
 import { MissionList } from "./Components/MissionList";
 import { CreateMissionButton } from "./Components/CreateMissionButton";
 import { MissionModal } from "./Components/MissionModal";
-import { CurrentMissionProvider } from "./Context/MissionContext";
+import { CurrentMissionProvider } from "./Context/CurrentMissionContext";
 import { useShowModalContext } from "./Context/ModalContext";
 import { useLocalStorageMissionsContext } from "./Context/LocalStorageMissionsContext";
 import { DeleteModal } from "./Components/DeleteModal";

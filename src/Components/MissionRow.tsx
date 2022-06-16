@@ -92,7 +92,7 @@ export const MissionRow: React.FC<iMissionRowProps> = ({ mission, children, leve
                         {showOptionButtons && <><EditButton mission={mission} /><DeleteButton mission={mission} /></>}
                     </div>
                 </div>
-                {(mission.hasChildren && showSubMissionList) && children}
+                { (mission.hasChildren && showSubMissionList) && children }
         </li>
     );
 };

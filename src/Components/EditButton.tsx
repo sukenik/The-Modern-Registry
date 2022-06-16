@@ -1,7 +1,7 @@
 import React, { CSSProperties } from "react";
 import pencilIcon from '../../Assets/pencil-gef11d3429_640.png';
 import { Mission } from "../Custom-Typings/Mission";
-import { useCurrentMissionContext } from '../Context/MissionContext';
+import { useCurrentMissionContext } from '../Context/CurrentMissionContext';
 import { useShowModalContext } from "../Context/ModalContext";
 import { modalAction } from "../Logic/helperFunctions";
 

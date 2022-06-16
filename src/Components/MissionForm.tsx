@@ -1,6 +1,6 @@
 import React, { CSSProperties, useEffect, useState } from "react";
 import { useLocalStorageMissionsContext } from "../Context/LocalStorageMissionsContext";
-import { useCurrentMissionContext } from "../Context/MissionContext";
+import { useCurrentMissionContext } from "../Context/CurrentMissionContext";
 import { useShowModalContext } from "../Context/ModalContext";
 import { Mission } from "../Custom-Typings/Mission";
 import { getLinkToMissionOptions } from "../Logic/filterLinkToMissionFieldLogic";
@@ -66,9 +66,7 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission, handleSave }
 
     useEffect(() => {
         if (Object.keys(formErrors).length === 0 && isSubmit) {
-            setLocalStorageMissions(
-                getMissionsData(handleSave(formValues.name, formValues.status, formValues.linkToMission, mission))
-            )
+            setLocalStorageMissions(handleSave(formValues.name, formValues.status, formValues.linkToMission, mission))
             modalAction(setShowMissionModal, setCurrentMission);
         }
     }, [formErrors]);
@@ -90,7 +88,6 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission, handleSave }
     const statusElements = getStatusElements(modalType, formValues)
     const linkToMissionOptions = getLinkToMissionOptions(mission, getMissionsData(localStorageMissions))
     const missionsFitToLinkOptionElements = getMissionsToLinkElements(linkToMissionOptions)
-
     const defaultLinkToMissionOption = getDefaultLinkToMissionElement(mission, getMissionsData(localStorageMissions));
 
     return (

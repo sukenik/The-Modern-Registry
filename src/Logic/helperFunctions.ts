@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { defaultMission } from "../Context/MissionContext";
+import { defaultMission } from "../Context/CurrentMissionContext";
 import { Mission } from "../Custom-Typings/Mission";
 
 export const modalAction = (

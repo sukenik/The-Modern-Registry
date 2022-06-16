@@ -1,6 +1,6 @@
 import React, { CSSProperties } from "react";
 import trashCanIcon from '../../Assets/garbage-g0e5e69325_640.png';
-import { useCurrentMissionContext } from "../Context/MissionContext";
+import { useCurrentMissionContext } from "../Context/CurrentMissionContext";
 import { useShowModalContext } from "../Context/ModalContext";
 import { Mission } from "../Custom-Typings/Mission";
 import { modalAction } from "../Logic/helperFunctions";

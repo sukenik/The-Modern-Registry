@@ -1,6 +1,6 @@
 import React, { CSSProperties, useState } from "react";
 import { useLocalStorageMissionsContext } from "../Context/LocalStorageMissionsContext";
-import { useCurrentMissionContext } from "../Context/MissionContext";
+import { useCurrentMissionContext } from "../Context/CurrentMissionContext";
 import { useShowModalContext } from "../Context/ModalContext";
 import { getSelfPlusChildrenMissions } from "../Logic/filterLinkToMissionFieldLogic";
 import { getMissionChildren, modalAction } from "../Logic/helperFunctions";

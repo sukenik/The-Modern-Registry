@@ -1,5 +1,5 @@
 import React, { CSSProperties } from "react";
-import { defaultMission, useCurrentMissionContext } from "../Context/MissionContext";
+import { defaultMission, useCurrentMissionContext } from "../Context/CurrentMissionContext";
 import { useShowModalContext } from "../Context/ModalContext";
 import { modalAction } from "../Logic/helperFunctions";
 import { onCreate, onUpdate } from "../Logic/missionFormLogic";
