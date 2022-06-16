@@ -13,13 +13,3 @@ export const getSelfAndParentMissions = (mission: Mission, linkedParentStack: Ar
         getSelfAndParentMissions(getMissionFromLocalStorage(mission.parentID.toString()), linkedParentStack);
     return linkedParents;
 };
-export const hasSearchedMission = (subMissions: Array<Mission>, searchString: string): boolean => {
-    let foundSearchedMission = false;
-    subMissions.forEach(subMission => {
-        if (subMission.description.toLowerCase().includes(searchString.toLowerCase())) 
-            foundSearchedMission = true;
-        else if (!foundSearchedMission && subMission.subMissions.length)
-            foundSearchedMission = hasSearchedMission(subMission.subMissions, searchString);
-    });
-    return foundSearchedMission;
-};

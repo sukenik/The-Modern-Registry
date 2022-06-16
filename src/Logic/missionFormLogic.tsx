@@ -1,5 +1,8 @@
 import React from "react";
 import { Mission } from "../Custom-Typings/Mission";
+import { getNewMission, getNewMissionUpdate } from "./createMissionLogic";
+import { addToLocalStorage, getLocalStorageKeys, getLocalStorageMissions, parseMissionToString } from "./localStorageLogic";
+import { getMissionsData } from "./subMissionLogic";
 
 export interface iFormFields {
     name?: string,
@@ -23,20 +26,40 @@ export const getStatusElements = (modalType: string, formValues: iFormFields) =>
     return modalType === 'Create' ? 
         ['Active', 'Complete'].map(status => <option key={status} value={status}>{status}</option>) : 
         ['Active', 'Complete'].map(status => 
-            <option key={status} value={status} hidden={formValues.status === status}>{status}</option>);
+            <option key={status} value={status} hidden={formValues.status === status}>{status}</option>
+        );
 };
 export const getMissionsToLinkElements = (linkToMissionOptions: Array<Mission>) => 
-    linkToMissionOptions.map(mission => <option key={mission.id} value={mission.id}>
+    linkToMissionOptions.map(mission => 
+        <option key={mission.id} value={mission.id}>
             {mission.description}
-        </option>);
+        </option>
+    );
 export const getDefaultLinkToMissionElement = (mission: Mission, missions: Array<Mission>) => {
     if (mission.parentID) {
-        return (<>{getUnlinkOptionElement()} <option value={mission.parentID} disabled hidden>
-            {getMissionNameByID(mission.parentID, missions)}
-        </option></>)
+        return (
+                <>
+                    {getUnlinkOptionElement()} 
+                    <option value={mission.parentID} disabled hidden>
+                        {getMissionNameByID(mission.parentID, missions)}
+                    </option>
+                </>
+        )
     }
     return (<option value="default" disabled hidden></option>);
 };
 const getMissionNameByID = (id: number, missions: Array<Mission>) => missions.filter(
     mission => mission.id === id)[0].description;
+
 const getUnlinkOptionElement = () => <option style={{ color: 'red' }} value="default">Unlink from parent</option>;
+
+export const onUpdate = (name: string, status: string, linkToMission: string | number | null, mission: Mission): Array<Mission> => {
+    const newMissionUpdate = getNewMissionUpdate(mission.id, name, status, linkToMission)
+    addToLocalStorage(mission.id.toString(), parseMissionToString(newMissionUpdate))
+    return getMissionsData(getLocalStorageMissions(getLocalStorageKeys()))
+}
+export const onCreate = (name: string, status: string, linkToMission: string | number | null): Array<Mission> => {
+    const newMission = getNewMission(name, status, linkToMission)
+    addToLocalStorage(newMission.id.toString(), parseMissionToString(newMission))
+    return getMissionsData(getLocalStorageMissions(getLocalStorageKeys()))
+}

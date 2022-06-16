@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { defaultMission } from "../Context/MissionContext";
+import { defaultMission } from "../Context/CurrentMissionContext";
 import { Mission } from "../Custom-Typings/Mission";
 
 export const modalAction = (
@@ -14,3 +14,5 @@ export const modalAction = (
             setCurrentMission(defaultMission);
         }
 };
+export const getMissionChildren = (missionID: number, missions: Array<Mission>): Array<Mission> => 
+    missions.filter(mission => mission.parentID === missionID)

@@ -1,12 +1,9 @@
 import React, { CSSProperties, useEffect, useState } from "react";
-import { useLocalStorageMissions } from "../Context/LocalStorageMissionsContext";
 import { Mission } from "../Custom-Typings/Mission";
-import { hasSearchedMission } from "../Logic/searchBarLogic";
-import { getMissionsWithSubMissions, setMissionElementWidth } from "../Logic/subMissionLogic";
+import { getMissionWidth } from "../Logic/subMissionLogic";
 import { ArrowButton } from "./ArrowButton";
 import { DeleteButton } from "./DeleteButton";
 import { EditButton } from "./EditButton";
-import { SubMissionList } from "./SubMissionList";
 
 const MISSION_STYLES: CSSProperties = {
     backgroundColor: 'rgb(92, 91, 91)',
@@ -51,64 +48,51 @@ const MISSION_NAME_STYLES: CSSProperties = {
     whiteSpace: 'nowrap',
     cursor: 'default'
 };
+const LIST_ITEM_STYLE: CSSProperties = {
+    margin: 0,
+    padding: 0,
+    listStyleType: 'none'
+}
 
 interface iMissionRowProps {
     mission: Mission,
-    debounceText: string
+    level: number
 };
 
-export const MissionRow: React.FC<iMissionRowProps> = ({ mission, debounceText }) => {
-    const [showSubMissionList, setShowSubMissionList] = useState(false);
-    const [showOptionButtons, setShowOptionButtons] = useState(false);
-    const [showArrowButton, setShowArrowButton] = useState(false);
-    const [arrowButtonClicked, setArrowButtonClicked] = useState(false);
-    const { localStorageMissions, setLocalStorageMissions } = useLocalStorageMissions();
-    const renderSubMissionsElement = !!mission.subMissions.length && showSubMissionList;
-    const showSubMissions = (show: boolean) => {
-        setShowSubMissionList(show);
-        setArrowButtonClicked(show);
-    };
-    useEffect(() => {
-        setMissionElementWidth(mission.parentID, mission.id);
-        const missionsWithSubMissions = getMissionsWithSubMissions(localStorageMissions);
-        setLocalStorageMissions(missionsWithSubMissions);
-        if (mission.subMissions.length) setShowArrowButton(true);
-        else setShowArrowButton(false);
-    }, [mission]);
-    useEffect(() => {
-        if (debounceText !== '') {
-            if (mission.subMissions.length && hasSearchedMission(mission.subMissions, debounceText))
-                showSubMissions(true);
-            else showSubMissions(false);
-        } else showSubMissions(false);
-    }, [debounceText]);
-    const handleOnMouseEnter = () => setShowOptionButtons(true);
-    const handleOnMouseLeave = () => setShowOptionButtons(false);
+export const MissionRow: React.FC<iMissionRowProps> = ({ mission, children, level }) => {
+    const [showSubMissionList, setShowSubMissionList] = useState(false)
+    const [showOptionButtons, setShowOptionButtons] = useState(false)
 
+    const handleOnMouseEnter = () => setShowOptionButtons(true)
+    const handleOnMouseLeave = () => setShowOptionButtons(false)
+    
     return (
-        <li 
-            style={mission.parentID ? MISSION_STYLES : {...MISSION_STYLES, marginTop: 10}} 
-            id={`Mission-${mission.id}`} 
-            onMouseEnter={handleOnMouseEnter} 
-            onMouseLeave={handleOnMouseLeave}>
-            {showArrowButton && <ArrowButton 
-                setShowSubMissionList={setShowSubMissionList}
-                setArrowButtonClicked={setArrowButtonClicked} 
-                arrowButtonClicked={arrowButtonClicked}
-                mission={mission} />}
-            <div style={MISSION_NAME_STYLES} className="name">{mission.description}</div>
-            <div style={MISSION_STATUS_STYLES}>
-                <div style={mission.status === 'Active' ? 
-                    {...STATUS_STYLES, paddingRight: 26, paddingLeft: 26} : STATUS_STYLES}>
-                    {mission.status}</div>
-            </div>
-            <div style={MISSION_INFO_STYLES}>
-                {showOptionButtons && <><EditButton mission={mission} /><DeleteButton mission={mission} /></>}
-            </div>
-            {renderSubMissionsElement && <SubMissionList 
-                setAreButtonsShown={setShowOptionButtons} 
-                currentMission={mission} 
-                debounceText={debounceText} />}
+            <li key={mission.id} style={LIST_ITEM_STYLE} id={`Mission-${mission.id}`}>
+                <div 
+                    style={mission.parentID ? 
+                        getMissionWidth(MISSION_STYLES, level) : 
+                        getMissionWidth({...MISSION_STYLES, marginTop: 10}, level)
+                    }
+                    onMouseEnter={handleOnMouseEnter} 
+                    onMouseLeave={handleOnMouseLeave}
+                >
+                    {mission.hasChildren && <ArrowButton setShowSubMissionList={setShowSubMissionList} />}
+                    <div style={MISSION_NAME_STYLES} className="name">{mission.description}</div>
+                    <div style={MISSION_STATUS_STYLES}>
+                        <div 
+                            style={mission.status === 'Active' ? 
+                                {...STATUS_STYLES, paddingRight: 26, paddingLeft: 26} : 
+                                STATUS_STYLES
+                            }
+                        >
+                            {mission.status}
+                        </div>
+                    </div>
+                    <div style={MISSION_INFO_STYLES}>
+                        {showOptionButtons && <><EditButton mission={mission} /><DeleteButton mission={mission} /></>}
+                    </div>
+                </div>
+                { (mission.hasChildren && showSubMissionList) && children }
         </li>
     );
 };

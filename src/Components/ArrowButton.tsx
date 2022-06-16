@@ -1,47 +1,49 @@
-import React, { CSSProperties, useEffect } from "react";
-import { Mission } from "../Custom-Typings/Mission";
-import { setArrowBorder } from "../Logic/subMissionLogic";
+import React, { CSSProperties, useEffect, useRef, useState } from "react";
+import { useFilteringContext } from "../Context/FilteringContext";
 
 export const arrowBorderCSS = '15px solid rgb(255, 255, 255)';
-const ARROW_STYLES: CSSProperties = {
+const ARROW_UP_STYLES: CSSProperties = {
     width: 0,
     height: 0,
     borderLeft: '12px solid transparent',
     borderRight: '12px solid transparent',
-    borderTop: arrowBorderCSS,
-    borderBottom: 0,
+    borderTop: 0,
+    borderBottom: arrowBorderCSS,
     alignSelf: 'center',
     marginLeft: 5,
     order: 1,
     cursor: 'pointer'
 };
+const ARROW_DOWN_STYLES: CSSProperties = {
+    ...ARROW_UP_STYLES,
+    borderTop: arrowBorderCSS,
+    borderBottom: 0
+}
 
 interface iArrowButtonProps {
-    setShowSubMissionList: React.Dispatch<React.SetStateAction<boolean>>,
-    setArrowButtonClicked: React.Dispatch<React.SetStateAction<boolean>>,
-    arrowButtonClicked: boolean,
-    mission: Mission
+    setShowSubMissionList: React.Dispatch<React.SetStateAction<boolean>>
 };
 
-export const ArrowButton: React.FC<iArrowButtonProps> = ({ 
-    setShowSubMissionList, 
-    setArrowButtonClicked, 
-    arrowButtonClicked, 
-    mission }) => {
-    useEffect(() => setArrowBorder(mission.id, arrowButtonClicked), [arrowButtonClicked, mission]);
-    const handleArrowClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        if (arrowButtonClicked) {
-            e.currentTarget.style.borderTop = arrowBorderCSS;
-            e.currentTarget.style.borderBottom = '0';
-            setShowSubMissionList(false);
-            setArrowButtonClicked(false);
-        } else {
-            e.currentTarget.style.borderBottom = arrowBorderCSS;
-            e.currentTarget.style.borderTop = '0';
-            setShowSubMissionList(true);
-            setArrowButtonClicked(true);
-        }
+export const ArrowButton: React.FC<iArrowButtonProps> = ({ setShowSubMissionList }) => {
+    const [arrowButtonClicked, setArrowButtonClicked] = useState(false)
+    const { closeArrowButtonOnFilter, setCloseArrowButtonOnFilter, searchText, statusFilter } = useFilteringContext()
+    
+    useEffect(() => setArrowButtonClicked(false), [])
+    useEffect(() => {
+        setShowSubMissionList(false)
+        setArrowButtonClicked(false)
+    }, [searchText, statusFilter])
+
+    const handleArrowClick = () => {
+        setArrowButtonClicked(prevState => !prevState)
+        setShowSubMissionList(prevState => !prevState)
+        setCloseArrowButtonOnFilter(false)
     }
 
-    return <div style={ARROW_STYLES} onClick={handleArrowClick} />
+    return (
+        <div 
+            style={!closeArrowButtonOnFilter && arrowButtonClicked ? ARROW_UP_STYLES : ARROW_DOWN_STYLES} 
+            onClick={handleArrowClick} 
+        />
+    )
 };

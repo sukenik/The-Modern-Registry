@@ -1,9 +1,17 @@
 import React, { CSSProperties, useEffect, useState } from "react";
-import { useLocalStorageMissions } from "../Context/LocalStorageMissionsContext";
+import { useFilteringContext } from "../Context/FilteringContext";
+import { useLocalStorageMissionsContext } from "../Context/LocalStorageMissionsContext";
 import { Mission } from "../Custom-Typings/Mission";
-import { getSelfAndParentMissions } from "../Logic/searchBarLogic";
-import { getMissionsWithSubMissions } from "../Logic/subMissionLogic";
+import { getMissionsData, getSubMissionPadding } from "../Logic/subMissionLogic";
 import { MissionRow } from "./MissionRow";
+
+const SUB_MISSION_LIST_STYLES: CSSProperties = {
+    backgroundColor: 'rgba(218, 218, 218)',
+    display: 'flex',
+    flexDirection: 'column',
+    order: 5,
+    paddingLeft: 25
+};
 
 const MISSION_LIST_STYLES: CSSProperties = {
     marginBottom: 30,
@@ -15,29 +23,34 @@ const MISSION_LIST_STYLES: CSSProperties = {
 };
 
 interface iMissionListProps {
-    debounceText: string
+    missionsData: Array<Mission>,
+    parentID?: number,
+    level?: number
 };
 
-export const MissionList: React.FC<iMissionListProps> = ({ debounceText }) => {
-    const { localStorageMissions } = useLocalStorageMissions();
-    const [missions, setMissions] = useState(localStorageMissions);
+export const MissionList: React.FC<iMissionListProps> = ({ missionsData, parentID = null, level = 0 }) => {
+    const [missionsDataProp, setMissionsDataProp] = useState(missionsData)
+    if (!missionsData.filter(mission => mission.parentID === parentID).length) return null
+    const { localStorageMissions } = useLocalStorageMissionsContext()
+    const { debounceText, statusFilter } = useFilteringContext()
+
     useEffect(() => {
-        if (!debounceText) return setMissions(localStorageMissions.filter(mission => !mission.parentID));
-        let searchResults: Array<Mission> = localStorageMissions.filter(
-            mission => mission.description.toLowerCase().includes(debounceText.toLowerCase()));
-        const missionTrees = searchResults.map(mission => getSelfAndParentMissions(mission));
-        const finalMissionList = [] as Array<Mission>;
-        missionTrees.forEach((missionList) => {missionList.forEach(mission => {
-                if (!finalMissionList.some(finalMission => mission.id === finalMission.id))
-                    finalMissionList.push(mission);
-            });
-        });
-        setMissions(getMissionsWithSubMissions(finalMissionList).filter(mission => !mission.parentID));
-    }, [debounceText, localStorageMissions]);
+        if (!parentID) {
+            setMissionsDataProp(getMissionsData(localStorageMissions, debounceText, statusFilter))
+        } else if (!debounceText && statusFilter === 'default') {
+            setMissionsDataProp(getMissionsData(localStorageMissions))
+        }
+    }, [debounceText, localStorageMissions, statusFilter])
 
     return (
-        <ul style={MISSION_LIST_STYLES}>
-            {missions.map(mission => <MissionRow key={mission.id} mission={mission} debounceText={debounceText} />)}
+        <ul style={parentID ? getSubMissionPadding(SUB_MISSION_LIST_STYLES, level) : MISSION_LIST_STYLES}>
+            {
+                missionsDataProp.filter(mission => mission.parentID === parentID).map(mission => 
+                    <MissionRow key={mission.id} mission={mission} level={level}>
+                        <MissionList missionsData={missionsDataProp} parentID={mission.id} level={level + 1} />
+                    </MissionRow>
+                )
+            }
         </ul>
     );
 };
