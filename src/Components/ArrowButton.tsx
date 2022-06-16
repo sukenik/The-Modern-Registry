@@ -26,13 +26,13 @@ interface iArrowButtonProps {
 
 export const ArrowButton: React.FC<iArrowButtonProps> = ({ setShowSubMissionList }) => {
     const [arrowButtonClicked, setArrowButtonClicked] = useState(false)
-    const { closeArrowButtonOnFilter, setCloseArrowButtonOnFilter, debounceText, statusFilter } = useFilteringContext()
+    const { closeArrowButtonOnFilter, setCloseArrowButtonOnFilter, searchText, statusFilter } = useFilteringContext()
     
     useEffect(() => setArrowButtonClicked(false), [])
     useEffect(() => {
         setShowSubMissionList(false)
         setArrowButtonClicked(false)
-    }, [debounceText, statusFilter])
+    }, [searchText, statusFilter])
 
     const handleArrowClick = () => {
         setArrowButtonClicked(prevState => !prevState)

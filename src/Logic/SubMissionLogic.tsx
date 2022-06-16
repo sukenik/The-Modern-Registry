@@ -22,22 +22,13 @@ export const getMissionsData = (missions: Array<Mission>, debounceText: string =
         return setHasChildren(missions)
     }
     else if (!debounceText) {
-        return setHasChildren(filterMissionsByStatus(missions, statusFilter))
+        return filterMissionsByStatus(missions, statusFilter)
+    } 
+    else if (statusFilter === 'default') {
+        return filterMissionsByText(missions, debounceText)
     }
 
-    const searchResults: Array<Mission> = missions.filter(
-        mission => mission.description.toLowerCase().includes(debounceText.toLowerCase())
-    )
-    const missionTrees: Array<Array<Mission>> = searchResults.map(mission => getSelfAndParentMissions(mission))
-
-    return setHasChildren(missionTrees.reduce((accum, iterator) => {                
-        iterator.forEach(mission => {
-            if (!accum.some(am => am.id === mission.id) && validateStatusFilter(statusFilter, mission.status)) {
-                accum.push(mission)
-            }
-        })
-        return accum
-    }, [] as Array<Mission>))
+    return filterMissionsByTextAndStatus(missions, debounceText, statusFilter)
 }
 export const getMissionWidth = (css: CSSProperties, level: number) => {
     const missionWidthPixelMinimum = 380;
@@ -58,9 +49,9 @@ const setHasChildren = (missions: Array<Mission>) => {
 const validateStatusFilter = (statusFilter: string, missionStatus: string): boolean => 
     statusFilter === 'default' ? true : statusFilter === missionStatus
 
-const filterMissionsByStatus = (missions: Array<Mission>, statusFilter: string): Array<Mission> => {
-    return missions.reduce((accum, mission) => {
-        if (validateStatusFilter(statusFilter, mission.status) && !accum.some(am => am.id === mission.id)) {
+const filterMissionsByStatus = (missions: Array<Mission>, status: string): Array<Mission> => {
+    return setHasChildren(missions.reduce((accum, mission) => {
+        if (validateStatusFilter(status, mission.status) && !accum.some(am => am.id === mission.id)) {
             if (mission.parentID) {
                 getSelfAndParentMissions(mission).forEach(m => {
                     if (!accum.some(am => am.id === m.id)) accum.push(m)
@@ -70,5 +61,22 @@ const filterMissionsByStatus = (missions: Array<Mission>, statusFilter: string):
             }
         }
         return accum
-    }, [] as Array<Mission>)
+    }, [] as Array<Mission>))
 }
+const filterMissionsByText = (missions: Array<Mission>, text: string): Array<Mission> => {
+    const searchResults: Array<Mission> = missions.filter(
+        mission => mission.description.toLowerCase().includes(text.toLowerCase())
+    )
+    const missionTrees: Array<Array<Mission>> = searchResults.map(mission => getSelfAndParentMissions(mission))
+
+    return setHasChildren(missionTrees.reduce((accum, iterator) => {                
+        iterator.forEach(mission => {
+            if (!accum.some(am => am.id === mission.id)) {
+                accum.push(mission)
+            }
+        })
+        return accum
+    }, [] as Array<Mission>))
+}
+const filterMissionsByTextAndStatus = (missions: Array<Mission>, text: string, status: string): Array<Mission> => 
+    setHasChildren(filterMissionsByText(filterMissionsByStatus(missions, status), text))
