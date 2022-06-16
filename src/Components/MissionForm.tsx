@@ -108,13 +108,7 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission, handleSave }
             />
             <p style={ERROR_STYLES}>{ formErrors.name }</p>
             <label style={LABEL_INPUT_STYLES}>Status:</label>
-            <select 
-                name="status" 
-                id="StatusFilter" 
-                defaultValue={formValues.status} 
-                onChange={handleChange}
-                style={SELECT_STYLES}
-            >
+            <select name="status" defaultValue={formValues.status} onChange={handleChange} style={SELECT_STYLES}>
                 <option value="default" disabled hidden>
                     Choose a status...
                 </option>

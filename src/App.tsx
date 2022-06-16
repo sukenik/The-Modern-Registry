@@ -1,7 +1,6 @@
 import { hot } from "react-hot-loader";
 import React, { CSSProperties } from 'react';
 import { Title } from "./Components/Title";
-import { FilterableMissionListContainer } from "./Components/FilterableMissionListContainer";
 import { SearchBar } from "./Components/SearchBar";
 import { MissionList } from "./Components/MissionList";
 import { CreateMissionButton } from "./Components/CreateMissionButton";
@@ -19,6 +18,14 @@ const APP_STYLES: CSSProperties = {
     width: '100%',
     height: '90%'
 };
+const CONTAINER_STYLES: CSSProperties = {
+    backgroundColor: 'rgb(218, 218, 218)',
+    height: '100%',
+    width: '70%',
+    textAlign: 'center',
+    margin: 'auto',
+    overflow: 'auto'
+};
 
 const App: React.FC = () => {
     const { showMissionModal, showDeleteModal } = useShowModalContext()
@@ -28,12 +35,12 @@ const App: React.FC = () => {
         <CurrentMissionProvider>
             <Title titleName={"The Modern Registry"} />
             <div style={APP_STYLES}>
-                <FilterableMissionListContainer>
+                <div style={CONTAINER_STYLES}>
                     <FilteringProvider>
                         <SearchBar />
                         <MissionList missionsData={localStorageMissions} />
                     </FilteringProvider>
-                </FilterableMissionListContainer>
+                </div>
             </div>
             {!showMissionModal && <CreateMissionButton />}
             {showMissionModal && <MissionModal />}

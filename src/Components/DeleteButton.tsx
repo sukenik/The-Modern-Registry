@@ -25,7 +25,7 @@ export const DeleteButton: React.FC<iDeleteButtonProps> = ({ mission }) => {
     const handleDeleteButtonClick = () => modalAction(setShowDeleteModal, setCurrentMission, mission);
 
     return (
-        <button style={BUTTON_STYLES} className="MissionInfoField" onClick={handleDeleteButtonClick}>
+        <button style={BUTTON_STYLES} onClick={handleDeleteButtonClick}>
             <img style={ICON_STYLES} src={trashCanIcon} alt="Delete button" />
         </button>
     );
