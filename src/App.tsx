@@ -10,6 +10,7 @@ import { useShowModalContext } from "./Context/ModalContext";
 import { useLocalStorageMissionsContext } from "./Context/LocalStorageMissionsContext";
 import { DeleteModal } from "./Components/DeleteModal";
 import { FilteringProvider } from "./Context/FilteringContext";
+import { useDarkThemeContext } from "./Context/DarkThemeContext";
 
 const APP_STYLES: CSSProperties = {
     display: 'flex',
@@ -17,6 +18,10 @@ const APP_STYLES: CSSProperties = {
     position: 'fixed',
     width: '100%',
     height: '90%'
+};
+const APP_DARK_STYLES: CSSProperties = {
+    ...APP_STYLES,    
+    backgroundColor: 'black'
 };
 const CONTAINER_STYLES: CSSProperties = {
     backgroundColor: 'rgb(218, 218, 218)',
@@ -30,11 +35,12 @@ const CONTAINER_STYLES: CSSProperties = {
 const App: React.FC = () => {
     const { showMissionModal, showDeleteModal } = useShowModalContext()
     const { localStorageMissions } = useLocalStorageMissionsContext()
+    const { darkTheme } = useDarkThemeContext()
 
     return (
         <CurrentMissionProvider>
             <Title titleName={"The Modern Registry"} />
-            <div style={APP_STYLES}>
+            <div style={darkTheme ? APP_DARK_STYLES : APP_STYLES}>
                 <div style={CONTAINER_STYLES}>
                     <FilteringProvider>
                         <SearchBar />
