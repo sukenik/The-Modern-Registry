@@ -3,7 +3,7 @@ import { useState } from "react"
 
 interface iDarkThemeContext {
     darkTheme: boolean,
-    toggleDarkTheme: (value: React.SetStateAction<boolean>) => void
+    toggleDarkTheme: () => void
 }
 
 const DarkThemeContext = React.createContext<iDarkThemeContext | null>(null)

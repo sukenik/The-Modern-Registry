@@ -1,5 +1,7 @@
 import React, { CSSProperties } from "react";
 import createMissionIcon from "../../Assets/add-tasks-g68f2c05f3_640.png";
+import createMissionDarkIcon from "../../Assets/write-g4ef86eb46_640.png";
+import { useDarkThemeContext } from "../Context/DarkThemeContext";
 import { useShowModalContext } from "../Context/ModalContext";
 
 const BUTTON_STYLES: CSSProperties = {
@@ -18,12 +20,14 @@ const ICON_STYLES: CSSProperties = {
 };
 
 export const CreateMissionButton: React.FC = () => {
-    const { setShowMissionModal } = useShowModalContext();
-    const handleCreateMissionButtonClick = () => setShowMissionModal(true);
+    const { setShowMissionModal } = useShowModalContext()
+    const { darkTheme } = useDarkThemeContext()
+
+    const handleCreateMissionButtonClick = () => setShowMissionModal(true)
 
     return (
         <button style={BUTTON_STYLES} onClick={handleCreateMissionButtonClick} type="submit">
-            <img style={ICON_STYLES} src={createMissionIcon} alt="Create a mission button" />
+            <img style={ICON_STYLES} src={darkTheme ? createMissionDarkIcon : createMissionIcon} alt="Create a mission button" />
         </button>
     );
 };
