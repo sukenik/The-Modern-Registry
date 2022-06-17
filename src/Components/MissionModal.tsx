@@ -1,7 +1,7 @@
 import React, { CSSProperties } from "react";
-import { defaultMission, useCurrentMissionContext } from "../Context/CurrentMissionContext";
+import { useCurrentMissionContext } from "../Context/CurrentMissionContext";
 import { useShowModalContext } from "../Context/ModalContext";
-import { modalAction } from "../Logic/helperFunctions";
+import { iModalActionParams, modalAction } from "../Logic/helperFunctions";
 import { onCreate, onUpdate } from "../Logic/missionFormLogic";
 import { MissionForm } from "./MissionForm";
 
@@ -33,18 +33,31 @@ const MODAL_BODY_STYLES: CSSProperties = {
 };
 
 export const MissionModal: React.FC = () => {
-    const { setShowMissionModal } = useShowModalContext();
-    const { currentMission, setCurrentMission } = useCurrentMissionContext();
-    const handleOutsideClick = () => modalAction(setShowMissionModal, setCurrentMission);
-    const handleContentClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => e.stopPropagation();
-    
+    const { showDeleteModal, setShowMissionModal, setShowDeleteModal } = useShowModalContext()
+    const { currentMission, setCurrentMission } = useCurrentMissionContext()
+
+    const handleOutsideClick = () => modalAction({ 
+        setCurrentMission: setCurrentMission, 
+        setShowModal: setShowMissionModal,
+        setIsDelete: setShowDeleteModal
+    } as iModalActionParams)
+
+    const handleContentClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => e.stopPropagation()
+
     return (
         <div style={MODAL_STYLES} onClick={handleOutsideClick}>
             <div style={MODAL_CONTENT_STYLES} onClick={handleContentClick}>
                 <div style={{ padding: 10 }}>
-                    <h4 style={MODAL_TITLE_STYLES}>
-                        {currentMission.id ? `Edit ${currentMission.description}` : 'Create a Mission'}
-                    </h4>
+                    {showDeleteModal ? 
+                        <p style={MODAL_TITLE_STYLES}>
+                            Sure You Want To Delete
+                            <br />
+                            "<b>{currentMission.description}</b>"?
+                        </p> :
+                        <h4 style={MODAL_TITLE_STYLES}>
+                            {currentMission.id ? `Edit ${currentMission.description}` : 'Create a Mission'}
+                        </h4>
+                    }
                 </div>
                 <div style={MODAL_BODY_STYLES}>
                     <MissionForm mission={currentMission} handleSave={currentMission.id ? onUpdate : onCreate} />

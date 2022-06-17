@@ -1,7 +1,9 @@
 import React from "react";
 import { Mission } from "../Custom-Typings/Mission";
 import { getNewMission, getNewMissionUpdate } from "./createMissionLogic";
-import { addToLocalStorage, getLocalStorageKeys, getLocalStorageMissions, parseMissionToString } from "./localStorageLogic";
+import { getSelfPlusChildrenMissions } from "./filterLinkToMissionFieldLogic";
+import { getMissionChildren } from "./helperFunctions";
+import { addToLocalStorage, getLocalStorageKeys, getLocalStorageMissions, parseMissionToString, removeFromLocalStorage } from "./localStorageLogic";
 import { getMissionsData } from "./subMissionLogic";
 
 export interface iFormFields {
@@ -62,4 +64,20 @@ export const onCreate = (name: string, status: string, linkToMission: string | n
     const newMission = getNewMission(name, status, linkToMission)
     addToLocalStorage(newMission.id.toString(), parseMissionToString(newMission))
     return getMissionsData(getLocalStorageMissions(getLocalStorageKeys()))
+}
+export const onDelete = (mission: Mission, missions: Array<Mission>, deleteChildren: boolean) => {
+    removeFromLocalStorage(mission.id.toString())
+    if (mission.hasChildren) {
+        if (deleteChildren) {
+            const missionsToDelete = getSelfPlusChildrenMissions(mission, missions)
+            missionsToDelete.forEach(childMission => removeFromLocalStorage(childMission.id.toString()))
+        } else {
+            getMissionChildren(mission.id, missions).forEach(subMission => {
+                addToLocalStorage(
+                    subMission.id.toString(),
+                    parseMissionToString({ ...subMission, parentID: mission.parentID })
+                ) 
+            })
+        }
+    }
 }
