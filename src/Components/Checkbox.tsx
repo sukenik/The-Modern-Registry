@@ -18,7 +18,6 @@ export const Checkbox: React.FC<iCheckboxProps> = ({ label, checked, setChecked 
     const { darkTheme } = useDarkThemeContext()
     const handleCheckboxChange = () => setChecked(prevState => !prevState)
     
-
     return (
         <label style={darkTheme ? LABEL_DARK_STYLES : {}}>
             <input style={darkTheme ? CHECKBOX_DARK_STYLES : {}} type="checkbox" checked={checked} onChange={handleCheckboxChange} />

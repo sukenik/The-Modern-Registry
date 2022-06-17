@@ -36,7 +36,8 @@ const CONTAINER_DARK_STYLES: CSSProperties = {
     ...CONTAINER_STYLES,
     backgroundColor: '#121212',
     borderRight: '2px solid #BB86FC',
-    borderLeft: '2px solid #BB86FC'
+    borderLeft: '2px solid #BB86FC',
+    colorScheme: 'dark'
 }
 const BUTTON_STYLES: CSSProperties = {
     height: 'fit-content',
