@@ -1,4 +1,5 @@
-import React, { CSSProperties, useState } from "react";
+import React, { CSSProperties } from "react";
+import { useDarkThemeContext } from "../Context/DarkThemeContext";
 import { useFilteringContext } from "../Context/FilteringContext";
 
 const SEARCH_BAR_STYLES: CSSProperties = {
@@ -6,22 +7,54 @@ const SEARCH_BAR_STYLES: CSSProperties = {
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'column',
-};
+}
 const INPUT_STYLES: CSSProperties = {
     paddingLeft: 5,
     marginBottom: 5,
     fontSize: 15
-};
+}
+const INPUT_DARK_STYLES: CSSProperties = {
+    ...INPUT_STYLES,
+    backgroundColor: '#121212',
+    border: '1px solid rgb(120, 120, 120)',
+    color: 'white'
+}
+const SELECT_STYLES: CSSProperties = {
+    cursor: 'pointer'
+}
+const SELECT_DARK_STYLES: CSSProperties = {
+    ...SELECT_STYLES,
+    backgroundColor: '#121212',
+    color: 'rgb(120, 120, 120)'
+}
+const LABEL_STYLES: CSSProperties = {}
+const LABEL_DARK_STYLES: CSSProperties = {
+    ...LABEL_STYLES,
+    color: 'rgb(120, 120, 120)'
+}
 
 export const SearchBar: React.FC = () => {
     const { searchText, handleSearchTextChange, statusFilter, handleFilterStatusChange } = useFilteringContext()
+    const { darkTheme } = useDarkThemeContext()
 
     return (
         <div style={SEARCH_BAR_STYLES}>
-            <input style={INPUT_STYLES} type="text" placeholder="Search..." value={searchText} onChange={handleSearchTextChange} />
+            <input 
+                style={darkTheme ? INPUT_DARK_STYLES:  INPUT_STYLES} 
+                type="text" 
+                placeholder="Search..." 
+                value={searchText} 
+                onChange={handleSearchTextChange} 
+            />
             <div>
-                <label htmlFor="status">Filter by: </label>
-                <select style={{ cursor: 'pointer' }} name="status" value={statusFilter} onChange={handleFilterStatusChange}>
+                <label style={darkTheme ? LABEL_DARK_STYLES : LABEL_STYLES} htmlFor="status">Filter by: </label>
+                <select 
+                    id="filter-status"
+                    style={darkTheme ? SELECT_DARK_STYLES : SELECT_STYLES} 
+                    name="status" 
+                    value={statusFilter} 
+                    onChange={handleFilterStatusChange}
+                >
                     <option value="default">No filter</option>
                     <option value="Active">Active</option>
                     <option value="Complete">Complete</option>

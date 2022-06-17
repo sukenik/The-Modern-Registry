@@ -1,9 +1,11 @@
-import React, { CSSProperties, useEffect, useState } from "react";
+import React, { CSSProperties, useState } from "react";
 import { Mission } from "../Custom-Typings/Mission";
 import { getMissionWidth } from "../Logic/subMissionLogic";
 import { ArrowButton } from "./ArrowButton";
-import { DeleteButton } from "./DeleteButton";
-import { EditButton } from "./EditButton";
+import trashCanIcon from '../../Assets/garbage-g0e5e69325_640.png';
+import pencilIcon from '../../Assets/pencil-gef11d3429_640.png';
+import { OptionButton } from "./OptionButton";
+import { useShowModalContext } from "../Context/ModalContext";
 
 const MISSION_STYLES: CSSProperties = {
     backgroundColor: 'rgb(92, 91, 91)',
@@ -62,6 +64,7 @@ interface iMissionRowProps {
 export const MissionRow: React.FC<iMissionRowProps> = ({ mission, children, level }) => {
     const [showSubMissionList, setShowSubMissionList] = useState(false)
     const [showOptionButtons, setShowOptionButtons] = useState(false)
+    const { setShowDeleteModal } = useShowModalContext()
 
     const handleOnMouseEnter = () => setShowOptionButtons(true)
     const handleOnMouseLeave = () => setShowOptionButtons(false)
@@ -89,7 +92,12 @@ export const MissionRow: React.FC<iMissionRowProps> = ({ mission, children, leve
                         </div>
                     </div>
                     <div style={MISSION_INFO_STYLES}>
-                        {showOptionButtons && <><EditButton mission={mission} /><DeleteButton mission={mission} /></>}
+                        {showOptionButtons && 
+                            <>
+                                <OptionButton mission={mission} icon={pencilIcon} />
+                                <OptionButton mission={mission} icon={trashCanIcon} setIsDelete={setShowDeleteModal} />
+                            </>
+                        }
                     </div>
                 </div>
                 { (mission.hasChildren && showSubMissionList) && children }
