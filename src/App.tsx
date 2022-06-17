@@ -10,7 +10,8 @@ import { useShowModalContext } from "./Context/ModalContext";
 import { useLocalStorageMissionsContext } from "./Context/LocalStorageMissionsContext";
 import { FilteringProvider } from "./Context/FilteringContext";
 import { useDarkThemeContext } from "./Context/DarkThemeContext";
-import moonIcon from "../Assets/moon.png";
+import moonIcon from "../Assets/heaven-g329dd6da3_640.png";
+import sunIcon from "../Assets/sun-g977e87184_640.png";
 
 const APP_STYLES: CSSProperties = {
     display: 'flex',
@@ -41,12 +42,14 @@ const BUTTON_STYLES: CSSProperties = {
     height: 'fit-content',
     width: 'fit-content',
     position: 'absolute',
-    top: '5%',
+    top: '2.5%',
     left: '3%',
+    border: 'none',
+    background: 'transparent'
 }
 const ICON_STYLES: CSSProperties = {
-    height: 18,
-    width: 18,
+    height: 32,
+    width: 32,
     cursor: 'pointer'
 }
 
@@ -60,7 +63,7 @@ const App: React.FC = () => {
     return (
         <CurrentMissionProvider>
             <button style={BUTTON_STYLES} onClick={handleDarkModeButtonClick}>
-                <img style={ICON_STYLES} src={moonIcon} alt="Theme button" />
+                <img style={ICON_STYLES} src={darkTheme ? sunIcon : moonIcon} alt="Theme button" />
             </button>
             <Title titleName={"The Modern Registry"} />
             <div style={darkTheme ? APP_DARK_STYLES : APP_STYLES}>

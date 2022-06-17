@@ -1,6 +1,6 @@
 import React, { CSSProperties, useEffect, useState } from "react";
 import { useLocalStorageMissionsContext } from "../Context/LocalStorageMissionsContext";
-import { defaultMission, useCurrentMissionContext } from "../Context/CurrentMissionContext";
+import { useCurrentMissionContext } from "../Context/CurrentMissionContext";
 import { useShowModalContext } from "../Context/ModalContext";
 import { Mission } from "../Custom-Typings/Mission";
 import { getLinkToMissionOptions } from "../Logic/filterLinkToMissionFieldLogic";
@@ -9,6 +9,7 @@ import { getDefaultLinkToMissionElement, getMissionsToLinkElements, getStatusEle
 import { getMissionsData } from "../Logic/subMissionLogic";
 import { Checkbox } from "./Checkbox";
 import { getLocalStorageKeys, getLocalStorageMissions } from "../Logic/localStorageLogic";
+import { useDarkThemeContext } from "../Context/DarkThemeContext";
 
 const MISSION_FORM_STYLES: CSSProperties = {
     display: 'flex',
@@ -17,22 +18,37 @@ const MISSION_FORM_STYLES: CSSProperties = {
 const LABEL_INPUT_STYLES: CSSProperties = {
     margin: 5,
     width: '80%'
-};
+}
+const LABEL_INPUT_DARK_STYLES: CSSProperties = {
+    ...LABEL_INPUT_STYLES,
+    color: '#BB86FC',
+    fontWeight: 'lighter'
+}
+const INPUT_DARK_STYLES: CSSProperties = {
+    ...LABEL_INPUT_STYLES,
+    backgroundColor: '#121212',
+    border: '1px solid rgb(120, 120, 120)',
+    color: 'white'
+}
 const SELECT_STYLES: CSSProperties = {
     width: '35%',
     textAlign: 'center',
     margin: 5,
     cursor: 'pointer'
-};
+}
+const SELECT_DARK_STYLES: CSSProperties = {
+    ...SELECT_STYLES,
+    backgroundColor: '#121212',
+    color: 'rgb(120, 120, 120)'
+}
 const ERROR_STYLES: CSSProperties = {
     marginTop: 0,
     marginRight: 0,
     marginBottom: 0,
     marginLeft: 5,
     fontSize: 15,
-    fontWeight: 'lighter',
-    color: 'red'
-};
+    color: '#B00020'
+}
 const BUTTON_STYLES: CSSProperties = {
     backgroundColor: 'cornflowerblue',
     border: 'none',
@@ -44,7 +60,11 @@ const BUTTON_STYLES: CSSProperties = {
     fontSize: 16,
     cursor: 'pointer',
     margin: 5
-};
+}
+const BUTTON_DARK_STYLES: CSSProperties = {
+    ...BUTTON_STYLES,
+    backgroundColor: '#5700d5'
+}
 
 interface iMissionFormProps {
     mission: Mission,
@@ -67,6 +87,7 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission, handleSave }
     const { showDeleteModal, setShowMissionModal, setShowDeleteModal} = useShowModalContext()
     const { localStorageMissions, setLocalStorageMissions } = useLocalStorageMissionsContext()
     const { setCurrentMission } = useCurrentMissionContext()
+    const { darkTheme } = useDarkThemeContext()
 
     useEffect(() => {
         if (Object.keys(formErrors).length === 0 && isSubmit) {
@@ -118,7 +139,7 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission, handleSave }
                 mission.hasChildren && <Checkbox checked={checked} setChecked={setChecked} label={labelText} /> 
                 :
                 <form style={MISSION_FORM_STYLES} onSubmit={handleSubmit}>
-                    <label style={LABEL_INPUT_STYLES}>Name:</label>
+                    <label style={darkTheme ? LABEL_INPUT_DARK_STYLES : LABEL_INPUT_STYLES}>Name:</label>
                     <input 
                         name="name" 
                         type="text" 
@@ -127,24 +148,29 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission, handleSave }
                         onChange={handleChange} 
                         maxLength={50}
                         autoComplete="off"
-                        style={LABEL_INPUT_STYLES} 
+                        style={darkTheme ? INPUT_DARK_STYLES : LABEL_INPUT_STYLES} 
                     />
                     <p style={ERROR_STYLES}>{ formErrors.name }</p>
-                    <label style={LABEL_INPUT_STYLES}>Status:</label>
-                    <select name="status" defaultValue={formValues.status} onChange={handleChange} style={SELECT_STYLES}>
+                    <label style={darkTheme ? LABEL_INPUT_DARK_STYLES : LABEL_INPUT_STYLES}>Status:</label>
+                    <select 
+                        name="status" 
+                        defaultValue={formValues.status} 
+                        onChange={handleChange} 
+                        style={darkTheme ? SELECT_DARK_STYLES : SELECT_STYLES}
+                    >
                         <option value="default" disabled hidden>
                             Choose a status...
                         </option>
                         {statusElements}
                     </select>
                     <p style={ERROR_STYLES}>{ formErrors.status }</p>
-                    <label style={LABEL_INPUT_STYLES}>Link to mission:</label>
+                    <label style={darkTheme ? LABEL_INPUT_DARK_STYLES : LABEL_INPUT_STYLES}>Link to mission:</label>
                     <select 
                         name="linkToMission" 
                         defaultValue={mission.parentID ?? 'default'} 
                         onChange={handleChange} 
                         disabled={mission.parentID ? false : !missionsFitToLinkOptionElements.length}
-                        style={SELECT_STYLES}
+                        style={darkTheme ? SELECT_DARK_STYLES : SELECT_STYLES}
                     >
                         {defaultLinkToMissionOption}
                         {missionsFitToLinkOptionElements}
@@ -152,7 +178,12 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission, handleSave }
                 </form>
             }
             <div style={{ marginTop: 20 }}>
-                <button style={{...BUTTON_STYLES, paddingRight : 20, paddingLeft: 20}} onClick={handleSubmit} type="submit">
+                <button 
+                    style={darkTheme ? 
+                        {...BUTTON_DARK_STYLES, paddingRight : 20, paddingLeft: 20} : 
+                        {...BUTTON_STYLES, paddingRight : 20, paddingLeft: 20}} 
+                    onClick={handleSubmit} type="submit"
+                >
                     {showDeleteModal ? 'Delete' : 'Save'}
                 </button>
                 <button style={{...BUTTON_STYLES, backgroundColor : 'rgb(49, 49, 49)'}} onClick={handleCancelClick}>
