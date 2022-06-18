@@ -173,6 +173,7 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission, handleSave }
                         style={darkTheme ? SELECT_DARK_STYLES : SELECT_STYLES}
                     >
                         {defaultLinkToMissionOption}
+                        {mission.parentID ?? <option value="default"></option>}
                         {missionsFitToLinkOptionElements}
                     </select>
                 </form>
