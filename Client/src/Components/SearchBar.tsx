@@ -49,9 +49,8 @@ export const SearchBar: React.FC = () => {
             <div>
                 <label style={darkTheme ? LABEL_DARK_STYLES : LABEL_STYLES} htmlFor="status">Filter by: </label>
                 <select 
-                    id="filter-status"
                     style={darkTheme ? SELECT_DARK_STYLES : SELECT_STYLES} 
-                    name="status" 
+                    name="status-filter" 
                     value={statusFilter} 
                     onChange={handleFilterStatusChange}
                 >

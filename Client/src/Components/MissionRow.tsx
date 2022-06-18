@@ -8,8 +8,9 @@ import { OptionButton } from "./OptionButton";
 import { useShowModalContext } from "../Context/ModalContext";
 
 const MISSION_STYLES: CSSProperties = {
+    height: 40,
     backgroundColor: 'rgb(92, 91, 91)',
-    color: 'aliceblue',
+    color: 'white',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -46,7 +47,7 @@ const MISSION_NAME_STYLES: CSSProperties = {
     order: 2,
     textOverflow: 'ellipsis',
     overflow: 'hidden',
-    maxWidth: 265,
+    maxWidth: 150,
     whiteSpace: 'nowrap',
     cursor: 'default'
 };
@@ -83,6 +84,7 @@ export const MissionRow: React.FC<iMissionRowProps> = ({ mission, children, leve
                     <div style={MISSION_NAME_STYLES} className="name">{mission.description}</div>
                     <div style={MISSION_STATUS_STYLES}>
                         <div 
+                            id="mission-status"
                             style={mission.status === 'Active' ? 
                                 {...STATUS_STYLES, paddingRight: 26, paddingLeft: 26} : 
                                 STATUS_STYLES
