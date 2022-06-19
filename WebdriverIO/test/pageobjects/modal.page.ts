@@ -3,13 +3,13 @@ import { ChainablePromiseElement } from 'webdriverio';
 import Page from './page';
 
 class ModalPage extends Page {
-    public get inputName () {
+    public get inputName() {
         return $('[name="name"]')
     }
-    public get selectStatus () {
+    public get selectStatus() {
         return $('[name="status"]')
     }
-    public get saveButton () {
+    public get saveButton() {
         return $('[type="submit"]')
     }
 
