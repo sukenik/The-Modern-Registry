@@ -37,9 +37,9 @@ interface iMissionListProps {
 };
 
 export const MissionList: React.FC<iMissionListProps> = ({ missionsData, parentID = null, level = 0 }) => {
-    const [missionsDataProp, setMissionsDataProp] = useState(missionsData)
     if (!missionsData.filter(mission => mission.parentID === parentID).length) return null
-
+    
+    const [missionsDataProp, setMissionsDataProp] = useState(missionsData)
     const { localStorageMissions } = useLocalStorageMissionsContext()
     const { debounceText, statusFilter } = useFilteringContext()
     const { darkTheme } = useDarkThemeContext()
