@@ -4,7 +4,7 @@ import { useCurrentMissionContext } from "../Context/CurrentMissionContext";
 import { useShowModalContext } from "../Context/ModalContext";
 import { Mission } from "../Custom-Typings/Mission";
 import { getLinkToMissionOptions } from "../Logic/filterLinkToMissionFieldLogic";
-import { iModalActionParams, modalAction } from "../Logic/helperFunctions";
+import { hasChildren, iModalActionParams, modalAction } from "../Logic/helperFunctions";
 import { getDefaultLinkToMissionElement, getMissionsToLinkElements, getStatusElements, iFormFields, onDelete, validateFormFields } from "../Logic/missionFormLogic";
 import { getMissionsData } from "../Logic/subMissionLogic";
 import { Checkbox } from "./Checkbox";
@@ -136,7 +136,8 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission, handleSave }
     return (
         <>
             {showDeleteModal ?
-                mission.hasChildren && <Checkbox checked={checked} setChecked={setChecked} label={labelText} /> 
+                hasChildren(mission.id, localStorageMissions) && 
+                    <Checkbox checked={checked} setChecked={setChecked} label={labelText} /> 
                 :
                 <form style={MISSION_FORM_STYLES} onSubmit={handleSubmit}>
                     <label style={darkTheme ? LABEL_INPUT_DARK_STYLES : LABEL_INPUT_STYLES}>Name:</label>

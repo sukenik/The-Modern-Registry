@@ -2,7 +2,7 @@ import React from "react";
 import { Mission } from "../Custom-Typings/Mission";
 import { getNewMission, getNewMissionUpdate } from "./createMissionLogic";
 import { getSelfPlusChildrenMissions } from "./filterLinkToMissionFieldLogic";
-import { getMissionChildren } from "./helperFunctions";
+import { getMissionChildren, hasChildren } from "./helperFunctions";
 import { addToLocalStorage, getLocalStorageKeys, getLocalStorageMissions, parseMissionToString, removeFromLocalStorage } from "./localStorageLogic";
 import { getMissionsData } from "./subMissionLogic";
 
@@ -67,7 +67,7 @@ export const onCreate = (name: string, status: string, linkToMission: string | n
 }
 export const onDelete = (mission: Mission, missions: Array<Mission>, deleteChildren: boolean) => {
     removeFromLocalStorage(mission.id.toString())
-    if (mission.hasChildren) {
+    if (hasChildren(mission.id, missions)) {
         if (deleteChildren) {
             const missionsToDelete = getSelfPlusChildrenMissions(mission, missions)
             missionsToDelete.forEach(childMission => removeFromLocalStorage(childMission.id.toString()))

@@ -6,6 +6,8 @@ import trashCanIcon from '../../Assets/garbage-g0e5e69325_640.png';
 import pencilIcon from '../../Assets/pencil-gef11d3429_640.png';
 import { OptionButton } from "./OptionButton";
 import { useShowModalContext } from "../Context/ModalContext";
+import { useLocalStorageMissionsContext } from "../Context/LocalStorageMissionsContext";
+import { hasChildren } from "../Logic/helperFunctions";
 
 const MISSION_STYLES: CSSProperties = {
     height: 40,
@@ -66,6 +68,7 @@ export const MissionRow: React.FC<iMissionRowProps> = ({ mission, children, leve
     const [showSubMissionList, setShowSubMissionList] = useState(false)
     const [showOptionButtons, setShowOptionButtons] = useState(false)
     const { setShowDeleteModal } = useShowModalContext()
+    const { localStorageMissions } = useLocalStorageMissionsContext()
 
     const handleOnMouseEnter = () => setShowOptionButtons(true)
     const handleOnMouseLeave = () => setShowOptionButtons(false)
@@ -80,7 +83,7 @@ export const MissionRow: React.FC<iMissionRowProps> = ({ mission, children, leve
                     onMouseEnter={handleOnMouseEnter} 
                     onMouseLeave={handleOnMouseLeave}
                 >
-                    {mission.hasChildren && <ArrowButton setShowSubMissionList={setShowSubMissionList} />}
+                    {hasChildren(mission.id, localStorageMissions) && <ArrowButton setShowSubMissionList={setShowSubMissionList} />}
                     <div style={MISSION_NAME_STYLES} className="name">{mission.description}</div>
                     <div style={MISSION_STATUS_STYLES}>
                         <div 
@@ -102,7 +105,7 @@ export const MissionRow: React.FC<iMissionRowProps> = ({ mission, children, leve
                         }
                     </div>
                 </div>
-                { (mission.hasChildren && showSubMissionList) && children }
+                { (hasChildren(mission.id, localStorageMissions) && showSubMissionList) && children }
         </li>
     );
 };

@@ -43,8 +43,8 @@ const BUTTON_STYLES: CSSProperties = {
     height: 'fit-content',
     width: 'fit-content',
     position: 'absolute',
-    top: '2.5%',
-    left: '3%',
+    top: 13,
+    left: 50,
     border: 'none',
     background: 'transparent'
 }

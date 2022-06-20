@@ -44,13 +44,10 @@ export const MissionList: React.FC<iMissionListProps> = ({ missionsData, parentI
     const { debounceText, statusFilter } = useFilteringContext()
     const { darkTheme } = useDarkThemeContext()
 
-    useEffect(() => {
-        if (!parentID) {
-            setMissionsDataProp(getMissionsData(localStorageMissions, debounceText, statusFilter))
-        } else if (!debounceText && statusFilter === 'default') {
-            setMissionsDataProp(getMissionsData(localStorageMissions))
-        }
-    }, [debounceText, localStorageMissions, statusFilter])
+    useEffect(
+        () => setMissionsDataProp(getMissionsData(localStorageMissions, debounceText, statusFilter)), 
+        [debounceText, localStorageMissions, statusFilter]
+    )
 
     return (
         <ul 
