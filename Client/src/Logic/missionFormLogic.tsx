@@ -1,5 +1,5 @@
 import React from "react";
-import { Mission } from "../Custom-Typings/Mission";
+import { Mission, MISSION_STATUS } from "../Custom-Typings/Mission";
 import { getNewMission, getNewMissionUpdate } from "./createMissionLogic";
 import { getSelfPlusChildrenMissions } from "./filterLinkToMissionFieldLogic";
 import { getMissionChildren, hasChildren } from "./helperFunctions";
@@ -56,12 +56,14 @@ const getMissionNameByID = (id: number, missions: Array<Mission>) => missions.fi
 const getUnlinkOptionElement = () => <option style={{ color: 'red' }} value="default">Unlink from parent</option>;
 
 export const onUpdate = (name: string, status: string, linkToMission: string | number | null, mission: Mission): Array<Mission> => {
-    const newMissionUpdate = getNewMissionUpdate(mission.id, name, status, linkToMission)
+    console.log(status);
+    const newMissionUpdate = getNewMissionUpdate(mission.id, name, status as MISSION_STATUS, linkToMission)
     addToLocalStorage(mission.id.toString(), parseMissionToString(newMissionUpdate))
     return getMissionsData(getLocalStorageMissions(getLocalStorageKeys()))
 }
 export const onCreate = (name: string, status: string, linkToMission: string | number | null): Array<Mission> => {
-    const newMission = getNewMission(name, status, linkToMission)
+    console.log(status);
+    const newMission = getNewMission(name, status as MISSION_STATUS, linkToMission)
     addToLocalStorage(newMission.id.toString(), parseMissionToString(newMission))
     return getMissionsData(getLocalStorageMissions(getLocalStorageKeys()))
 }

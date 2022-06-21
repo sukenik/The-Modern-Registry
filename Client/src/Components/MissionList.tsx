@@ -3,6 +3,7 @@ import { useDarkThemeContext } from "../Context/DarkThemeContext";
 import { useFilteringContext } from "../Context/FilteringContext";
 import { useLocalStorageMissionsContext } from "../Context/LocalStorageMissionsContext";
 import { Mission } from "../Custom-Typings/Mission";
+import { hasChildren } from "../Logic/helperFunctions";
 import { getMissionsData, getSubMissionPadding } from "../Logic/subMissionLogic";
 import { MissionRow } from "./MissionRow";
 
@@ -57,7 +58,12 @@ export const MissionList: React.FC<iMissionListProps> = ({ missionsData, parentI
         >
             {
                 missionsDataProp.filter(mission => mission.parentID === parentID).map(mission => 
-                    <MissionRow key={mission.id} mission={mission} level={level}>
+                    <MissionRow 
+                        key={mission.id} 
+                        mission={mission} 
+                        level={level} 
+                        hasChildren={hasChildren(mission.id, missionsDataProp)}
+                    >
                         <MissionList missionsData={missionsDataProp} parentID={mission.id} level={level + 1} />
                     </MissionRow>
                 )

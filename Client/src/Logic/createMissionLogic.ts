@@ -1,7 +1,7 @@
-import { Mission } from "../Custom-Typings/Mission";
+import { Mission, MISSION_STATUS } from "../Custom-Typings/Mission";
 
 const getUniqueID = (): number => (Date.now() + Math.random());
-export const getNewMission = (name: string, status: string, linkToMissionID: string | null | number): Mission => {
+export const getNewMission = (name: string, status: MISSION_STATUS, linkToMissionID: string | null | number): Mission => {
     return {
         id: getUniqueID(),
         description: name,
@@ -9,7 +9,9 @@ export const getNewMission = (name: string, status: string, linkToMissionID: str
         parentID: validateLinkToMission(linkToMissionID)
     };
 };
-export const getNewMissionUpdate = (id: number, name: string, status: string, linkToMissionID: string | null | number): Mission => {
+export const getNewMissionUpdate = (id: number, name: string, status: MISSION_STATUS, linkToMissionID: string | null | number): 
+    Mission => {
+    
     return {
         id: id,
         description: name,
