@@ -10,7 +10,7 @@ const CurrentMissionContext = React.createContext<iMissionContext | null>(null);
 
 export const useCurrentMissionContext = () => useContext(CurrentMissionContext) as iMissionContext;
 export const defaultMission: Mission = {
-    id: 0,
+    id: '',
     description: '',
     status: 'Active',
     parentID: null

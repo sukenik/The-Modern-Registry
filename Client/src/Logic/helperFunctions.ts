@@ -20,7 +20,7 @@ export const modalAction = ({ setShowModal, setCurrentMission, mission, setIsDel
         if (setIsDelete) setIsDelete(false) 
     }
 }
-export const getMissionChildren = (missionID: number, missions: Array<Mission>): Array<Mission> => 
+export const getMissionChildren = (missionID: string, missions: Array<Mission>): Array<Mission> => 
     missions.filter(mission => mission.parentID === missionID)
-export const hasChildren = (missionID: number, missions: Array<Mission>): boolean =>
+export const hasChildren = (missionID: string, missions: Array<Mission>): boolean =>
     !!getMissionChildren(missionID, missions).length

@@ -9,7 +9,7 @@ import { getMissionsData } from "./subMissionLogic";
 export interface iFormFields {
     name?: string,
     status?: string,
-    linkToMission?: string | null | number
+    linkToMission?: string | null
 };
 export const validateFormFields = (values: iFormFields) => {
     const errors = {} as iFormFields;
@@ -50,19 +50,17 @@ export const getDefaultLinkToMissionElement = (mission: Mission, missions: Array
     }
     return (<option value="default" disabled hidden></option>);
 };
-const getMissionNameByID = (id: number, missions: Array<Mission>) => missions.filter(
+const getMissionNameByID = (id: string, missions: Array<Mission>) => missions.filter(
     mission => mission.id === id)[0].description;
 
 const getUnlinkOptionElement = () => <option style={{ color: 'red' }} value="default">Unlink from parent</option>;
 
-export const onUpdate = (name: string, status: string, linkToMission: string | number | null, mission: Mission): Array<Mission> => {
-    console.log(status);
+export const onUpdate = (name: string, status: string, linkToMission: string | null, mission: Mission): Array<Mission> => {
     const newMissionUpdate = getNewMissionUpdate(mission.id, name, status as MISSION_STATUS, linkToMission)
     addToLocalStorage(mission.id.toString(), parseMissionToString(newMissionUpdate))
     return getMissionsData(getLocalStorageMissions(getLocalStorageKeys()))
 }
-export const onCreate = (name: string, status: string, linkToMission: string | number | null): Array<Mission> => {
-    console.log(status);
+export const onCreate = (name: string, status: string, linkToMission: string | null): Array<Mission> => {
     const newMission = getNewMission(name, status as MISSION_STATUS, linkToMission)
     addToLocalStorage(newMission.id.toString(), parseMissionToString(newMission))
     return getMissionsData(getLocalStorageMissions(getLocalStorageKeys()))

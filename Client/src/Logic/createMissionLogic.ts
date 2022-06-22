@@ -1,15 +1,17 @@
 import { Mission, MISSION_STATUS } from "../Custom-Typings/Mission";
+import { v4 as uuidv4 } from 'uuid'
 
 const getUniqueID = (): number => (Date.now() + Math.random());
-export const getNewMission = (name: string, status: MISSION_STATUS, linkToMissionID: string | null | number): Mission => {
+const getUUID = (): string => uuidv4()
+export const getNewMission = (name: string, status: MISSION_STATUS, linkToMissionID: string | null): Mission => {
     return {
-        id: getUniqueID(),
+        id: getUUID(),
         description: name,
         status: status,
         parentID: validateLinkToMission(linkToMissionID)
     };
 };
-export const getNewMissionUpdate = (id: number, name: string, status: MISSION_STATUS, linkToMissionID: string | null | number): 
+export const getNewMissionUpdate = (id: string, name: string, status: MISSION_STATUS, linkToMissionID: string | null): 
     Mission => {
     
     return {
@@ -19,7 +21,6 @@ export const getNewMissionUpdate = (id: number, name: string, status: MISSION_ST
         parentID: validateLinkToMission(linkToMissionID)
     };
 }
-export const validateLinkToMission = (linkToMissionID: string | null | number): null | number => {
-    if (linkToMissionID === 'default' || !linkToMissionID) return null;
-    return (typeof linkToMissionID === 'number' ? linkToMissionID : parseFloat(linkToMissionID));
+export const validateLinkToMission = (linkToMissionID: string | null): null | string => {
+    return (linkToMissionID === 'default' || !linkToMissionID) ? null : linkToMissionID
 }

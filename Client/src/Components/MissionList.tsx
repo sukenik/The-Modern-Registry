@@ -33,7 +33,7 @@ const MISSION_LIST_DARK_STYLES: CSSProperties = {
 
 interface iMissionListProps {
     missionsData: Array<Mission>,
-    parentID?: number,
+    parentID?: string,
     level?: number
 };
 

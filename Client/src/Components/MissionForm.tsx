@@ -68,7 +68,7 @@ const BUTTON_DARK_STYLES: CSSProperties = {
 
 interface iMissionFormProps {
     mission: Mission,
-    handleSave: (name: string, status: string, linkToMission: string | number | null, mission: Mission) => Array<Mission>
+    handleSave: (name: string, status: string, linkToMission: string | null, mission: Mission) => Array<Mission>
 };
 
 export const MissionForm: React.FC<iMissionFormProps> = ({ mission, handleSave }) => {
