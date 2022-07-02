@@ -1,8 +1,9 @@
+import { Status } from "@prisma/client";
 import { createMission, getAllMissions } from "../missionService";
 
 export interface iCreateMissionArgs {
     description: string,
-    status: 'Active' | 'Complete',
+    status: Status,
     parentId: string | null
 }
 
