@@ -59,10 +59,11 @@ const LIST_ITEM_STYLE: CSSProperties = {
 
 interface iMissionRowProps {
     mission: Mission,
-    level: number
+    level: number,
+    hasChildren: boolean
 };
 
-export const MissionRow: React.FC<iMissionRowProps> = ({ mission, children, level }) => {
+export const MissionRow: React.FC<iMissionRowProps> = ({ mission, children, level, hasChildren }) => {
     const [showSubMissionList, setShowSubMissionList] = useState(false)
     const [showOptionButtons, setShowOptionButtons] = useState(false)
     const { setShowDeleteModal } = useShowModalContext()
@@ -80,7 +81,7 @@ export const MissionRow: React.FC<iMissionRowProps> = ({ mission, children, leve
                     onMouseEnter={handleOnMouseEnter} 
                     onMouseLeave={handleOnMouseLeave}
                 >
-                    {mission.hasChildren && <ArrowButton setShowSubMissionList={setShowSubMissionList} />}
+                    {hasChildren && <ArrowButton setShowSubMissionList={setShowSubMissionList} />}
                     <div style={MISSION_NAME_STYLES} className="name">{mission.description}</div>
                     <div style={MISSION_STATUS_STYLES}>
                         <div 
@@ -102,7 +103,7 @@ export const MissionRow: React.FC<iMissionRowProps> = ({ mission, children, leve
                         }
                     </div>
                 </div>
-                { (mission.hasChildren && showSubMissionList) && children }
+                { (hasChildren && showSubMissionList) && children }
         </li>
     );
 };

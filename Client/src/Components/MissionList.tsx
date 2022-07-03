@@ -3,6 +3,7 @@ import { useDarkThemeContext } from "../Context/DarkThemeContext";
 import { useFilteringContext } from "../Context/FilteringContext";
 import { useLocalStorageMissionsContext } from "../Context/LocalStorageMissionsContext";
 import { Mission } from "../Custom-Typings/Mission";
+import { hasChildren } from "../Logic/helperFunctions";
 import { getMissionsData, getSubMissionPadding } from "../Logic/subMissionLogic";
 import { MissionRow } from "./MissionRow";
 
@@ -32,7 +33,7 @@ const MISSION_LIST_DARK_STYLES: CSSProperties = {
 
 interface iMissionListProps {
     missionsData: Array<Mission>,
-    parentID?: number,
+    parentID?: string,
     level?: number
 };
 
@@ -44,13 +45,10 @@ export const MissionList: React.FC<iMissionListProps> = ({ missionsData, parentI
     const { debounceText, statusFilter } = useFilteringContext()
     const { darkTheme } = useDarkThemeContext()
 
-    useEffect(() => {
-        if (!parentID) {
-            setMissionsDataProp(getMissionsData(localStorageMissions, debounceText, statusFilter))
-        } else if (!debounceText && statusFilter === 'default') {
-            setMissionsDataProp(getMissionsData(localStorageMissions))
-        }
-    }, [debounceText, localStorageMissions, statusFilter])
+    useEffect(
+        () => setMissionsDataProp(getMissionsData(localStorageMissions, debounceText, statusFilter)), 
+        [debounceText, localStorageMissions, statusFilter]
+    )
 
     return (
         <ul 
@@ -60,7 +58,12 @@ export const MissionList: React.FC<iMissionListProps> = ({ missionsData, parentI
         >
             {
                 missionsDataProp.filter(mission => mission.parentID === parentID).map(mission => 
-                    <MissionRow key={mission.id} mission={mission} level={level}>
+                    <MissionRow 
+                        key={mission.id} 
+                        mission={mission} 
+                        level={level} 
+                        hasChildren={hasChildren(mission.id, missionsDataProp)}
+                    >
                         <MissionList missionsData={missionsDataProp} parentID={mission.id} level={level + 1} />
                     </MissionRow>
                 )

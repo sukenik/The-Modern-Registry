@@ -22,5 +22,5 @@ export const getLocalStorageKeys = () => {
     return keys;
 };
 export const removeFromLocalStorage = (key: string) => localStorage.removeItem(key);
-export const getChildrenFromDeletedMission = (parentID: number, missions: Array<Mission>) => 
+export const getChildrenFromDeletedMission = (parentID: string, missions: Array<Mission>) => 
     missions.filter(mission => mission.parentID === parentID);

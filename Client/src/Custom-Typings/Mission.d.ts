@@ -1,7 +1,9 @@
 export interface Mission {
-    id: number,
+    id: string,
     description: string,
-    status: string,
-    parentID: number | null,
-    hasChildren: boolean
-};
+    status: MISSION_STATUS,
+    parentID: string | null
+}
+export type VALUES<T> = T[keyof T]
+export const STATUSES = { active: 'Active', complete: 'Complete' } as const
+export type MISSION_STATUS = VALUES<typeof STATUSES>

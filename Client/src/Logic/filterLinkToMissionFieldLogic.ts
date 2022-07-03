@@ -1,5 +1,5 @@
 import { Mission } from "../Custom-Typings/Mission";
-import { getMissionChildren } from "./helperFunctions";
+import { getMissionChildren, hasChildren } from "./helperFunctions";
 
 export const getLinkToMissionOptions = (mission: Mission, missions: Array<Mission>): Array<Mission> => {
     const filteredOptionsList = isChild(mission) ? removeLinkedParentMission(mission, missions) : missions
@@ -21,7 +21,7 @@ export const getSelfPlusChildrenMissions = (mission: Mission, missions: Array<Mi
     if (!linkedChildrenStack.includes(mission)) {
         linkedChildren.push(mission)
     }
-    if (mission.hasChildren) {
+    if (hasChildren(mission.id, missions)) {
         getMissionChildren(mission.id, missions).forEach(
              childMission => getSelfPlusChildrenMissions(childMission, missions, linkedChildren)
         )
