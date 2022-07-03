@@ -1,5 +1,5 @@
 import React, { CSSProperties, useEffect, useState } from "react";
-import { useLocalStorageMissionsContext } from "../Context/LocalStorageMissionsContext";
+import { useLocalStorageMissionsContext } from "../Context/MissionsContext";
 import { useCurrentMissionContext } from "../Context/CurrentMissionContext";
 import { useShowModalContext } from "../Context/ModalContext";
 import { Mission } from "../Custom-Typings/Mission";
@@ -76,7 +76,7 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission, handleSave }
     const initialValues = { 
         name: mission.description, 
         status: modalType === 'Create' ? 'default' : mission.status, 
-        linkToMission: modalType === 'Create' ? 'default' : mission.parentID
+        linkToMission: modalType === 'Create' ? 'default' : mission.parentId
     }
 
     const [formValues, setFormValues] = useState(initialValues)
@@ -85,13 +85,13 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission, handleSave }
     const [checked, setChecked] = useState(false)
 
     const { showDeleteModal, setShowMissionModal, setShowDeleteModal} = useShowModalContext()
-    const { localStorageMissions, setLocalStorageMissions } = useLocalStorageMissionsContext()
+    const { missions, setMissions } = useLocalStorageMissionsContext()
     const { setCurrentMission } = useCurrentMissionContext()
     const { darkTheme } = useDarkThemeContext()
 
     useEffect(() => {
         if (Object.keys(formErrors).length === 0 && isSubmit) {
-            setLocalStorageMissions(handleSave(formValues.name, formValues.status, formValues.linkToMission, mission))
+            setMissions(handleSave(formValues.name, formValues.status, formValues.linkToMission, mission))
             modalAction({ setCurrentMission: setCurrentMission, setShowModal: setShowMissionModal } as iModalActionParams)
         }
     }, [formErrors])
@@ -102,7 +102,7 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission, handleSave }
     }
     const handleDelete = (mission: Mission, localStorageMissions: Array<Mission>, checked: boolean) => {
         onDelete(mission, localStorageMissions, checked)
-        setLocalStorageMissions(getMissionsData(getLocalStorageMissions(getLocalStorageKeys())))
+        setMissions(getMissionsData(getLocalStorageMissions(getLocalStorageKeys())))
         
         modalAction({ 
             setCurrentMission: setCurrentMission, 
@@ -113,7 +113,7 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission, handleSave }
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         if (showDeleteModal) {
-            return handleDelete(mission, localStorageMissions, checked)
+            return handleDelete(mission, missions, checked)
         }
         setFormErrors(validateFormFields(formValues))
         setIsSubmit(true)
@@ -128,15 +128,15 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission, handleSave }
     }
 
     const statusElements = getStatusElements(modalType, formValues)
-    const linkToMissionOptions = getLinkToMissionOptions(mission, getMissionsData(localStorageMissions))
+    const linkToMissionOptions = getLinkToMissionOptions(mission, getMissionsData(missions))
     const missionsFitToLinkOptionElements = getMissionsToLinkElements(linkToMissionOptions)
-    const defaultLinkToMissionOption = getDefaultLinkToMissionElement(mission, getMissionsData(localStorageMissions))
+    const defaultLinkToMissionOption = getDefaultLinkToMissionElement(mission, getMissionsData(missions))
     const labelText = "Delete linked children missions"
 
     return (
         <>
             {showDeleteModal ?
-                hasChildren(mission.id, localStorageMissions) && 
+                hasChildren(mission.id, missions) && 
                     <Checkbox checked={checked} setChecked={setChecked} label={labelText} /> 
                 :
                 <form style={MISSION_FORM_STYLES} onSubmit={handleSubmit}>
@@ -168,13 +168,13 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission, handleSave }
                     <label style={darkTheme ? LABEL_INPUT_DARK_STYLES : LABEL_INPUT_STYLES}>Link to mission:</label>
                     <select 
                         name="linkToMission" 
-                        defaultValue={mission.parentID ?? 'default'} 
+                        defaultValue={mission.parentId ?? 'default'} 
                         onChange={handleChange} 
-                        disabled={mission.parentID ? false : !missionsFitToLinkOptionElements.length}
+                        disabled={mission.parentId ? false : !missionsFitToLinkOptionElements.length}
                         style={darkTheme ? SELECT_DARK_STYLES : SELECT_STYLES}
                     >
                         {defaultLinkToMissionOption}
-                        {mission.parentID ?? <option value="default"></option>}
+                        {mission.parentId ?? <option value="default"></option>}
                         {missionsFitToLinkOptionElements}
                     </select>
                 </form>

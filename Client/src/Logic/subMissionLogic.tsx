@@ -43,7 +43,7 @@ export const getSubMissionPadding = (css: CSSProperties, level: number) => {
 const setHasChildren = (missions: Array<Mission>) => {
     return missions.map((mission) => ({
         ...mission,
-        hasChildren: missions.filter(m => m.parentID === mission.id).length > 0
+        hasChildren: missions.filter(m => m.parentId === mission.id).length > 0
     }))
 }
 const validateStatusFilter = (statusFilter: string, missionStatus: string): boolean => 
@@ -52,7 +52,7 @@ const validateStatusFilter = (statusFilter: string, missionStatus: string): bool
 const filterMissionsByStatus = (missions: Array<Mission>, status: string): Array<Mission> => {
     return setHasChildren(missions.reduce((accum, mission) => {
         if (validateStatusFilter(status, mission.status) && !accum.some(am => am.id === mission.id)) {
-            if (mission.parentID) {
+            if (mission.parentId) {
                 getSelfAndParentMissions(mission).forEach(m => {
                     if (!accum.some(am => am.id === m.id)) accum.push(m)
                 })

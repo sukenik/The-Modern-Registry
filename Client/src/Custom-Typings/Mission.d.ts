@@ -2,7 +2,7 @@ export interface Mission {
     id: string,
     description: string,
     status: MISSION_STATUS,
-    parentID: string | null
+    parentId: string | null
 }
 export type VALUES<T> = T[keyof T]
 export const STATUSES = { active: 'Active', complete: 'Complete' } as const

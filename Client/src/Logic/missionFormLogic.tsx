@@ -38,12 +38,12 @@ export const getMissionsToLinkElements = (linkToMissionOptions: Array<Mission>) 
         </option>
     );
 export const getDefaultLinkToMissionElement = (mission: Mission, missions: Array<Mission>) => {
-    if (mission.parentID) {
+    if (mission.parentId) {
         return (
                 <>
                     {getUnlinkOptionElement()} 
-                    <option value={mission.parentID} disabled hidden>
-                        {getMissionNameByID(mission.parentID, missions)}
+                    <option value={mission.parentId} disabled hidden>
+                        {getMissionNameByID(mission.parentId, missions)}
                     </option>
                 </>
         )
@@ -75,7 +75,7 @@ export const onDelete = (mission: Mission, missions: Array<Mission>, deleteChild
             getMissionChildren(mission.id, missions).forEach(subMission => {
                 addToLocalStorage(
                     subMission.id.toString(),
-                    parseMissionToString({ ...subMission, parentID: mission.parentID })
+                    parseMissionToString({ ...subMission, parentId: mission.parentId })
                 ) 
             })
         }

@@ -13,7 +13,7 @@ export const defaultMission: Mission = {
     id: '',
     description: '',
     status: 'Active',
-    parentID: null
+    parentId: null
 }
 
 export const CurrentMissionProvider: React.FC = ({ children }) => {
