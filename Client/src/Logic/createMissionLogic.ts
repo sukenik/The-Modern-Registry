@@ -20,6 +20,5 @@ export const getNewMissionUpdate = (id: string, name: string, status: MISSION_ST
         parentID: validateLinkToMission(linkToMissionID)
     };
 }
-export const validateLinkToMission = (linkToMissionID: string | null): null | string => {
-    return (linkToMissionID === 'default' || !linkToMissionID) ? null : linkToMissionID
-}
+export const validateLinkToMission = (linkToMissionID: string | null): null | string => 
+    (linkToMissionID === 'default' || !linkToMissionID) ? null : linkToMissionID

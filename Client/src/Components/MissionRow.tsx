@@ -6,8 +6,6 @@ import trashCanIcon from '../../Assets/garbage-g0e5e69325_640.png';
 import pencilIcon from '../../Assets/pencil-gef11d3429_640.png';
 import { OptionButton } from "./OptionButton";
 import { useShowModalContext } from "../Context/ModalContext";
-import { useLocalStorageMissionsContext } from "../Context/LocalStorageMissionsContext";
-import { hasChildren } from "../Logic/helperFunctions";
 
 const MISSION_STYLES: CSSProperties = {
     height: 40,

@@ -4,10 +4,9 @@ import { v4 as uuidv4 } from 'uuid'
 import { UserInputError } from "apollo-server"
 
 
-export const getAllMissions = async () => 
-    prisma.mission.findMany()
+export const getAllMissions = () => prisma.mission.findMany()
 
-export const createMission = async (args: iCreateMissionArgs) =>{
+export const createMission = (args: iCreateMissionArgs) =>{
     if (!validateStatus(args.status)) {
         throw new UserInputError(`Entered invalid status: ${args.status}`)
     }
@@ -22,7 +21,4 @@ export const createMission = async (args: iCreateMissionArgs) =>{
     })
 }
 
-const validateStatus = (status: string) => {
-    if ((status === 'Active') || (status === 'Complete')) return true
-    return false
-}
+const validateStatus = (status: string) => ((status === 'Active') || (status === 'Complete'))
