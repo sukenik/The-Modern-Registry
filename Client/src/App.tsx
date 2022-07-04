@@ -7,12 +7,11 @@ import { CreateMissionButton } from "./Components/CreateMissionButton";
 import { MissionModal } from "./Components/MissionModal";
 import { CurrentMissionProvider } from "./Context/CurrentMissionContext";
 import { useShowModalContext } from "./Context/ModalContext";
-import { useLocalStorageMissionsContext } from "./Context/MissionsContext";
+import { useMissionsContext } from "./Context/MissionsContext";
 import { FilteringProvider } from "./Context/FilteringContext";
 import { useDarkThemeContext } from "./Context/DarkThemeContext";
 import moonIcon from "../Assets/heaven-g329dd6da3_640.png";
 import sunIcon from "../Assets/sun-g977e87184_640.png";
-import { useAllMissions } from "./Hooks/useAllMissions";
 
 const APP_STYLES: CSSProperties = {
     display: 'flex',
@@ -57,7 +56,7 @@ const ICON_STYLES: CSSProperties = {
 
 const App: React.FC = () => {
     const { showMissionModal } = useShowModalContext()
-    const { missions } = useLocalStorageMissionsContext()
+    const { missions } = useMissionsContext()
     const { darkTheme, toggleDarkTheme } = useDarkThemeContext()
     
     const handleDarkModeButtonClick = () => toggleDarkTheme()

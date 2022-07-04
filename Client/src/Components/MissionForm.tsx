@@ -1,5 +1,5 @@
 import React, { CSSProperties, useEffect, useState } from "react";
-import { useLocalStorageMissionsContext } from "../Context/MissionsContext";
+import { useMissionsContext } from "../Context/MissionsContext";
 import { useCurrentMissionContext } from "../Context/CurrentMissionContext";
 import { useShowModalContext } from "../Context/ModalContext";
 import { Mission } from "../Custom-Typings/Mission";
@@ -68,7 +68,7 @@ const BUTTON_DARK_STYLES: CSSProperties = {
 
 interface iMissionFormProps {
     mission: Mission,
-    handleSave: (name: string, status: string, linkToMission: string | null, mission: Mission) => Array<Mission>
+    handleSave: (name: string, status: string, linkToMission: string | null, data: "db" | "ls", missionId: string) => Mission[]
 };
 
 export const MissionForm: React.FC<iMissionFormProps> = ({ mission, handleSave }) => {
@@ -85,13 +85,13 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission, handleSave }
     const [checked, setChecked] = useState(false)
 
     const { showDeleteModal, setShowMissionModal, setShowDeleteModal} = useShowModalContext()
-    const { missions, setMissions } = useLocalStorageMissionsContext()
+    const { missions, setMissions, data } = useMissionsContext()
     const { setCurrentMission } = useCurrentMissionContext()
     const { darkTheme } = useDarkThemeContext()
 
     useEffect(() => {
         if (Object.keys(formErrors).length === 0 && isSubmit) {
-            setMissions(handleSave(formValues.name, formValues.status, formValues.linkToMission, mission))
+            setMissions(handleSave(formValues.name, formValues.status, formValues.linkToMission, data, mission.id))
             modalAction({ setCurrentMission: setCurrentMission, setShowModal: setShowMissionModal } as iModalActionParams)
         }
     }, [formErrors])

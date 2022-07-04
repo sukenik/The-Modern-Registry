@@ -6,11 +6,12 @@ import { getMissionsData } from "../Logic/subMissionLogic";
 
 interface iMissionsContext {
     missions: Array<Mission>,
-    setMissions: Dispatch<SetStateAction<Array<Mission>>>
+    setMissions: Dispatch<SetStateAction<Array<Mission>>>,
+    data: 'db' | 'ls'
 };
 const MissionsContext = React.createContext<iMissionsContext | null>(null);
 
-export const useLocalStorageMissionsContext = () => useContext(MissionsContext) as iMissionsContext;
+export const useMissionsContext = () => useContext(MissionsContext) as iMissionsContext;
 const data = 'db'
 
 export const MissionsProvider: React.FC = ({ children }) => {
@@ -20,7 +21,7 @@ export const MissionsProvider: React.FC = ({ children }) => {
     )
 
     return (
-        <MissionsContext.Provider value={{ missions, setMissions }}>
+        <MissionsContext.Provider value={{ missions, setMissions, data }}>
             {children}
         </MissionsContext.Provider>
     );

@@ -9,3 +9,13 @@ export const getAllMissionsQuery = `
     }
   }
 `
+export const createMissionQuery = (description: string, status: string, parentId: string | null) => `
+  {
+    createMission(${description}, ${status}, ${parentId}) {
+      description
+      id
+      status
+      parentId
+    }
+  }
+`

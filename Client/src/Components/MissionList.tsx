@@ -1,8 +1,7 @@
 import React, { CSSProperties, useEffect, useState } from "react";
-import { useAllMissions } from "../Hooks/useAllMissions";
 import { useDarkThemeContext } from "../Context/DarkThemeContext";
 import { useFilteringContext } from "../Context/FilteringContext";
-import { useLocalStorageMissionsContext } from "../Context/MissionsContext";
+import { useMissionsContext } from "../Context/MissionsContext";
 import { Mission } from "../Custom-Typings/Mission";
 import { hasChildren } from "../Logic/helperFunctions";
 import { getMissionsData, getSubMissionPadding } from "../Logic/subMissionLogic";
@@ -39,20 +38,17 @@ interface iMissionListProps {
 };
 
 export const MissionList: React.FC<iMissionListProps> = ({ missionsData, parentId = null, level = 0 }) => {
-    missionsData.filter(mission => {
-        console.log(mission.parentId, parentId);
-        mission.parentId === parentId
-    });
     if (!missionsData.filter(mission => mission.parentId === parentId).length) return null
     
     const [missionsDataProp, setMissionsDataProp] = useState(missionsData)
-    const { missions } = useLocalStorageMissionsContext()
+    const { missions } = useMissionsContext()
     const { debounceText, statusFilter } = useFilteringContext()
     const { darkTheme } = useDarkThemeContext()
 
-    useEffect(() => {
-        setMissionsDataProp(getMissionsData(missions, debounceText, statusFilter))
-    }, [debounceText, missions, statusFilter])
+    useEffect(
+        () => setMissionsDataProp(getMissionsData(missions, debounceText, statusFilter)), 
+        [debounceText, missions, statusFilter]
+    )
 
     return (
         <ul 

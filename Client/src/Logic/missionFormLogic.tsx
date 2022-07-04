@@ -1,5 +1,6 @@
 import React from "react";
 import { Mission, MISSION_STATUS } from "../Custom-Typings/Mission";
+import { useCreateMission } from "../Hooks/useCreateMission";
 import { getNewMission, getNewMissionUpdate } from "./createMissionLogic";
 import { getSelfPlusChildrenMissions } from "./filterLinkToMissionFieldLogic";
 import { getMissionChildren, hasChildren } from "./helperFunctions";
@@ -55,14 +56,21 @@ const getMissionNameByID = (id: string, missions: Array<Mission>) => missions.fi
 
 const getUnlinkOptionElement = () => <option style={{ color: 'red' }} value="default">Unlink from parent</option>;
 
-export const onUpdate = (name: string, status: string, linkToMission: string | null, mission: Mission): Array<Mission> => {
-    const newMissionUpdate = getNewMissionUpdate(mission.id, name, status as MISSION_STATUS, linkToMission)
-    addToLocalStorage(mission.id.toString(), parseMissionToString(newMissionUpdate))
-    return getMissionsData(getLocalStorageMissions(getLocalStorageKeys()))
-}
-export const onCreate = (name: string, status: string, linkToMission: string | null): Array<Mission> => {
-    const newMission = getNewMission(name, status as MISSION_STATUS, linkToMission)
-    addToLocalStorage(newMission.id.toString(), parseMissionToString(newMission))
+export const onChange = (name: string, status: string, linkToMission: string | null, data: 'db' | 'ls', missionId?: string): 
+    Array<Mission> => {
+    
+    let missionUpdate: Mission = missionId ? 
+        getNewMissionUpdate(missionId, name, status as MISSION_STATUS, linkToMission) :
+        getNewMission(name, status as MISSION_STATUS, linkToMission)
+
+    if (data === 'db') {
+        useCreateMission(name, status, linkToMission)
+    } else {
+
+    }
+    // TODO: onChange will not return missions.
+    // instead will call useAllMission on MissionForm
+    addToLocalStorage(missionUpdate.id, parseMissionToString(missionUpdate))
     return getMissionsData(getLocalStorageMissions(getLocalStorageKeys()))
 }
 export const onDelete = (mission: Mission, missions: Array<Mission>, deleteChildren: boolean) => {

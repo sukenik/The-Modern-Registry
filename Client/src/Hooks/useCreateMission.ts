@@ -1,15 +1,17 @@
 import { SetStateAction, useEffect, useState } from "react";
-import { endpoint, getAllMissionsQuery } from "../API/MissionQueries";
+import { createMissionQuery, endpoint } from "../API/MissionQueries";
 import { Mission } from "../Custom-Typings/Mission";
 
-export function useAllMissions(): [Array<Mission>, React.Dispatch<SetStateAction<Mission[]>>] {
-    const [missions, setMissions] = useState([] as Array<Mission>)
+export function useCreateMission(description: string, status: string, parentId: string | null): 
+    [Mission, React.Dispatch<SetStateAction<Mission>>] {
+    
+    const [mission, setMission] = useState({} as Mission)
 
     useEffect(() => {
         fetch(endpoint, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ query: getAllMissionsQuery })
+            body: JSON.stringify({ query: createMissionQuery(description, status, parentId) })
         })
         .then(response => {
             if (response.status >= 400) {
@@ -18,8 +20,8 @@ export function useAllMissions(): [Array<Mission>, React.Dispatch<SetStateAction
                 return response.json()
             }
         })
-        .then(data => setMissions(data.data.getAllMissions))
-    }, [])    
+        .then(data => console.log(data.data))
+    }, [])  
 
-    return [missions, setMissions]
+    return [mission, setMission]
 }
