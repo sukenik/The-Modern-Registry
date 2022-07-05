@@ -3,7 +3,6 @@ import { useCurrentMissionContext } from "../Context/CurrentMissionContext";
 import { useDarkThemeContext } from "../Context/DarkThemeContext";
 import { useShowModalContext } from "../Context/ModalContext";
 import { iModalActionParams, modalAction } from "../Logic/helperFunctions";
-import { onChange } from "../Logic/missionFormLogic";
 import { MissionForm } from "./MissionForm";
 
 const MODAL_STYLES: CSSProperties = {
@@ -79,7 +78,7 @@ export const MissionModal: React.FC = () => {
                     }
                 </div>
                 <div style={darkTheme ? MODAL_BODY_DARK_STYLES : MODAL_BODY_STYLES}>
-                    <MissionForm mission={currentMission} handleSave={onChange} />
+                    <MissionForm mission={currentMission} />
                 </div>
             </div>
         </div>

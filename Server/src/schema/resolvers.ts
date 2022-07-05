@@ -1,10 +1,23 @@
 import { Status } from "@prisma/client";
-import { createMission, getAllMissions } from "../missionService";
+import { createMission, deleteMission, getAllMissions, updateMission } from "../missionService";
 
 export interface iCreateMissionArgs {
-    description: string,
-    status: Status,
-    parentId: string | null
+    input: {
+        description: string,
+        status: Status,
+        parentId: string | null
+    }
+}
+export interface iUpdateMissionArgs {
+    input: {
+        id: string,
+        description: string,
+        status: Status,
+        parentId: string | null
+    }
+}
+export interface iDeleteMissionArgs {
+    id: string
 }
 
 export const resolvers = {
@@ -12,6 +25,8 @@ export const resolvers = {
         getAllMissions: () => getAllMissions()
     },
     Mutation: {
-        createMission: (_: undefined, args: iCreateMissionArgs) => createMission(args)
+        createMission: (_: undefined, args: iCreateMissionArgs) => createMission(args.input),
+        updateMission: (_: undefined, args: iUpdateMissionArgs) => updateMission(args.input),
+        deleteMission: (_: undefined, args: iDeleteMissionArgs) => deleteMission(args)
     }
 }

@@ -5,7 +5,7 @@ import { useShowModalContext } from "../Context/ModalContext";
 import { Mission } from "../Custom-Typings/Mission";
 import { getLinkToMissionOptions } from "../Logic/filterLinkToMissionFieldLogic";
 import { hasChildren, iModalActionParams, modalAction } from "../Logic/helperFunctions";
-import { getDefaultLinkToMissionElement, getMissionsToLinkElements, getStatusElements, iFormFields, onDelete, validateFormFields } from "../Logic/missionFormLogic";
+import { getDefaultLinkToMissionElement, getMissionsToLinkElements, getStatusElements, handleSave, iFormFields, onDelete, validateFormFields } from "../Logic/missionFormLogic";
 import { getMissionsData } from "../Logic/subMissionLogic";
 import { Checkbox } from "./Checkbox";
 import { getLocalStorageKeys, getLocalStorageMissions } from "../Logic/localStorageLogic";
@@ -67,11 +67,10 @@ const BUTTON_DARK_STYLES: CSSProperties = {
 }
 
 interface iMissionFormProps {
-    mission: Mission,
-    handleSave: (name: string, status: string, linkToMission: string | null, data: "db" | "ls", missionId: string) => Mission[]
+    mission: Mission
 };
 
-export const MissionForm: React.FC<iMissionFormProps> = ({ mission, handleSave }) => {
+export const MissionForm: React.FC<iMissionFormProps> = ({ mission }) => {
     const modalType = mission.id ? 'Edit' : 'Create'
     const initialValues = { 
         name: mission.description, 
@@ -91,7 +90,11 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission, handleSave }
 
     useEffect(() => {
         if (Object.keys(formErrors).length === 0 && isSubmit) {
-            setMissions(handleSave(formValues.name, formValues.status, formValues.linkToMission, data, mission.id))
+
+            const missionUpdate = handleSave(formValues.name, formValues.status, formValues.linkToMission, data, mission.id)
+            if (mission.id) setMissions(prevState => prevState.filter(mission => mission.id !== missionUpdate.id)) 
+            setMissions(prevState => prevState.concat(missionUpdate))
+            // setMissions(handleSave(formValues.name, formValues.status, formValues.linkToMission, data, mission.id))
             modalAction({ setCurrentMission: setCurrentMission, setShowModal: setShowMissionModal } as iModalActionParams)
         }
     }, [formErrors])
@@ -101,8 +104,9 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission, handleSave }
         setFormValues({ ...formValues, [name]: value })
     }
     const handleDelete = (mission: Mission, localStorageMissions: Array<Mission>, checked: boolean) => {
-        onDelete(mission, localStorageMissions, checked)
-        setMissions(getMissionsData(getLocalStorageMissions(getLocalStorageKeys())))
+        onDelete(mission, localStorageMissions, checked, data)
+        setMissions(prevState => prevState.filter(missionToKeep => missionToKeep.id !== mission.id))
+        // setMissions(getMissionsData(getLocalStorageMissions(getLocalStorageKeys())))
         
         modalAction({ 
             setCurrentMission: setCurrentMission, 

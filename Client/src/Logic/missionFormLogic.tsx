@@ -1,6 +1,9 @@
 import React from "react";
 import { Mission, MISSION_STATUS } from "../Custom-Typings/Mission";
+import { useAllMissions } from "../Hooks/useAllMissions";
 import { useCreateMission } from "../Hooks/useCreateMission";
+import { useDeleteMission } from "../Hooks/useDeleteMission";
+import { useUpdateMission } from "../Hooks/useUpdateMission";
 import { getNewMission, getNewMissionUpdate } from "./createMissionLogic";
 import { getSelfPlusChildrenMissions } from "./filterLinkToMissionFieldLogic";
 import { getMissionChildren, hasChildren } from "./helperFunctions";
@@ -56,36 +59,38 @@ const getMissionNameByID = (id: string, missions: Array<Mission>) => missions.fi
 
 const getUnlinkOptionElement = () => <option style={{ color: 'red' }} value="default">Unlink from parent</option>;
 
-export const onChange = (name: string, status: string, linkToMission: string | null, data: 'db' | 'ls', missionId?: string): 
-    Array<Mission> => {
+export const handleSave = (description: string, status: string, parentId: string | null, data: 'db' | 'ls', missionId: string): 
+    Mission => {
     
-    let missionUpdate: Mission = missionId ? 
-        getNewMissionUpdate(missionId, name, status as MISSION_STATUS, linkToMission) :
-        getNewMission(name, status as MISSION_STATUS, linkToMission)
+    const missionUpdate: Mission = missionId ? 
+        getNewMissionUpdate(missionId, description, status as MISSION_STATUS, parentId) :
+        getNewMission(description, status as MISSION_STATUS, parentId)
 
     if (data === 'db') {
-        useCreateMission(name, status, linkToMission)
+        missionId ? useUpdateMission(description, status, parentId, missionId) : useCreateMission(description, status, parentId)
     } else {
-
+        addToLocalStorage(missionUpdate.id, parseMissionToString(missionUpdate))
     }
-    // TODO: onChange will not return missions.
-    // instead will call useAllMission on MissionForm
-    addToLocalStorage(missionUpdate.id, parseMissionToString(missionUpdate))
-    return getMissionsData(getLocalStorageMissions(getLocalStorageKeys()))
+
+    return missionUpdate
 }
-export const onDelete = (mission: Mission, missions: Array<Mission>, deleteChildren: boolean) => {
-    removeFromLocalStorage(mission.id.toString())
-    if (hasChildren(mission.id, missions)) {
-        if (deleteChildren) {
-            const missionsToDelete = getSelfPlusChildrenMissions(mission, missions)
-            missionsToDelete.forEach(childMission => removeFromLocalStorage(childMission.id.toString()))
-        } else {
-            getMissionChildren(mission.id, missions).forEach(subMission => {
-                addToLocalStorage(
-                    subMission.id.toString(),
-                    parseMissionToString({ ...subMission, parentId: mission.parentId })
-                ) 
-            })
+export const onDelete = (mission: Mission, missions: Array<Mission>, deleteChildren: boolean, data: 'db' | 'ls') => {
+    if (data === 'db') {
+        useDeleteMission(mission.id)
+    } else {
+        removeFromLocalStorage(mission.id)
+        if (hasChildren(mission.id, missions)) {
+            if (deleteChildren) {
+                const missionsToDelete = getSelfPlusChildrenMissions(mission, missions)
+                missionsToDelete.forEach(childMission => removeFromLocalStorage(childMission.id))
+            } else {
+                getMissionChildren(mission.id, missions).forEach(subMission => {
+                    addToLocalStorage(
+                        subMission.id,
+                        parseMissionToString({ ...subMission, parentId: mission.parentId })
+                    ) 
+                })
+            }
         }
     }
 }
