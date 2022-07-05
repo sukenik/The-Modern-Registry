@@ -1,6 +1,7 @@
 import { createMissionQuery, endpoint } from "../API/MissionQueries";
+import { MISSION_STATUS } from "../Custom-Typings/Mission";
 
-export function useCreateMission(description: string, status: string, parentId: string | null) {
+export function useCreateMission(description: string, status: MISSION_STATUS, parentId: string | null) {
     const variables = {
         description,
         status,
@@ -21,5 +22,5 @@ export function useCreateMission(description: string, status: string, parentId: 
             return response.json()
         }
     })
-    .then(data => console.log(data))
+    .then(data => data.data.createMission)
 }

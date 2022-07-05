@@ -16,15 +16,16 @@ export interface iFormFields {
     linkToMission?: string | null
 };
 export const validateFormFields = (values: iFormFields) => {
-    const errors = {} as iFormFields;
-    const regex = /\bActive\b|\bComplete\b/;
+    const errors = {} as iFormFields
+    const regex = /\bActive\b|\bComplete\b/
+
     if (!values.name) {
-        errors.name = 'Name is required!';
+        errors.name = 'Name is required!'
     }
     if (!values.status) {
-        errors.status = 'Status is required!';
+        errors.status = 'Status is required!'
     } else if (!regex.test(values.status)) {
-        errors.status = 'This is not a valid status';
+        errors.status = 'This is not a valid status'
     }
     return errors;
 };
@@ -62,12 +63,15 @@ const getUnlinkOptionElement = () => <option style={{ color: 'red' }} value="def
 export const handleSave = (description: string, status: string, parentId: string | null, data: 'db' | 'ls', missionId: string): 
     Mission => {
     
+    const parsedParentId = parentId === 'default' ? null : parentId
     const missionUpdate: Mission = missionId ? 
-        getNewMissionUpdate(missionId, description, status as MISSION_STATUS, parentId) :
-        getNewMission(description, status as MISSION_STATUS, parentId)
+        getNewMissionUpdate(missionId, description, status as MISSION_STATUS, parsedParentId) :
+        getNewMission(description, status as MISSION_STATUS, parsedParentId)
 
     if (data === 'db') {
-        missionId ? useUpdateMission(description, status, parentId, missionId) : useCreateMission(description, status, parentId)
+        missionId ? 
+            useUpdateMission(description, status, parsedParentId, missionId) : 
+            useCreateMission(description, status as MISSION_STATUS, parsedParentId)
     } else {
         addToLocalStorage(missionUpdate.id, parseMissionToString(missionUpdate))
     }
