@@ -6,14 +6,14 @@ import { Status } from "@prisma/client"
 
 export const getAllMissions = () => prisma.mission.findMany()
 
-export const createMission = (input: { description: string, status: Status, parentId: string | null }) => {
+export const createMission = (input: { id: string, description: string, status: Status, parentId: string | null }) => {
     if (!validateStatus(input.status)) {
         throw new UserInputError(`Entered invalid status: ${input.status}`)
     }
 
     return prisma.mission.create({
         data: {
-            id: uuidv4(),
+            id: input.id,
             description: input.description,
             status: input.status,
             parentId: input.parentId
@@ -38,10 +38,29 @@ export const updateMission = (input: { id: string, description: string, status: 
     })
 }
 
-export const deleteMission = (args: { id: string }) => {
-    return prisma.mission.delete({
+export const deleteMission = async (args: { id: string }) => {
+    return await prisma.mission.delete({
+        where: { id: args.id }
+    })
+}
+
+export const deleteMissionChildren = (args: { childrenIds: Array<string> }) => {
+    return prisma.mission.deleteMany({
         where: {
-            id: args.id
+            id: {
+                in: args.childrenIds
+            }
+        }
+    })
+}
+
+export const passMissionParent = (args: { id: string, parentId: string | null }) => {
+    return prisma.mission.updateMany({
+        where: {
+            parentId: args.id
+        },
+        data: {
+            parentId: args.parentId
         }
     })
 }

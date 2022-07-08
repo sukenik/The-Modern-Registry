@@ -1,15 +1,15 @@
-import React, { CSSProperties, useEffect, useState } from "react";
+import React, { CSSProperties, useEffect, useMemo, useState } from "react";
 import { useMissionsContext } from "../Context/MissionsContext";
 import { useCurrentMissionContext } from "../Context/CurrentMissionContext";
 import { useShowModalContext } from "../Context/ModalContext";
 import { Mission } from "../Custom-Typings/Mission";
-import { getLinkToMissionOptions } from "../Logic/filterLinkToMissionFieldLogic";
-import { hasChildren, iModalActionParams, modalAction } from "../Logic/helperFunctions";
-import { getDefaultLinkToMissionElement, getMissionsToLinkElements, getStatusElements, handleSave, iFormFields, onDelete, validateFormFields } from "../Logic/missionFormLogic";
-import { getMissionsData } from "../Logic/subMissionLogic";
+import { getMissionChildren, hasChildren, iModalActionParams, modalAction } from "../Logic/helperFunctions";
+import { getStatusElements, handleSave, iFormFields, dbDelete, validateFormFields, clientDelete } from "../Logic/missionFormLogic";
 import { Checkbox } from "./Checkbox";
-import { getLocalStorageKeys, getLocalStorageMissions } from "../Logic/localStorageLogic";
 import { useDarkThemeContext } from "../Context/DarkThemeContext";
+import { LinkToMissionOptions } from "./LinkToMissionOptions";
+import { getSelfPlusChildrenMissions } from "../Logic/filterLinkToMissionFieldLogic";
+import { getMissionsData } from "../Logic/subMissionLogic";
 
 const MISSION_FORM_STYLES: CSSProperties = {
     display: 'flex',
@@ -68,7 +68,7 @@ const BUTTON_DARK_STYLES: CSSProperties = {
 
 interface iMissionFormProps {
     mission: Mission
-};
+}
 
 export const MissionForm: React.FC<iMissionFormProps> = ({ mission }) => {
     const modalType = mission.id ? 'Edit' : 'Create'
@@ -88,13 +88,16 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission }) => {
     const { setCurrentMission } = useCurrentMissionContext()
     const { darkTheme } = useDarkThemeContext()
 
+    const statusElements = useMemo(() => getStatusElements(modalType, formValues), [])
+    const labelText = "Delete linked children missions"
+
     useEffect(() => {
         if (Object.keys(formErrors).length === 0 && isSubmit) {
 
             const missionUpdate = handleSave(formValues.name, formValues.status, formValues.linkToMission, data, mission.id)
-            if (mission.id) setMissions(prevState => prevState.filter(mission => mission.id !== missionUpdate.id)) 
+            if (mission.id) setMissions(prevState => prevState.filter(mission => mission.id !== missionUpdate.id))
             setMissions(prevState => prevState.concat(missionUpdate))
-            // setMissions(handleSave(formValues.name, formValues.status, formValues.linkToMission, data, mission.id))
+
             modalAction({ setCurrentMission: setCurrentMission, setShowModal: setShowMissionModal } as iModalActionParams)
         }
     }, [formErrors])
@@ -103,10 +106,9 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission }) => {
         const { name, value } = e.target
         setFormValues({ ...formValues, [name]: value })
     }
-    const handleDelete = (mission: Mission, localStorageMissions: Array<Mission>, checked: boolean) => {
-        onDelete(mission, localStorageMissions, checked, data)
-        setMissions(prevState => prevState.filter(missionToKeep => missionToKeep.id !== mission.id))
-        // setMissions(getMissionsData(getLocalStorageMissions(getLocalStorageKeys())))
+    const handleDelete = (mission: Mission, missions: Array<Mission>, checked: boolean) => { 
+        dbDelete(mission, missions, checked, data)
+        setMissions(clientDelete(mission, missions, checked))
         
         modalAction({ 
             setCurrentMission: setCurrentMission, 
@@ -130,12 +132,6 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission }) => {
             setIsDelete: setShowDeleteModal 
         } as iModalActionParams)
     }
-
-    const statusElements = getStatusElements(modalType, formValues)
-    const linkToMissionOptions = getLinkToMissionOptions(mission, getMissionsData(missions))
-    const missionsFitToLinkOptionElements = getMissionsToLinkElements(linkToMissionOptions)
-    const defaultLinkToMissionOption = getDefaultLinkToMissionElement(mission, getMissionsData(missions))
-    const labelText = "Delete linked children missions"
 
     return (
         <>
@@ -174,12 +170,10 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission }) => {
                         name="linkToMission" 
                         defaultValue={mission.parentId ?? 'default'} 
                         onChange={handleChange} 
-                        disabled={mission.parentId ? false : !missionsFitToLinkOptionElements.length}
+                        disabled={!missions.length}
                         style={darkTheme ? SELECT_DARK_STYLES : SELECT_STYLES}
                     >
-                        {defaultLinkToMissionOption}
-                        {mission.parentId ?? <option value="default"></option>}
-                        {missionsFitToLinkOptionElements}
+                        <LinkToMissionOptions />
                     </select>
                 </form>
             }

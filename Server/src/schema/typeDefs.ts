@@ -16,9 +16,12 @@ export const typeDefs = gql`
         createMission(input: CreateMissionInput!): Mission!
         updateMission(input: UpdateMissionInput!): Mission!
         deleteMission(id: String!): Mission!
+        deleteMissionChildren(childrenIds: [String!]!): BatchPayload
+        passMissionParent(id: String!, parentId: String): BatchPayload
     }
 
     input CreateMissionInput {
+        id:             String!
         description:    String!
         status:         String!
         parentId:       String
@@ -29,5 +32,9 @@ export const typeDefs = gql`
         description:    String!
         status:         String!
         parentId:       String
+    }
+
+    type BatchPayload {
+        count:          Int
     }
 `

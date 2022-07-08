@@ -1,8 +1,9 @@
 import { createMissionQuery, endpoint } from "../API/MissionQueries";
 import { MISSION_STATUS } from "../Custom-Typings/Mission";
 
-export function useCreateMission(description: string, status: MISSION_STATUS, parentId: string | null) {
+export function useCreateMission(id: string, description: string, status: MISSION_STATUS, parentId: string | null) {
     const variables = {
+        id,
         description,
         status,
         parentId
@@ -17,7 +18,7 @@ export function useCreateMission(description: string, status: MISSION_STATUS, pa
     })
     .then(response => {
         if (response.status >= 400) {
-            throw new Error("Error fetching data")
+            throw new Error(`Error fetching data. status: ${response.status}`)
         } else {
             return response.json()
         }

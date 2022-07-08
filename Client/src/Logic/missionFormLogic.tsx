@@ -3,6 +3,8 @@ import { Mission, MISSION_STATUS } from "../Custom-Typings/Mission";
 import { useAllMissions } from "../Hooks/useAllMissions";
 import { useCreateMission } from "../Hooks/useCreateMission";
 import { useDeleteMission } from "../Hooks/useDeleteMission";
+import { useDeleteMissionChildren } from "../Hooks/useDeleteMissionChildren";
+import { usePassMissionParent } from "../Hooks/usePassMissionParent";
 import { useUpdateMission } from "../Hooks/useUpdateMission";
 import { getNewMission, getNewMissionUpdate } from "./createMissionLogic";
 import { getSelfPlusChildrenMissions } from "./filterLinkToMissionFieldLogic";
@@ -71,15 +73,25 @@ export const handleSave = (description: string, status: string, parentId: string
     if (data === 'db') {
         missionId ? 
             useUpdateMission(description, status, parsedParentId, missionId) : 
-            useCreateMission(description, status as MISSION_STATUS, parsedParentId)
+            useCreateMission(missionUpdate.id, description, status as MISSION_STATUS, parsedParentId)
     } else {
         addToLocalStorage(missionUpdate.id, parseMissionToString(missionUpdate))
     }
 
     return missionUpdate
 }
-export const onDelete = (mission: Mission, missions: Array<Mission>, deleteChildren: boolean, data: 'db' | 'ls') => {
+export const dbDelete = (mission: Mission, missions: Array<Mission>, deleteChildren: boolean, data: 'db' | 'ls') => {
+    
     if (data === 'db') {
+        if (hasChildren(mission.id, missions)) {
+            if (deleteChildren) {
+                const missionsIdsToDelete = getSelfPlusChildrenMissions(mission, missions)
+                    .filter(deleteMission => mission.id !== deleteMission.id).map(mission => mission.id)
+                useDeleteMissionChildren(missionsIdsToDelete)
+            } else {
+                usePassMissionParent(mission.id, mission.parentId)
+            }
+        }
         useDeleteMission(mission.id)
     } else {
         removeFromLocalStorage(mission.id)
@@ -96,5 +108,30 @@ export const onDelete = (mission: Mission, missions: Array<Mission>, deleteChild
                 })
             }
         }
+    }
+}
+export const clientDelete = (mission: Mission, missions: Array<Mission>, deleteChildren: boolean): Array<Mission> => {
+    if (hasChildren(mission.id, missions)) {
+        if (deleteChildren) {
+
+            const missionsIdsToDelete = getSelfPlusChildrenMissions(mission, missions).map(mission => mission.id)
+            return getMissionsData(missions.filter(missionToKeep => !missionsIdsToDelete.includes(missionToKeep.id)))
+
+        } else {
+            const childMissionIds = getMissionChildren(mission.id, missions).map(subMission => subMission.id)
+
+            return getMissionsData(missions.reduce((accum, missionToKeep) => {
+                if (childMissionIds.some(childMissionId => missionToKeep.id === childMissionId)) {
+                    accum.push({ ...missionToKeep, parentId: mission.parentId })
+                } 
+                else if (missionToKeep.id !== mission.id) {
+                    accum.push(missionToKeep)
+                }
+
+                return accum
+            }, [] as Array<Mission>))
+        }
+    } else {
+        return getMissionsData(missions.filter(missionToKeep => missionToKeep.id !== mission.id))
     }
 }

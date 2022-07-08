@@ -13,7 +13,7 @@ export function useAllMissions(): [Array<Mission>, React.Dispatch<SetStateAction
         })
         .then(response => {
             if (response.status >= 400) {
-                throw new Error("Error fetching data")
+                throw new Error(`Error fetching data. status: ${response.status}`)
             } else {
                 return response.json()
             }

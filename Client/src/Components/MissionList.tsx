@@ -35,7 +35,7 @@ interface iMissionListProps {
     missionsData: Array<Mission>,
     parentId?: string,
     level?: number
-};
+}
 
 export const MissionList: React.FC<iMissionListProps> = ({ missionsData, parentId = null, level = 0 }) => {
     if (!missionsData.filter(mission => mission.parentId === parentId).length) return null

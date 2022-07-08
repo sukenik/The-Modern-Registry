@@ -50,11 +50,15 @@ const validateStatusFilter = (statusFilter: string, missionStatus: string): bool
     statusFilter === 'default' ? true : statusFilter === missionStatus
 
 const filterMissionsByStatus = (missions: Array<Mission>, status: string): Array<Mission> => {
+
     return setHasChildren(missions.reduce((accum, mission) => {
         if (validateStatusFilter(status, mission.status) && !accum.some(am => am.id === mission.id)) {
+
             if (mission.parentId) {
-                getSelfAndParentMissions(mission).forEach(m => {
-                    if (!accum.some(am => am.id === m.id)) accum.push(m)
+                getSelfAndParentMissions(mission, [], missions).forEach(m => {
+                    if (!accum.some(am => am.id === m.id)) {
+                        accum.push(m)
+                    }
                 })
             } else {
                 accum.push(mission)
@@ -64,12 +68,13 @@ const filterMissionsByStatus = (missions: Array<Mission>, status: string): Array
     }, [] as Array<Mission>))
 }
 const filterMissionsByText = (missions: Array<Mission>, text: string): Array<Mission> => {
+
     const searchResults: Array<Mission> = missions.filter(
         mission => mission.description.toLowerCase().includes(text.toLowerCase())
     )
-    const missionTrees: Array<Array<Mission>> = searchResults.map(mission => getSelfAndParentMissions(mission))
-
-    return setHasChildren(missionTrees.reduce((accum, iterator) => {                
+    const missionTrees: Array<Array<Mission>> = searchResults.map(mission => getSelfAndParentMissions(mission, [], missions))
+    
+    return setHasChildren(missionTrees.reduce((accum, iterator) => {
         iterator.forEach(mission => {
             if (!accum.some(am => am.id === mission.id)) {
                 accum.push(mission)
@@ -78,5 +83,28 @@ const filterMissionsByText = (missions: Array<Mission>, text: string): Array<Mis
         return accum
     }, [] as Array<Mission>))
 }
-const filterMissionsByTextAndStatus = (missions: Array<Mission>, text: string, status: string): Array<Mission> => 
-    setHasChildren(filterMissionsByText(filterMissionsByStatus(missions, status), text))
+const filterMissionsByTextAndStatus = (missions: Array<Mission>, text: string, status: string): Array<Mission> => {
+
+    const searchResults: Array<Mission> = missions.filter(
+        mission => mission.description.toLowerCase().includes(text.toLowerCase())
+    )
+    const missionTrees: Array<Array<Mission>> = searchResults.map(mission => getSelfAndParentMissions(mission, [], missions))
+    
+    return setHasChildren(missionTrees.reduce((accum, iterator) => {
+        iterator.forEach(mission => {
+            if (validateStatusFilter(status, mission.status) && !accum.some(am => am.id === mission.id)) {
+                
+                if (mission.parentId) {
+                    getSelfAndParentMissions(mission, [], missions).forEach(m => {
+                        if (!accum.some(am => am.id === m.id)) {
+                            accum.push(m)
+                        }
+                    })
+                } else {
+                    accum.push(mission)
+                }
+            }
+        })
+        return accum
+    }, [] as Array<Mission>))
+}

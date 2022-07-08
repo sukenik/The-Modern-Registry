@@ -1,11 +1,11 @@
-import { deleteMissionQuery, endpoint } from "../API/MissionQueries";
+import { deleteMissionChildrenQuery, endpoint } from "../API/MissionQueries";
 
-export function useDeleteMission(id: string) {
+export function useDeleteMissionChildren(childrenIds: Array<string>) {
     const variables = {
-        id
+        childrenIds
     }
 
-    const body = JSON.stringify({ query: deleteMissionQuery, variables })
+    const body = JSON.stringify({ query: deleteMissionChildrenQuery, variables })
 
     fetch(endpoint, {
         method: "POST",
@@ -19,5 +19,5 @@ export function useDeleteMission(id: string) {
             return response.json()
         }
     })
-    .then(data => data.data.deleteMission)
+    .then(data => data.data.deleteMissionChildren)
 }

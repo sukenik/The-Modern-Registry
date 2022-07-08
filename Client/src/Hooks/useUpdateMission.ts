@@ -17,7 +17,7 @@ export function useUpdateMission(description: string, status: string, parentId: 
     })
     .then(response => {
         if (response.status >= 400) {
-            throw new Error("Error fetching data")
+            throw new Error(`Error fetching data. status: ${response.status}`)
         } else {
             return response.json()
         }
