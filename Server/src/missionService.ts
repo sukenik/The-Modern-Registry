@@ -38,8 +38,8 @@ export const updateMission = (input: { id: string, description: string, status: 
     })
 }
 
-export const deleteMission = async (args: { id: string }) => {
-    return await prisma.mission.delete({
+export const deleteMission = (args: { id: string }) => {
+    return prisma.mission.delete({
         where: { id: args.id }
     })
 }
