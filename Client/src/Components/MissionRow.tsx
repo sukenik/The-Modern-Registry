@@ -74,7 +74,7 @@ export const MissionRow: React.FC<iMissionRowProps> = ({ mission, children, leve
     return (
             <li key={mission.id} style={LIST_ITEM_STYLE} id={`Mission-${mission.id}`}>
                 <div 
-                    style={mission.parentID ? 
+                    style={mission.parentId ? 
                         getMissionWidth(MISSION_STYLES, level) : 
                         getMissionWidth({...MISSION_STYLES, marginTop: 10}, level)
                     }

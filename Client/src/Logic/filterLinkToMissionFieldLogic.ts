@@ -7,9 +7,9 @@ export const getLinkToMissionOptions = (mission: Mission, missions: Array<Missio
     return filterChildrenFromMissionList(linkedChildren, filteredOptionsList)
 }
 const removeLinkedParentMission = (mission: Mission, missions: Array<Mission>) => 
-    missions.filter(parentMission => parentMission.id !== mission.parentID)
+    missions.filter(parentMission => parentMission.id !== mission.parentId)
 
-const isChild = (mission: Mission): boolean => typeof mission.parentID === 'number'
+const isChild = (mission: Mission): boolean => !!mission.parentId
 
 const filterChildrenFromMissionList = (linkedChildrenMissions: Array<Mission>, missions: Array<Mission>) => 
     missions.filter(mission => !linkedChildrenMissions.some(linkedChild => linkedChild.id === mission.id))

@@ -1,9 +1,14 @@
 import React from "react";
 import { Mission, MISSION_STATUS } from "../Custom-Typings/Mission";
+import { useCreateMission } from "../Hooks/useCreateMission";
+import { useDeleteMission } from "../Hooks/useDeleteMission";
+import { useDeleteMissionChildren } from "../Hooks/useDeleteMissionChildren";
+import { usePassMissionParent } from "../Hooks/usePassMissionParent";
+import { useUpdateMission } from "../Hooks/useUpdateMission";
 import { getNewMission, getNewMissionUpdate } from "./createMissionLogic";
 import { getSelfPlusChildrenMissions } from "./filterLinkToMissionFieldLogic";
 import { getMissionChildren, hasChildren } from "./helperFunctions";
-import { addToLocalStorage, getLocalStorageKeys, getLocalStorageMissions, parseMissionToString, removeFromLocalStorage } from "./localStorageLogic";
+import { addToLocalStorage, parseMissionToString, removeFromLocalStorage } from "./localStorageLogic";
 import { getMissionsData } from "./subMissionLogic";
 
 export interface iFormFields {
@@ -12,15 +17,16 @@ export interface iFormFields {
     linkToMission?: string | null
 };
 export const validateFormFields = (values: iFormFields) => {
-    const errors = {} as iFormFields;
-    const regex = /\bActive\b|\bComplete\b/;
+    const errors = {} as iFormFields
+    const regex = /\bActive\b|\bComplete\b/
+
     if (!values.name) {
-        errors.name = 'Name is required!';
+        errors.name = 'Name is required!'
     }
     if (!values.status) {
-        errors.status = 'Status is required!';
+        errors.status = 'Status is required!'
     } else if (!regex.test(values.status)) {
-        errors.status = 'This is not a valid status';
+        errors.status = 'This is not a valid status'
     }
     return errors;
 };
@@ -38,12 +44,12 @@ export const getMissionsToLinkElements = (linkToMissionOptions: Array<Mission>) 
         </option>
     );
 export const getDefaultLinkToMissionElement = (mission: Mission, missions: Array<Mission>) => {
-    if (mission.parentID) {
+    if (mission.parentId) {
         return (
                 <>
                     {getUnlinkOptionElement()} 
-                    <option value={mission.parentID} disabled hidden>
-                        {getMissionNameByID(mission.parentID, missions)}
+                    <option value={mission.parentId} disabled hidden>
+                        {getMissionNameByID(mission.parentId, missions)}
                     </option>
                 </>
         )
@@ -55,29 +61,76 @@ const getMissionNameByID = (id: string, missions: Array<Mission>) => missions.fi
 
 const getUnlinkOptionElement = () => <option style={{ color: 'red' }} value="default">Unlink from parent</option>;
 
-export const onUpdate = (name: string, status: string, linkToMission: string | null, mission: Mission): Array<Mission> => {
-    const newMissionUpdate = getNewMissionUpdate(mission.id, name, status as MISSION_STATUS, linkToMission)
-    addToLocalStorage(mission.id.toString(), parseMissionToString(newMissionUpdate))
-    return getMissionsData(getLocalStorageMissions(getLocalStorageKeys()))
+export const handleSave = (description: string, status: string, parentId: string | null, data: 'db' | 'ls', missionId: string): 
+    Mission => {
+    
+    const parsedParentId = parentId === 'default' ? null : parentId
+    const missionUpdate: Mission = missionId ? 
+        getNewMissionUpdate(missionId, description, status as MISSION_STATUS, parsedParentId) :
+        getNewMission(description, status as MISSION_STATUS, parsedParentId)
+
+    if (data === 'db') {
+        missionId ? 
+            useUpdateMission(missionId, description, status as MISSION_STATUS, parsedParentId) : 
+            useCreateMission(missionUpdate.id, description, status as MISSION_STATUS, parsedParentId)
+    } else {
+        addToLocalStorage(missionUpdate.id, parseMissionToString(missionUpdate))
+    }
+
+    return missionUpdate
 }
-export const onCreate = (name: string, status: string, linkToMission: string | null): Array<Mission> => {
-    const newMission = getNewMission(name, status as MISSION_STATUS, linkToMission)
-    addToLocalStorage(newMission.id.toString(), parseMissionToString(newMission))
-    return getMissionsData(getLocalStorageMissions(getLocalStorageKeys()))
+export const dbDelete = (mission: Mission, missions: Array<Mission>, deleteChildren: boolean, data: 'db' | 'ls') => {
+    
+    if (data === 'db') {
+        if (hasChildren(mission.id, missions)) {
+            if (deleteChildren) {
+                const missionsIdsToDelete = getSelfPlusChildrenMissions(mission, missions)
+                    .filter(deleteMission => mission.id !== deleteMission.id).map(mission => mission.id)
+                useDeleteMissionChildren(missionsIdsToDelete)
+            } else {
+                usePassMissionParent(mission.id, mission.parentId)
+            }
+        }
+        useDeleteMission(mission.id)
+    } else {
+        removeFromLocalStorage(mission.id)
+        if (hasChildren(mission.id, missions)) {
+            if (deleteChildren) {
+                const missionsToDelete = getSelfPlusChildrenMissions(mission, missions)
+                missionsToDelete.forEach(childMission => removeFromLocalStorage(childMission.id))
+            } else {
+                getMissionChildren(mission.id, missions).forEach(subMission => {
+                    addToLocalStorage(
+                        subMission.id,
+                        parseMissionToString({ ...subMission, parentId: mission.parentId })
+                    ) 
+                })
+            }
+        }
+    }
 }
-export const onDelete = (mission: Mission, missions: Array<Mission>, deleteChildren: boolean) => {
-    removeFromLocalStorage(mission.id.toString())
+export const clientDelete = (mission: Mission, missions: Array<Mission>, deleteChildren: boolean): Array<Mission> => {
     if (hasChildren(mission.id, missions)) {
         if (deleteChildren) {
-            const missionsToDelete = getSelfPlusChildrenMissions(mission, missions)
-            missionsToDelete.forEach(childMission => removeFromLocalStorage(childMission.id.toString()))
+
+            const missionsIdsToDelete = getSelfPlusChildrenMissions(mission, missions).map(mission => mission.id)
+            return getMissionsData(missions.filter(missionToKeep => !missionsIdsToDelete.includes(missionToKeep.id)))
+
         } else {
-            getMissionChildren(mission.id, missions).forEach(subMission => {
-                addToLocalStorage(
-                    subMission.id.toString(),
-                    parseMissionToString({ ...subMission, parentID: mission.parentID })
-                ) 
-            })
+            const childMissionIds = getMissionChildren(mission.id, missions).map(subMission => subMission.id)
+
+            return getMissionsData(missions.reduce((accum, missionToKeep) => {
+                if (childMissionIds.some(childMissionId => missionToKeep.id === childMissionId)) {
+                    accum.push({ ...missionToKeep, parentId: mission.parentId })
+                } 
+                else if (missionToKeep.id !== mission.id) {
+                    accum.push(missionToKeep)
+                }
+
+                return accum
+            }, [] as Array<Mission>))
         }
+    } else {
+        return getMissionsData(missions.filter(missionToKeep => missionToKeep.id !== mission.id))
     }
 }

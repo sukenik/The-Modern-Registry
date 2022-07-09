@@ -1,7 +1,7 @@
 import React, { CSSProperties, useEffect, useState } from "react";
 import { useDarkThemeContext } from "../Context/DarkThemeContext";
 import { useFilteringContext } from "../Context/FilteringContext";
-import { useLocalStorageMissionsContext } from "../Context/LocalStorageMissionsContext";
+import { useMissionsContext } from "../Context/MissionsContext";
 import { Mission } from "../Custom-Typings/Mission";
 import { hasChildren } from "../Logic/helperFunctions";
 import { getMissionsData, getSubMissionPadding } from "../Logic/subMissionLogic";
@@ -33,38 +33,38 @@ const MISSION_LIST_DARK_STYLES: CSSProperties = {
 
 interface iMissionListProps {
     missionsData: Array<Mission>,
-    parentID?: string,
+    parentId?: string,
     level?: number
-};
+}
 
-export const MissionList: React.FC<iMissionListProps> = ({ missionsData, parentID = null, level = 0 }) => {
-    if (!missionsData.filter(mission => mission.parentID === parentID).length) return null
+export const MissionList: React.FC<iMissionListProps> = ({ missionsData, parentId = null, level = 0 }) => {
+    if (!missionsData.filter(mission => mission.parentId === parentId).length) return null
     
     const [missionsDataProp, setMissionsDataProp] = useState(missionsData)
-    const { localStorageMissions } = useLocalStorageMissionsContext()
+    const { missions } = useMissionsContext()
     const { debounceText, statusFilter } = useFilteringContext()
     const { darkTheme } = useDarkThemeContext()
 
     useEffect(
-        () => setMissionsDataProp(getMissionsData(localStorageMissions, debounceText, statusFilter)), 
-        [debounceText, localStorageMissions, statusFilter]
+        () => setMissionsDataProp(getMissionsData(missions, debounceText, statusFilter)), 
+        [debounceText, missions, statusFilter]
     )
 
     return (
         <ul 
             style={darkTheme ? 
-                parentID ? getSubMissionPadding(SUB_MISSION_LIST_DARK_STYLES, level) : MISSION_LIST_DARK_STYLES :
-                parentID ? getSubMissionPadding(SUB_MISSION_LIST_STYLES, level) : MISSION_LIST_STYLES}
+                parentId ? getSubMissionPadding(SUB_MISSION_LIST_DARK_STYLES, level) : MISSION_LIST_DARK_STYLES :
+                parentId ? getSubMissionPadding(SUB_MISSION_LIST_STYLES, level) : MISSION_LIST_STYLES}
         >
             {
-                missionsDataProp.filter(mission => mission.parentID === parentID).map(mission => 
+                missionsDataProp.filter(mission => mission.parentId === parentId).map(mission => 
                     <MissionRow 
                         key={mission.id} 
                         mission={mission} 
                         level={level} 
                         hasChildren={hasChildren(mission.id, missionsDataProp)}
                     >
-                        <MissionList missionsData={missionsDataProp} parentID={mission.id} level={level + 1} />
+                        <MissionList missionsData={missionsDataProp} parentId={mission.id} level={level + 1} />
                     </MissionRow>
                 )
             }

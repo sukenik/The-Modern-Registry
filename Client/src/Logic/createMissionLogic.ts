@@ -7,7 +7,7 @@ export const getNewMission = (name: string, status: MISSION_STATUS, linkToMissio
         id: getUUID(),
         description: name,
         status: status,
-        parentID: validateLinkToMission(linkToMissionID)
+        parentId: validateLinkToMission(linkToMissionID)
     };
 };
 export const getNewMissionUpdate = (id: string, name: string, status: MISSION_STATUS, linkToMissionID: string | null): 
@@ -17,7 +17,7 @@ export const getNewMissionUpdate = (id: string, name: string, status: MISSION_ST
         id: id,
         description: name,
         status: status,
-        parentID: validateLinkToMission(linkToMissionID)
+        parentId: validateLinkToMission(linkToMissionID)
     };
 }
 export const validateLinkToMission = (linkToMissionID: string | null): null | string => 

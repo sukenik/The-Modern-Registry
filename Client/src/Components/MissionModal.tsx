@@ -3,7 +3,6 @@ import { useCurrentMissionContext } from "../Context/CurrentMissionContext";
 import { useDarkThemeContext } from "../Context/DarkThemeContext";
 import { useShowModalContext } from "../Context/ModalContext";
 import { iModalActionParams, modalAction } from "../Logic/helperFunctions";
-import { onCreate, onUpdate } from "../Logic/missionFormLogic";
 import { MissionForm } from "./MissionForm";
 
 const MODAL_STYLES: CSSProperties = {
@@ -72,14 +71,15 @@ export const MissionModal: React.FC = () => {
                             Sure You Want To Delete
                             <br />
                             {darkTheme ? `"${currentMission.description}"?` : `"${currentMission.description}"?`}
-                        </p> :
+                        </p> 
+                        :
                         <p style={darkTheme ? MODAL_TITLE_DARK_STYLES : MODAL_TITLE_STYLES}>
                             {currentMission.id ? `Edit ${currentMission.description}` : 'Create a Mission'}
                         </p>
                     }
                 </div>
                 <div style={darkTheme ? MODAL_BODY_DARK_STYLES : MODAL_BODY_STYLES}>
-                    <MissionForm mission={currentMission} handleSave={currentMission.id ? onUpdate : onCreate} />
+                    <MissionForm />
                 </div>
             </div>
         </div>
