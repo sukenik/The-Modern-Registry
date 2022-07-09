@@ -65,5 +65,12 @@ export const passMissionParent = (args: { id: string, parentId: string | null })
     })
 }
 
+export const getMissionByName = (args: { description: string }) => {
+    return prisma.mission.findFirstOrThrow({
+        where: {
+            description: args.description
+        }
+    })
+}
+
 const validateStatus = (status: string) => ((status === 'Active') || (status === 'Complete'))
-// TODO: validate parentId exist

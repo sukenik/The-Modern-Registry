@@ -1,6 +1,5 @@
 import React from "react";
 import { Mission, MISSION_STATUS } from "../Custom-Typings/Mission";
-import { useAllMissions } from "../Hooks/useAllMissions";
 import { useCreateMission } from "../Hooks/useCreateMission";
 import { useDeleteMission } from "../Hooks/useDeleteMission";
 import { useDeleteMissionChildren } from "../Hooks/useDeleteMissionChildren";
@@ -9,7 +8,7 @@ import { useUpdateMission } from "../Hooks/useUpdateMission";
 import { getNewMission, getNewMissionUpdate } from "./createMissionLogic";
 import { getSelfPlusChildrenMissions } from "./filterLinkToMissionFieldLogic";
 import { getMissionChildren, hasChildren } from "./helperFunctions";
-import { addToLocalStorage, getLocalStorageKeys, getLocalStorageMissions, parseMissionToString, removeFromLocalStorage } from "./localStorageLogic";
+import { addToLocalStorage, parseMissionToString, removeFromLocalStorage } from "./localStorageLogic";
 import { getMissionsData } from "./subMissionLogic";
 
 export interface iFormFields {
@@ -72,7 +71,7 @@ export const handleSave = (description: string, status: string, parentId: string
 
     if (data === 'db') {
         missionId ? 
-            useUpdateMission(description, status, parsedParentId, missionId) : 
+            useUpdateMission(missionId, description, status as MISSION_STATUS, parsedParentId) : 
             useCreateMission(missionUpdate.id, description, status as MISSION_STATUS, parsedParentId)
     } else {
         addToLocalStorage(missionUpdate.id, parseMissionToString(missionUpdate))

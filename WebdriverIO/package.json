@@ -14,6 +14,6 @@
         "typescript": "^4.7.4"
     },
     "scripts": {
-        "wdio": "wdio run test/wdio.conf.ts"
+        "start": "wdio run test/wdio.conf.ts"
     }
 }

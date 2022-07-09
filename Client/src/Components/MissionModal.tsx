@@ -71,14 +71,15 @@ export const MissionModal: React.FC = () => {
                             Sure You Want To Delete
                             <br />
                             {darkTheme ? `"${currentMission.description}"?` : `"${currentMission.description}"?`}
-                        </p> :
+                        </p> 
+                        :
                         <p style={darkTheme ? MODAL_TITLE_DARK_STYLES : MODAL_TITLE_STYLES}>
                             {currentMission.id ? `Edit ${currentMission.description}` : 'Create a Mission'}
                         </p>
                     }
                 </div>
                 <div style={darkTheme ? MODAL_BODY_DARK_STYLES : MODAL_BODY_STYLES}>
-                    <MissionForm mission={currentMission} />
+                    <MissionForm />
                 </div>
             </div>
         </div>

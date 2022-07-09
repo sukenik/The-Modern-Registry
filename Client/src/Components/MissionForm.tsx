@@ -3,13 +3,11 @@ import { useMissionsContext } from "../Context/MissionsContext";
 import { useCurrentMissionContext } from "../Context/CurrentMissionContext";
 import { useShowModalContext } from "../Context/ModalContext";
 import { Mission } from "../Custom-Typings/Mission";
-import { getMissionChildren, hasChildren, iModalActionParams, modalAction } from "../Logic/helperFunctions";
+import { hasChildren, iModalActionParams, modalAction } from "../Logic/helperFunctions";
 import { getStatusElements, handleSave, iFormFields, dbDelete, validateFormFields, clientDelete } from "../Logic/missionFormLogic";
 import { Checkbox } from "./Checkbox";
 import { useDarkThemeContext } from "../Context/DarkThemeContext";
 import { LinkToMissionOptions } from "./LinkToMissionOptions";
-import { getSelfPlusChildrenMissions } from "../Logic/filterLinkToMissionFieldLogic";
-import { getMissionsData } from "../Logic/subMissionLogic";
 
 const MISSION_FORM_STYLES: CSSProperties = {
     display: 'flex',
@@ -66,16 +64,14 @@ const BUTTON_DARK_STYLES: CSSProperties = {
     backgroundColor: '#5700d5'
 }
 
-interface iMissionFormProps {
-    mission: Mission
-}
-
-export const MissionForm: React.FC<iMissionFormProps> = ({ mission }) => {
-    const modalType = mission.id ? 'Edit' : 'Create'
+export const MissionForm: React.FC = () => {
+    const { currentMission, setCurrentMission } = useCurrentMissionContext()
+    
+    const modalType = currentMission.id ? 'Edit' : 'Create'
     const initialValues = { 
-        name: mission.description, 
-        status: modalType === 'Create' ? 'default' : mission.status, 
-        linkToMission: modalType === 'Create' ? 'default' : mission.parentId
+        name: currentMission.description, 
+        status: modalType === 'Create' ? 'default' : currentMission.status, 
+        linkToMission: modalType === 'Create' ? 'default' : currentMission.parentId
     }
 
     const [formValues, setFormValues] = useState(initialValues)
@@ -85,7 +81,6 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission }) => {
 
     const { showDeleteModal, setShowMissionModal, setShowDeleteModal} = useShowModalContext()
     const { missions, setMissions, data } = useMissionsContext()
-    const { setCurrentMission } = useCurrentMissionContext()
     const { darkTheme } = useDarkThemeContext()
 
     const statusElements = useMemo(() => getStatusElements(modalType, formValues), [])
@@ -94,8 +89,8 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission }) => {
     useEffect(() => {
         if (Object.keys(formErrors).length === 0 && isSubmit) {
 
-            const missionUpdate = handleSave(formValues.name, formValues.status, formValues.linkToMission, data, mission.id)
-            if (mission.id) setMissions(prevState => prevState.filter(mission => mission.id !== missionUpdate.id))
+            const missionUpdate = handleSave(formValues.name, formValues.status, formValues.linkToMission, data, currentMission.id)
+            if (currentMission.id) setMissions(prevState => prevState.filter(mission => mission.id !== missionUpdate.id))
             setMissions(prevState => prevState.concat(missionUpdate))
 
             modalAction({ setCurrentMission: setCurrentMission, setShowModal: setShowMissionModal } as iModalActionParams)
@@ -119,7 +114,7 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission }) => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         if (showDeleteModal) {
-            return handleDelete(mission, missions, checked)
+            return handleDelete(currentMission, missions, checked)
         }
         setFormErrors(validateFormFields(formValues))
         setIsSubmit(true)
@@ -136,7 +131,7 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission }) => {
     return (
         <>
             {showDeleteModal ?
-                hasChildren(mission.id, missions) && 
+                hasChildren(currentMission.id, missions) && 
                     <Checkbox checked={checked} setChecked={setChecked} label={labelText} /> 
                 :
                 <form style={MISSION_FORM_STYLES} onSubmit={handleSubmit}>
@@ -168,7 +163,7 @@ export const MissionForm: React.FC<iMissionFormProps> = ({ mission }) => {
                     <label style={darkTheme ? LABEL_INPUT_DARK_STYLES : LABEL_INPUT_STYLES}>Link to mission:</label>
                     <select 
                         name="linkToMission" 
-                        defaultValue={mission.parentId ?? 'default'} 
+                        defaultValue={currentMission.parentId ?? 'default'} 
                         onChange={handleChange} 
                         disabled={!missions.length}
                         style={darkTheme ? SELECT_DARK_STYLES : SELECT_STYLES}
