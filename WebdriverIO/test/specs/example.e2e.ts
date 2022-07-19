@@ -19,7 +19,10 @@ describe('My Modern Registry application', () => {
         ).toHaveText(missionName)
         // await expect((await MainPage.missionRow).$('#mission-status')).toHaveText(missionStatus)
 
+        // const response = MainPage.validateMissionOnDb(missionName).then(data => console.log(data))
         
-        
+        const optionButtons = await (await browser.react$('MissionRow', { props: { mission: { description: missionName } } })).react$$('OptionButton')
+        await optionButtons[1]
+        await browser.pause(5000)
     })
 })

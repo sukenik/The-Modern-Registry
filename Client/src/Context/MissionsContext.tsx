@@ -17,8 +17,7 @@ const data = 'db'
 export const MissionsProvider: React.FC = ({ children }) => {
     const [missions, setMissions] = data === 'db' ? 
         useAllMissions() :
-        useState(getMissionsData(getLocalStorageMissions(getLocalStorageKeys()))
-    )
+        useState(getMissionsData(getLocalStorageMissions(getLocalStorageKeys())))
 
     return (
         <MissionsContext.Provider value={{ missions, setMissions, data }}>

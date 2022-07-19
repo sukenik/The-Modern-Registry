@@ -1,5 +1,3 @@
-import { ChainablePromiseElement } from 'webdriverio';
-
 import Page from './page';
 
 class MainPage extends Page {
@@ -18,12 +16,9 @@ class MainPage extends Page {
     public async validateMissionOnDb(missionName: string) {
         const endpoint = 'http://localhost:4000/graphql'
         const getMissionByNameQuery = `
-            query GetMissionByName {
-                getAllMissions {
-                    id
+            query GetMissionByName($description: String!) {
+                getMissionByName(description: $description) {
                     description
-                    status
-                    parentId
                 }
             }
         `
@@ -44,6 +39,8 @@ class MainPage extends Page {
                 return response.json()
             }
         })
+
+        return response
     }
 }
 
