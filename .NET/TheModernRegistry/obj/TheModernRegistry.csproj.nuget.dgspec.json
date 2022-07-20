@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\suken\\OneDrive\\שולחן העבודה\\Daniel\\צבא\\תרגולים\\Hafifa\\Targil 1\\modern-registry\\.NET\\TheModernRegistry\\TheModernRegistry\\TheModernRegistry.csproj": {}
+    "C:\\Users\\suken\\OneDrive\\שולחן העבודה\\Daniel\\צבא\\תרגולים\\Hafifa\\Targil 1\\modern-registry\\.NET\\TheModernRegistry\\TheModernRegistry.csproj": {}
   },
   "projects": {
-    "C:\\Users\\suken\\OneDrive\\שולחן העבודה\\Daniel\\צבא\\תרגולים\\Hafifa\\Targil 1\\modern-registry\\.NET\\TheModernRegistry\\TheModernRegistry\\TheModernRegistry.csproj": {
+    "C:\\Users\\suken\\OneDrive\\שולחן העבודה\\Daniel\\צבא\\תרגולים\\Hafifa\\Targil 1\\modern-registry\\.NET\\TheModernRegistry\\TheModernRegistry.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\suken\\OneDrive\\שולחן העבודה\\Daniel\\צבא\\תרגולים\\Hafifa\\Targil 1\\modern-registry\\.NET\\TheModernRegistry\\TheModernRegistry\\TheModernRegistry.csproj",
+        "projectUniqueName": "C:\\Users\\suken\\OneDrive\\שולחן העבודה\\Daniel\\צבא\\תרגולים\\Hafifa\\Targil 1\\modern-registry\\.NET\\TheModernRegistry\\TheModernRegistry.csproj",
         "projectName": "TheModernRegistry",
-        "projectPath": "C:\\Users\\suken\\OneDrive\\שולחן העבודה\\Daniel\\צבא\\תרגולים\\Hafifa\\Targil 1\\modern-registry\\.NET\\TheModernRegistry\\TheModernRegistry\\TheModernRegistry.csproj",
+        "projectPath": "C:\\Users\\suken\\OneDrive\\שולחן העבודה\\Daniel\\צבא\\תרגולים\\Hafifa\\Targil 1\\modern-registry\\.NET\\TheModernRegistry\\TheModernRegistry.csproj",
         "packagesPath": "C:\\Users\\suken\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\suken\\OneDrive\\שולחן העבודה\\Daniel\\צבא\\תרגולים\\Hafifa\\Targil 1\\modern-registry\\.NET\\TheModernRegistry\\TheModernRegistry\\obj\\",
+        "outputPath": "C:\\Users\\suken\\OneDrive\\שולחן העבודה\\Daniel\\צבא\\תרגולים\\Hafifa\\Targil 1\\modern-registry\\.NET\\TheModernRegistry\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\suken\\AppData\\Roaming\\NuGet\\NuGet.Config",

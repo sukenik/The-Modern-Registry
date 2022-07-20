@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "yvy4ZlAchr0TO/cR9N/datgX7UaZLTVSpK49ph+6AH7eQood0Zz4gb4/5RaDYmqzwGJ9ZVELP9xBwtQMWb45yw==",
+  "dgSpecHash": "sAuzujHmcLX0B3+MboSrTCHpCwhLj/a4EC2/8i9mKwkUMzfX7gZnJV2RxIvu1V87pko87Ubbxzr1dccNi9XrZQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\suken\\OneDrive\\שולחן העבודה\\Daniel\\צבא\\תרגולים\\Hafifa\\Targil 1\\modern-registry\\.NET\\TheModernRegistry\\TheModernRegistry\\TheModernRegistry.csproj",
+  "projectFilePath": "C:\\Users\\suken\\OneDrive\\שולחן העבודה\\Daniel\\צבא\\תרגולים\\Hafifa\\Targil 1\\modern-registry\\.NET\\TheModernRegistry\\TheModernRegistry.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\suken\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\suken\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\6.0.7\\microsoft.aspnetcore.jsonpatch.6.0.7.nupkg.sha512",

@@ -1,6 +1,6 @@
 export const endpoint = "http://localhost:4000/graphql"
 export const getAllMissionsQuery = `
-  query GetAllMissions {
+  query {
     getAllMissions {
         id
         description
@@ -10,7 +10,7 @@ export const getAllMissionsQuery = `
   }
 `
 export const createMissionQuery = `
-  mutation CreateMission($id: String!, $description: String!, $status: String!, $parentId: String) {
+  mutation ($id: String!, $description: String!, $status: String!, $parentId: String) {
     createMission(input: {
       id: $id
       description: $description,
@@ -25,39 +25,33 @@ export const createMissionQuery = `
   }
 `
 export const updateMissionQuery = `
-  mutation UpdateMission($id: String!, $description: String!, $status: String!, $parentId: String) {
+  mutation ($id: String!, $description: String!, $status: String!, $parentId: String) {
     updateMission(input: {
       id: $id
       description: $description,
       status: $status,
       parentId: $parentId
     }) {
-      description
-      id
-      status
-      parentId
+      count
     }
   }
 `
 export const deleteMissionQuery = `
-  mutation DeleteMission($id: String!) {
+  mutation ($id: String!) {
     deleteMission(id: $id) {
-      description
-      id
-      status
-      parentId
+      count
     }
   }
 `
 export const deleteMissionChildrenQuery = `
-  mutation DeleteMissionChildren($childrenIds: [String!]!) {
+  mutation ($childrenIds: [String!]!) {
     deleteMissionChildren(childrenIds: $childrenIds) {
       count
     }
   }
 `
 export const passMissionParentQuery = `
-  mutation PassMissionParent($id: String!, $parentId: String) {
+  mutation ($id: String!, $parentId: String) {
     passMissionParent(id: $id, parentId: $parentId) {
       count
     }

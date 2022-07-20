@@ -32,7 +32,6 @@ export class MissionsAPI extends RESTDataSource {
   }
   
   async passMissionParent(id: string, parentId: string | null) {
-    console.log(parentId)
     return this.patch(`/${encodeURIComponent(id)}`, { parentId })
   }
 }
