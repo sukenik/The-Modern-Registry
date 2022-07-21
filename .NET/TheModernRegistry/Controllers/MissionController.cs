@@ -76,14 +76,14 @@ namespace TheModernRegistry.Controllers
 
         [HttpPatch("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<IActionResult> PassMissionParent(Guid id, [FromBody] PassMissionParentBody BodyParentId)
+        public async Task<IActionResult> PassMissionParent(Guid id, [FromBody] iPassMissionParentReqBody reqBody)
         {
             var missionsToUpdate = _context.Missions.Where(m => m.ParentId == id).Select(
                 m => new Mission { 
                     Id = m.Id, 
                     Description = m.Description, 
                     Status = m.Status,
-                    ParentId = BodyParentId.parentId
+                    ParentId = reqBody.parentId
                 }
             );
             _context.Missions.UpdateRange(missionsToUpdate);
@@ -92,7 +92,7 @@ namespace TheModernRegistry.Controllers
             return NoContent();
         }
 
-        public class PassMissionParentBody
+        public class iPassMissionParentReqBody
         {
             public Guid? parentId { get; set; }
         }
