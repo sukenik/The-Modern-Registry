@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack",
-    "tsc": "tsc",
-    "start": "webpack-dev-server"
+    "build": "webpack --mode=production",
+    "start": "webpack serve --mode=development",
+    "tsc": "tsc"
   },
   "keywords": [],
   "author": "",

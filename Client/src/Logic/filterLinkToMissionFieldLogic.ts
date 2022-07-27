@@ -1,4 +1,4 @@
-import { Mission } from "../Custom-Typings/Mission";
+import { Mission } from "../../../Entities/Mission";
 import { getMissionChildren, hasChildren } from "./helperFunctions";
 
 export const getLinkToMissionOptions = (mission: Mission, missions: Array<Mission>): Array<Mission> => {

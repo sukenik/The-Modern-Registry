@@ -1,4 +1,4 @@
-import { Mission } from "../Custom-Typings/Mission";
+import { Mission } from "../../../Entities/Mission";
 import { getMissionFromLocalStorage } from "./localStorageLogic";
 
 export const getSelfAndParentMissions = (mission: Mission, linkedParentStack: Array<Mission> = [], dbMissions?: Array<Mission>) => {

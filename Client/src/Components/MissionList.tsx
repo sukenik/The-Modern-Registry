@@ -2,7 +2,7 @@ import React, { CSSProperties, useEffect, useState } from "react";
 import { useDarkThemeContext } from "../Context/DarkThemeContext";
 import { useFilteringContext } from "../Context/FilteringContext";
 import { useMissionsContext } from "../Context/MissionsContext";
-import { Mission } from "../Custom-Typings/Mission";
+import { Mission } from "../../../Entities/Mission";
 import { hasChildren } from "../Logic/helperFunctions";
 import { getMissionsData, getSubMissionPadding } from "../Logic/subMissionLogic";
 import { MissionRow } from "./MissionRow";

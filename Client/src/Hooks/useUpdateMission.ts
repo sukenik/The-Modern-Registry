@@ -1,5 +1,5 @@
 import { endpoint, updateMissionQuery } from "../API/MissionQueries";
-import { MISSION_STATUS } from "../Custom-Typings/Mission";
+import { MISSION_STATUS } from "../../../Entities/Mission";
 
 export function useUpdateMission(id: string, description: string, status: MISSION_STATUS, parentId: string | null) {
     const variables = {

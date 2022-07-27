@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useContext, useState } from "react";
-import { Mission } from "../Custom-Typings/Mission";
+import { Mission } from "../../../Entities/Mission";
 import { useAllMissions } from "../Hooks/useAllMissions";
 import { getLocalStorageKeys, getLocalStorageMissions } from "../Logic/localStorageLogic";
 import { getMissionsData } from "../Logic/subMissionLogic";

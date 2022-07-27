@@ -1,4 +1,4 @@
-import { Mission } from "../Custom-Typings/Mission";
+import { Mission } from "../../../Entities/Mission";
 
 export const addToLocalStorage = (key: string, value: string) => localStorage.setItem(key, value);
 export const addMissionsToLocalStorage = (missions: Array<Mission>) => missions.forEach(

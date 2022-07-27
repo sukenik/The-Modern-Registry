@@ -2,7 +2,7 @@ import React, { CSSProperties, useEffect, useMemo, useState } from "react";
 import { useMissionsContext } from "../Context/MissionsContext";
 import { useCurrentMissionContext } from "../Context/CurrentMissionContext";
 import { useShowModalContext } from "../Context/ModalContext";
-import { Mission } from "../Custom-Typings/Mission";
+import { Mission } from "../../../Entities/Mission";
 import { hasChildren, iModalActionParams, modalAction } from "../Logic/helperFunctions";
 import { getStatusElements, handleSave, iFormFields, dbDelete, validateFormFields, clientDelete } from "../Logic/missionFormLogic";
 import { Checkbox } from "./Checkbox";
