@@ -1,4 +1,4 @@
-import { Status } from "@prisma/client";
+import { MISSION_STATUS } from "../../../Entities/Mission";
 import { createMission, deleteMission, deleteMissionChildren, getAllMissions, getMissionByName, passMissionParent, updateMission } from "../missionService";
 import { MissionsAPI } from "./MissionsAPI";
 
@@ -6,7 +6,7 @@ export interface iUpdateMissionArgs {
     input: {
         id: string,
         description: string,
-        status: Status,
+        status: MISSION_STATUS,
         parentId: string | null
     }
 }

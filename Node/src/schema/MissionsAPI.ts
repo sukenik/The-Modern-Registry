@@ -1,4 +1,4 @@
-import { Mission } from '@prisma/client';
+import { Mission } from "../../../Entities/Mission";
 import { RESTDataSource } from 'apollo-datasource-rest'
 
 export class MissionsAPI extends RESTDataSource {
