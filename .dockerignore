@@ -3,11 +3,11 @@ README.md
 WebdriverIO
 ./*/node_modules
 ./*/.gitignore
-<!-- ./*/tsconfig.json -->
 
-<!-- ./Client/webpack.config.js -->
-<!-- ./Client/babelrc.js -->
-<!-- ./Client/public -->
-<!-- ./Client/dist -->
 
-./Server/.env
+./Client/webpack.config.js
+./Client/babelrc.js
+./Client/public
+./Client/dist
+
+./Node/.env

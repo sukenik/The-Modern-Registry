@@ -4,7 +4,7 @@ import { RESTDataSource } from 'apollo-datasource-rest'
 export class MissionsAPI extends RESTDataSource {
   constructor() {
     super();
-    this.baseURL = 'https://localhost:7141/api/Mission';
+    this.baseURL = 'http://localhost:5000/api/Mission';
   }
 
   async getMissionByName(description: string) {
