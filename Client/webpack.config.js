@@ -51,4 +51,3 @@ module.exports = {
         filename: "../dist/index.html"
     })]
 }
-

@@ -9,8 +9,27 @@ services:
     ports:
       - "1433:1433"
   dotnet:
-    build: 
+    build:
       context: .
       dockerfile: dotnet.Dockerfile
     ports:
       - "5000:5000"
+    depends_on:
+      - ms-sql-server
+    restart: "always"
+  node:
+    build:
+      context: .
+      dockerfile: node.Dockerfile
+    ports:
+      - "4000:4000"
+    depends_on:
+      - dotnet
+  client:
+    build:
+      context: .
+      dockerfile: client.Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - node

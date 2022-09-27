@@ -15,7 +15,10 @@ builder.Services.AddDbContext<MissionDbContext>(
     {
         if (builder.Environment.IsProduction())
         {
-            o.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerDocker"));
+            o.UseSqlServer(
+                builder.Configuration.GetConnectionString("SqlServerDocker"),
+                providerOptions => providerOptions.EnableRetryOnFailure()
+            );
         }
         else
         {

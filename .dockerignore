@@ -3,11 +3,4 @@ README.md
 WebdriverIO
 ./*/node_modules
 ./*/.gitignore
-
-
-./Client/webpack.config.js
-./Client/babelrc.js
-./Client/public
-./Client/dist
-
 ./Node/.env
