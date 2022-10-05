@@ -4,11 +4,20 @@ services:
     image: mcr.microsoft.com/mssql/server:2019-latest
     environment:
       ACCEPT_EULA: "Y"
-      SA_PASSWORD: "Pa55w0rd2019"
+      SA_PASSWORD: ${DB_PASSWORD}
       MSSQL_PID: Express
     ports:
       - "1433:1433"
+    restart: "always"
+    deploy:
+      resources:
+        reservations:
+          memory: 2G
+        limits:
+          cpus: '1'
+          memory: 2.5G
   dotnet:
+    image: modernreg.azurecr.io/dotnet
     build:
       context: .
       dockerfile: dotnet.Dockerfile
@@ -17,19 +26,40 @@ services:
     depends_on:
       - ms-sql-server
     restart: "always"
-  node:
-    build:
-      context: .
-      dockerfile: node.Dockerfile
-    ports:
-      - "4000:4000"
-    depends_on:
-      - dotnet
-  client:
-    build:
-      context: .
-      dockerfile: client.Dockerfile
-    ports:
-      - "3000:3000"
-    depends_on:
-      - node
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 0.2G
+    env_file:
+      - .NET/TheModernRegistry/.env
+  # node:
+  #   image: modernreg.azurecr.io/node
+  #   build:
+  #     context: .
+  #     dockerfile: node.Dockerfile
+  #   ports:
+  #     - "4000:4000"
+  #   depends_on:
+  #     - dotnet
+  #   restart: "always"
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         cpus: '1'
+  #         memory: 0.3G
+  # client:
+  #   image: modernreg.azurecr.io/client
+  #   build:
+  #     context: .
+  #     dockerfile: client.Dockerfile
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - node
+  #   restart: "always"
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         cpus: '1'
+  #         memory: 0.5G

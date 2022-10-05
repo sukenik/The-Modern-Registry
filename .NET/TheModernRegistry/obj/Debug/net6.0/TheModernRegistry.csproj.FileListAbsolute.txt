@@ -128,3 +128,5 @@ C:\Users\suken\OneDrive\שולחן העבודה\Daniel\צבא\תרגולים\Haf
 C:\Users\suken\OneDrive\שולחן העבודה\Daniel\צבא\תרגולים\Hafifa\Targil 1\modern-registry\.NET\TheModernRegistry\obj\Debug\net6.0\TheModernRegistry.pdb
 C:\Users\suken\OneDrive\שולחן העבודה\Daniel\צבא\תרגולים\Hafifa\Targil 1\modern-registry\.NET\TheModernRegistry\obj\Debug\net6.0\TheModernRegistry.genruntimeconfig.cache
 C:\Users\suken\OneDrive\שולחן העבודה\Daniel\צבא\תרגולים\Hafifa\Targil 1\modern-registry\.NET\TheModernRegistry\obj\Debug\net6.0\ref\TheModernRegistry.dll
+C:\Users\suken\OneDrive\שולחן העבודה\Daniel\צבא\תרגולים\Hafifa\Targil 1\modern-registry\.NET\TheModernRegistry\bin\Debug\net6.0\DotNetEnv.dll
+C:\Users\suken\OneDrive\שולחן העבודה\Daniel\צבא\תרגולים\Hafifa\Targil 1\modern-registry\.NET\TheModernRegistry\bin\Debug\net6.0\Sprache.dll

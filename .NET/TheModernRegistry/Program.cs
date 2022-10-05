@@ -1,6 +1,7 @@
 using TheModernRegistry.Data;
 using Microsoft.EntityFrameworkCore;
 using TheModernRegistry.Models;
+using TheModernRegistry;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,14 +16,17 @@ builder.Services.AddDbContext<MissionDbContext>(
     {
         if (builder.Environment.IsProduction())
         {
+            DotNetEnv.Env.Load();
+            var conString = Environment.GetEnvironmentVariable("CON_STRING");
+
             o.UseSqlServer(
-                builder.Configuration.GetConnectionString("SqlServerDocker"),
+                conString,
                 providerOptions => providerOptions.EnableRetryOnFailure()
             );
         }
         else
         {
-            o.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer"));
+            o.UseSqlServer(builder.Configuration["Mission:LocalConnectionString"]);
         }
     }
 );

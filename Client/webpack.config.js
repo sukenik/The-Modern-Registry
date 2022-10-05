@@ -1,5 +1,6 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
+const webpack = require("webpack");
 
 module.exports = {
     entry: "./src/index.tsx",
@@ -44,10 +45,15 @@ module.exports = {
         open: true,
         hot: true
     },
-    plugins: [new HtmlWebpackPlugin({
-        favicon: 'Assets/favicon.ico',
-        template: "public/index.html",
-        hash: true,
-        filename: "../dist/index.html"
-    })]
+    plugins: [
+        new HtmlWebpackPlugin({
+            favicon: 'Assets/favicon.ico',
+            template: "public/index.html",
+            hash: true,
+            filename: "../dist/index.html"
+        }),
+        new webpack.DefinePlugin({
+            'process.env.NODE_URL': JSON.stringify(process.env.NODE_URL),
+        })
+    ]
 }
