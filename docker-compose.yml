@@ -15,7 +15,7 @@ services:
           memory: 2G
         limits:
           cpus: '1'
-          memory: 2.5G
+          memory: 2.3G
   dotnet:
     image: modernreg.azurecr.io/dotnet
     build:

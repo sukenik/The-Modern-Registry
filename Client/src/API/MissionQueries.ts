@@ -1,3 +1,4 @@
+require('dotenv').config()
 export const endpoint = process.env.NODE_URL || "http://localhost:4000/graphql"
 export const getAllMissionsQuery = `
   query {
