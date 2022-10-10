@@ -1,0 +1,6 @@
+.git
+README.md
+WebdriverIO
+./*/node_modules
+./*/.gitignore
+./Node/.env

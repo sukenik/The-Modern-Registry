@@ -1,7 +1,5 @@
-import prisma from './schema/schema'
-import { v4 as uuidv4 } from 'uuid'
 import { UserInputError } from "apollo-server"
-import { Mission, Status } from "@prisma/client"
+import { Mission, MISSION_STATUS } from "../../Entities/Mission";
 import { MissionsAPI } from './schema/MissionsAPI'
 
 
@@ -10,7 +8,7 @@ export const getAllMissions = async (missionsAPI: MissionsAPI) => {
 }
 
 export const createMission = (
-        input: { id: string, description: string, status: Status, parentId: string | null }, 
+        input: { id: string, description: string, status: MISSION_STATUS, parentId: string | null }, 
         missionsAPI: MissionsAPI
     ) => {
     if (!validateStatus(input.status)) {
@@ -26,7 +24,7 @@ export const createMission = (
 }
 
 export const updateMission = (
-        input: { id: string, description: string, status: Status, parentId: string | null }, 
+        input: { id: string, description: string, status: MISSION_STATUS, parentId: string | null }, 
         missionsAPI: MissionsAPI
     ) => {
     if (!validateStatus(input.status)) {

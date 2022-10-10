@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { defaultMission } from "../Context/CurrentMissionContext";
-import { Mission } from "../Custom-Typings/Mission";
+import { Mission } from "../../../Entities/Mission";
 
 export interface iModalActionParams {
     setShowModal: Dispatch<SetStateAction<boolean>>, 

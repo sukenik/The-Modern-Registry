@@ -1,4 +1,4 @@
-import React, { CSSProperties, useEffect, useRef, useState } from "react";
+import React, { CSSProperties, useEffect, useState } from "react";
 import { useFilteringContext } from "../Context/FilteringContext";
 
 export const arrowBorderCSS = '15px solid rgb(255, 255, 255)';
