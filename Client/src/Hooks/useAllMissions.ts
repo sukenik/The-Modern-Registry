@@ -1,6 +1,6 @@
 import { SetStateAction, useEffect, useState } from "react";
 import { endpoint, getAllMissionsQuery } from "../API/MissionQueries";
-import { Mission } from "../Custom-Typings/Mission";
+import { Mission } from "../../../Entities/Mission";
 
 export function useAllMissions(): [Array<Mission>, React.Dispatch<SetStateAction<Mission[]>>] {
     const [missions, setMissions] = useState([] as Array<Mission>)

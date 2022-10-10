@@ -1,5 +1,5 @@
 import React, { CSSProperties } from "react";
-import { Mission } from "../Custom-Typings/Mission";
+import { Mission } from "../../../Entities/Mission";
 import { useCurrentMissionContext } from '../Context/CurrentMissionContext';
 import { useShowModalContext } from "../Context/ModalContext";
 import { iModalActionParams, modalAction } from "../Logic/helperFunctions";

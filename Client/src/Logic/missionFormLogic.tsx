@@ -1,5 +1,5 @@
 import React from "react";
-import { Mission, MISSION_STATUS } from "../Custom-Typings/Mission";
+import { Mission, MISSION_STATUS } from "../../../Entities/Mission";
 import { useCreateMission } from "../Hooks/useCreateMission";
 import { useDeleteMission } from "../Hooks/useDeleteMission";
 import { useDeleteMissionChildren } from "../Hooks/useDeleteMissionChildren";

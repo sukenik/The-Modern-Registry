@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
     "start": "nodemon ./src/app.ts"
   },
   "keywords": [],
@@ -19,6 +20,7 @@
     "@prisma/client": "^4.0.0",
     "@types/node": "^18.0.0",
     "@types/uuid": "^8.3.4",
+    "graphql": "^16.5.0",
     "nodemon": "^2.0.18",
     "prisma": "^4.0.0",
     "ts-node": "^10.8.1",

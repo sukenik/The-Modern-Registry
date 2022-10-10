@@ -1,4 +1,4 @@
-import { Mission, MISSION_STATUS } from "../Custom-Typings/Mission";
+import { Mission, MISSION_STATUS } from "../../../Entities/Mission";
 import { v4 as uuidv4 } from 'uuid'
 
 const getUUID = (): string => uuidv4()

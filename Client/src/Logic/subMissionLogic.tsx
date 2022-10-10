@@ -1,6 +1,6 @@
 import { CSSProperties } from "react";
 import { arrowBorderCSS } from "../Components/ArrowButton";
-import { Mission } from "../Custom-Typings/Mission";
+import { Mission } from "../../../Entities/Mission";
 import { getSelfAndParentMissions } from "./searchBarLogic";
 
 export const setArrowBorder = (missionID: number, isArrowUp: boolean) => {

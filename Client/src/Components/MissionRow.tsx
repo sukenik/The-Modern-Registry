@@ -1,5 +1,5 @@
 import React, { CSSProperties, useState } from "react";
-import { Mission } from "../Custom-Typings/Mission";
+import { Mission } from "../../../Entities/Mission";
 import { getMissionWidth } from "../Logic/subMissionLogic";
 import { ArrowButton } from "./ArrowButton";
 import trashCanIcon from '../../Assets/garbage-g0e5e69325_640.png';

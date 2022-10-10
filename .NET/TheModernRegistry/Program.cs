@@ -1,5 +1,7 @@
 using TheModernRegistry.Data;
 using Microsoft.EntityFrameworkCore;
+using TheModernRegistry.Models;
+using TheModernRegistry;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +12,23 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<MissionDbContext>(
-    o => o.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer"))
+    o =>
+    {
+        if (builder.Environment.IsProduction())
+        {
+            DotNetEnv.Env.Load();
+            var conString = Environment.GetEnvironmentVariable("CON_STRING");
+
+            o.UseSqlServer(
+                conString,
+                providerOptions => providerOptions.EnableRetryOnFailure()
+            );
+        }
+        else
+        {
+            o.UseSqlServer(builder.Configuration["Mission:LocalConnectionString"]);
+        }
+    }
 );
 
 var app = builder.Build();
@@ -23,7 +41,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+PrepDB.PrepPopulation(app);
 app.UseAuthorization();
 
 app.MapControllers();
