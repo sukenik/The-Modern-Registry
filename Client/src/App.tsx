@@ -81,4 +81,4 @@ const App: React.FC = () => {
     );
 };
 
-export default hot(module)(App);
+export default App

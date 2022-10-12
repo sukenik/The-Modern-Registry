@@ -2,12 +2,14 @@ const HtmlWebpackPlugin = require("html-webpack-plugin")
 const path = require("path")
 const Dotenv = require('dotenv-webpack')
 const NodePolyfillPlugin = require("node-polyfill-webpack-plugin")
+const { CleanWebpackPlugin } = require("clean-webpack-plugin")
 
 module.exports = {
     entry: {
         app: './src/index.tsx'
     },
     plugins: [
+        new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             favicon: 'Assets/favicon.ico',
             template: 'public/index.html',
@@ -23,16 +25,24 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, "dist"),
         filename: "bundle.js",
-        clean: true
+        clean: true,
+        publicPath: '/'
     },
     module: {
         rules: [
             {
                 test: /\.js$/,
-                exclude: /node_modules/,
                 use: {
-                    loader: "babel-loader"
-                }
+                    loader: "babel-loader",
+                    options: {
+                        presets: [
+                            'es2015',
+                            'react'
+                        ]
+                    }
+                },
+                include: /node_modules\/react-dom/,
+                use: ['react-hot-loader/webpack']
             },
             {
                 test: /\.(ts|tsx)?$/,
@@ -57,10 +67,5 @@ module.exports = {
         fallback: {
             "fs": false
         }
-    },
-    devServer: {
-        port: 3000,
-        open: true,
-        hot: true
-    },
+    }
 };

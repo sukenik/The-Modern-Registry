@@ -5,9 +5,9 @@ interface iMissionContext {
     currentMission: Mission,
     setCurrentMission: Dispatch<SetStateAction<Mission>>
 }
-const CurrentMissionContext = React.createContext<iMissionContext | null>(null);
+const CurrentMissionContext = React.createContext<iMissionContext | null>(null)
 
-export const useCurrentMissionContext = () => useContext(CurrentMissionContext) as iMissionContext;
+export const useCurrentMissionContext = () => useContext(CurrentMissionContext) as iMissionContext
 export const defaultMission: Mission = {
     id: '',
     description: '',
@@ -22,5 +22,5 @@ export const CurrentMissionProvider: React.FC = ({ children }) => {
         <CurrentMissionContext.Provider value={{ currentMission, setCurrentMission }}>
             {children}
         </CurrentMissionContext.Provider>
-    );
+    )
 }
