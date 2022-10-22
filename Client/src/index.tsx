@@ -8,7 +8,12 @@ import './styles.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { AuthProvider } from './Context/AuthContext'
 import { AuthPage } from './Pages/AuthPage'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import PrivateRoute from './Components/PrivateRoute'
+import ForgotPassword from './Components/ForgotPassword'
+import { SignUp } from './Components/SignUp'
+import Login from './Components/Login'
+import UpdateProfile from './Components/UpdateProfile'
 
 const root = document.getElementById("root")
 render(
@@ -16,12 +21,18 @@ render(
         <MissionsProvider>
             <DarkThemeProvider>
                 <AuthProvider>
-                    <BrowserRouter>
+                    <Router>
                         <Routes>
-                            <Route path='/' element={<AuthPage />} />
-                            <Route path='/home' element={<App />} />
+                            <Route path='/' element={<PrivateRoute><App /></PrivateRoute>} />
+                            <Route 
+                                path='/update-profile' 
+                                element={<PrivateRoute><AuthPage><UpdateProfile /></AuthPage></PrivateRoute>} 
+                            />
+                            <Route path='/signup' element={<AuthPage><SignUp /></AuthPage>} />
+                            <Route path='/login' element={<AuthPage><Login /></AuthPage>} />
+                            <Route path='/forgot-password' element={<AuthPage><ForgotPassword /></AuthPage>} />
                         </Routes>
-                    </BrowserRouter>
+                    </Router>
                 </AuthProvider>
             </DarkThemeProvider>
         </MissionsProvider>

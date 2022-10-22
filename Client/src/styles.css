@@ -11,3 +11,6 @@ html {
 body {
     margin: 0;
 }
+#user-profile:hover {
+    background-color: #c2c2c2;
+}
