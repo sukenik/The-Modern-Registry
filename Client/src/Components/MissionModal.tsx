@@ -23,11 +23,11 @@ const MODAL_DARK_STYLES: CSSProperties = {
 const MODAL_CONTENT_STYLES: CSSProperties = {
     width: 500,
     backgroundColor: '#fff',
-    border: '1px solid #BB86FC'
 }
 const MODAL_CONTENT_DARK_STYLES: CSSProperties = {
     ...MODAL_CONTENT_STYLES,
-    backgroundColor: '#121212'
+    backgroundColor: '#121212',
+    border: '1px solid #BB86FC'
 }
 const MODAL_TITLE_STYLES: CSSProperties = {
     textAlign: 'center',
@@ -83,5 +83,5 @@ export const MissionModal: React.FC = () => {
                 </div>
             </div>
         </div>
-    );
-};
+    )
+}

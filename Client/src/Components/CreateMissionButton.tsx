@@ -12,12 +12,12 @@ const BUTTON_STYLES: CSSProperties = {
     left: '3%',
     border: 'none',
     background: 'transparent'
-};
+}
 const ICON_STYLES: CSSProperties = {
     height: 64,
     width: 64,
     cursor: 'pointer'
-};
+}
 
 export const CreateMissionButton: React.FC = () => {
     const { setShowMissionModal } = useShowModalContext()
@@ -29,5 +29,5 @@ export const CreateMissionButton: React.FC = () => {
         <button style={BUTTON_STYLES} onClick={handleCreateMissionButtonClick} type="submit">
             <img style={ICON_STYLES} src={darkTheme ? createMissionDarkIcon : createMissionIcon} alt="Create a mission button" />
         </button>
-    );
-};
+    )
+}

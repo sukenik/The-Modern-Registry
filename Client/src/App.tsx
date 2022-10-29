@@ -1,6 +1,5 @@
-import { hot } from "react-hot-loader";
-import React, { CSSProperties } from 'react';
-import { Title } from "./Components/Title";
+import React, { CSSProperties, useState } from 'react';
+import { Header } from "./Components/Header";
 import { SearchBar } from "./Components/SearchBar";
 import { MissionList } from "./Components/MissionList";
 import { CreateMissionButton } from "./Components/CreateMissionButton";
@@ -10,8 +9,7 @@ import { useShowModalContext } from "./Context/ModalContext";
 import { useMissionsContext } from "./Context/MissionsContext";
 import { FilteringProvider } from "./Context/FilteringContext";
 import { useDarkThemeContext } from "./Context/DarkThemeContext";
-import moonIcon from "../Assets/heaven-g329dd6da3_640.png";
-import sunIcon from "../Assets/sun-g977e87184_640.png";
+import UserModal from './Components/UserModal';
 
 const APP_STYLES: CSSProperties = {
     display: 'flex',
@@ -39,46 +37,31 @@ const CONTAINER_DARK_STYLES: CSSProperties = {
     borderLeft: '2px solid #BB86FC',
     colorScheme: 'dark'
 }
-const BUTTON_STYLES: CSSProperties = {
-    height: 'fit-content',
-    width: 'fit-content',
-    position: 'absolute',
-    top: 13,
-    left: 50,
-    border: 'none',
-    background: 'transparent'
-}
-const ICON_STYLES: CSSProperties = {
-    height: 32,
-    width: 32,
-    cursor: 'pointer'
-}
 
 const App: React.FC = () => {
+    const [showUserModal, setShowUserModal] = useState(false)
     const { showMissionModal } = useShowModalContext()
     const { missions } = useMissionsContext()
-    const { darkTheme, toggleDarkTheme } = useDarkThemeContext()
-    
-    const handleDarkModeButtonClick = () => toggleDarkTheme()
+    const { darkTheme } = useDarkThemeContext()
 
     return (
-        <CurrentMissionProvider>
-            <button style={BUTTON_STYLES} onClick={handleDarkModeButtonClick}>
-                <img style={ICON_STYLES} src={darkTheme ? sunIcon : moonIcon} alt="Theme button" />
-            </button>
-            <Title titleName={"The Modern Registry"} />
-            <div style={darkTheme ? APP_DARK_STYLES : APP_STYLES}>
-                <div style={darkTheme ? CONTAINER_DARK_STYLES : CONTAINER_STYLES}>
-                    <FilteringProvider>
-                        <SearchBar />
-                        <MissionList missionsData={missions} />
-                    </FilteringProvider>
+        <>
+            <Header titleName={"The Modern Registry"} setIsModalOpen={setShowUserModal} />
+            <CurrentMissionProvider>
+                <div style={darkTheme ? APP_DARK_STYLES : APP_STYLES}>
+                    <div style={darkTheme ? CONTAINER_DARK_STYLES : CONTAINER_STYLES}>
+                        <FilteringProvider>
+                            <SearchBar />
+                            <MissionList missionsData={missions} />
+                        </FilteringProvider>
+                    </div>
                 </div>
-            </div>
-            {!showMissionModal && <CreateMissionButton />}
-            {showMissionModal && <MissionModal />}
-        </CurrentMissionProvider>
-    );
-};
+                {!showMissionModal && <CreateMissionButton />}
+                {showMissionModal && <MissionModal />}
+            </CurrentMissionProvider>
+            {showUserModal && <UserModal setIsModalOpen={setShowUserModal} />}
+        </>
+    )
+}
 
-export default hot(module)(App);
+export default App

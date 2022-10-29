@@ -17,31 +17,28 @@ const MISSION_STYLES: CSSProperties = {
     flexWrap: 'wrap',
     width: 'var(--width)',
     marginTop: 5
-};
+}
 const MISSION_INFO_STYLES: CSSProperties = {
     display: 'block',
     width: 85,
     maxHeight: 20,
-    order: 4
-};
+    order: 4,
+    marginBottom: 7,
+}
 const MISSION_STATUS_STYLES: CSSProperties = {
     flexGrow: 1,
-    marginTop: 8,
-    marginRight: 0,
-    marginBottom: 7,
-    marginLeft: 0,
     cursor: 'default',
     order: 3,
     display: 'flex',
     justifyContent: 'flex-end'
-};
+}
 const STATUS_STYLES: CSSProperties = {
     paddingTop: 2,
     paddingRight: 13,
     paddingBottom: 2,
     paddingLeft: 13,
     backgroundColor: 'rgb(39, 39, 39)'
-};
+}
 const MISSION_NAME_STYLES: CSSProperties = {
     marginLeft: 20,
     order: 2,
@@ -50,7 +47,7 @@ const MISSION_NAME_STYLES: CSSProperties = {
     maxWidth: 150,
     whiteSpace: 'nowrap',
     cursor: 'default'
-};
+}
 const LIST_ITEM_STYLE: CSSProperties = {
     margin: 0,
     padding: 0,
@@ -61,7 +58,7 @@ interface iMissionRowProps {
     mission: Mission,
     level: number,
     hasChildren: boolean
-};
+}
 
 export const MissionRow: React.FC<iMissionRowProps> = ({ mission, children, level, hasChildren }) => {
     const [showSubMissionList, setShowSubMissionList] = useState(false)
@@ -105,5 +102,5 @@ export const MissionRow: React.FC<iMissionRowProps> = ({ mission, children, leve
                 </div>
                 { (hasChildren && showSubMissionList) && children }
         </li>
-    );
-};
+    )
+}
