@@ -71,8 +71,7 @@ export const Header: React.FC<iHeaderProps> = ({ titleName, setIsModalOpen }) =>
                     <img style={ICON_STYLES} src={darkTheme ? sunIcon : moonIcon} alt="Theme button" />
                 </button>
                 <button 
-                    id='user-profile' 
-                    style={darkTheme ? USER_DARK_STYLES : USER_STYLES } 
+                    style={darkTheme ? USER_DARK_STYLES : USER_STYLES} 
                     onClick={handleUserModalClick}
                 >
                     {currentUser?.email}
