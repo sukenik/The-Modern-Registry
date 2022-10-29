@@ -1,6 +1,5 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 const path = require("path")
-const Dotenv = require('dotenv-webpack')
 const NodePolyfillPlugin = require("node-polyfill-webpack-plugin")
 const { CleanWebpackPlugin } = require("clean-webpack-plugin")
 
@@ -16,9 +15,6 @@ module.exports = {
             hash: true,
             filename: '../dist/index.html',
             title: 'Production'
-        }),
-        new Dotenv({
-            path: './.env'
         }),
         new NodePolyfillPlugin(),
     ],
