@@ -1,6 +1,5 @@
 import { useQuery, useMutation } from '@apollo/client'
-import { Mission } from '../../../Entities/Mission'
-import { getNewMission } from '../Logic/createMissionLogic'
+import { createMissionFragment } from './MissionFragments'
 import { createMissionMutation, deleteMissionChildrenMutation, deleteMissionMutation, getAllMissions, passMissionParentMutation, updateMissionMutation } from './MissionQueries'
 
 export const useAllMissions = () => {
@@ -11,9 +10,19 @@ export const useAllMissions = () => {
 
 export const useCreateMission = () => {
     const [createMission, { data, loading, error }] = useMutation(createMissionMutation, {
-        refetchQueries: [
-            { query: getAllMissions }
-        ]
+        update(cache, { data: { createMission } }) {
+            cache.modify({
+                fields: {
+                    getAllMissions(existingMissions = []) {
+                        const newMissionRef = cache.writeFragment({
+                            data: createMission,
+                            fragment: createMissionFragment
+                        })
+                        return [...existingMissions, newMissionRef]
+                    }
+                }
+            })
+        }
     })
 
     return [

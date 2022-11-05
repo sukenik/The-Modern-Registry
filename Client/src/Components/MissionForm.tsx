@@ -74,7 +74,7 @@ const BUTTON_DARK_STYLES: CSSProperties = {
     backgroundColor: '#5700d5'
 }
 
-export const MissionForm: React.FC = () => {
+const MissionForm: React.FC = () => {
     const { currentMission, setCurrentMission } = useCurrentMissionContext()
     
     const modalType = currentMission.id ? 'Edit' : 'Create'
@@ -148,8 +148,7 @@ export const MissionForm: React.FC = () => {
         setFormValues({ ...formValues, [name]: value })
     }
 
-    const handleDelete = (mission: Mission, missions: Array<Mission>, checked: boolean) => { 
-        // dbDelete(mission, missions, checked)
+    const handleDelete = (mission: Mission, missions: Array<Mission>, checked: boolean) => {
 
         if (hasChildren(mission.id, missions)) {
             if (checked) {
@@ -263,5 +262,7 @@ export const MissionForm: React.FC = () => {
                 </button>
             </div>
         </>
-    );
-};
+    )
+}
+
+export default MissionForm

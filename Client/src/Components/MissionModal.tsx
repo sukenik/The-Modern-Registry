@@ -3,7 +3,7 @@ import { useCurrentMissionContext } from "../Context/CurrentMissionContext";
 import { useDarkThemeContext } from "../Context/DarkThemeContext";
 import { useShowModalContext } from "../Context/ModalContext";
 import { iModalActionParams, modalAction } from "../Logic/helperFunctions";
-import { MissionForm } from "./MissionForm";
+import MissionForm from "./MissionForm";
 
 const MODAL_STYLES: CSSProperties = {
     position: 'fixed',
@@ -16,19 +16,23 @@ const MODAL_STYLES: CSSProperties = {
     alignItems: 'center',
     justifyContent: 'center'
 }
+
 const MODAL_DARK_STYLES: CSSProperties = {
     ...MODAL_STYLES,
     backgroundColor: 'rgba(0, 0, 0, 0.8)'
 }
+
 const MODAL_CONTENT_STYLES: CSSProperties = {
     width: 500,
     backgroundColor: '#fff',
 }
+
 const MODAL_CONTENT_DARK_STYLES: CSSProperties = {
     ...MODAL_CONTENT_STYLES,
     backgroundColor: '#121212',
     border: '1px solid #BB86FC'
 }
+
 const MODAL_TITLE_STYLES: CSSProperties = {
     textAlign: 'center',
     margin: 0,
@@ -36,14 +40,17 @@ const MODAL_TITLE_STYLES: CSSProperties = {
     wordWrap: 'break-word',
     padding: 10
 }
+
 const MODAL_TITLE_DARK_STYLES: CSSProperties = {
     ...MODAL_TITLE_STYLES,
     color: '#BB86FC'
 }
+
 const MODAL_BODY_STYLES: CSSProperties = {
     padding: 10,
     borderTop: '1px solid #eee'
 }
+
 const MODAL_BODY_DARK_STYLES: CSSProperties = {
     ...MODAL_BODY_STYLES,
     borderTop: '1px solid #BB86FC'

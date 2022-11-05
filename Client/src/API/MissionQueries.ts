@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from '@apollo/client'
 
 export const getAllMissions = gql`
   query getAllMissions {
@@ -31,6 +31,7 @@ export const createMissionMutation = gql`
     }
   }
 `
+
 export const updateMissionMutation = gql`
   mutation updateMission ($id: String!, $description: String!, $status: String!, $parentId: String) {
     updateMission(input: {
@@ -43,6 +44,7 @@ export const updateMissionMutation = gql`
     }
   }
 `
+
 export const deleteMissionMutation = gql`
   mutation deleteMission ($id: String!) {
     deleteMission(id: $id) {
@@ -50,6 +52,7 @@ export const deleteMissionMutation = gql`
     }
   }
 `
+
 export const deleteMissionChildrenMutation = gql`
   mutation deleteMissionChildren ($childrenIds: [String!]!) {
     deleteMissionChildren(childrenIds: $childrenIds) {
@@ -57,6 +60,7 @@ export const deleteMissionChildrenMutation = gql`
     }
   }
 `
+
 export const passMissionParentMutation = gql`
   mutation passMissionParent ($id: String!, $parentId: String) {
     passMissionParent(id: $id, parentId: $parentId) {
