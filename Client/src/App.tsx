@@ -6,10 +6,10 @@ import { CreateMissionButton } from "./Components/CreateMissionButton";
 import { MissionModal } from "./Components/MissionModal";
 import { CurrentMissionProvider } from "./Context/CurrentMissionContext";
 import { useShowModalContext } from "./Context/ModalContext";
-import { useMissionsContext } from "./Context/MissionsContext";
 import { FilteringProvider } from "./Context/FilteringContext";
 import { useDarkThemeContext } from "./Context/DarkThemeContext";
 import UserModal from './Components/UserModal';
+import { useAllMissions } from './API/MissionHooks';
 
 const APP_STYLES: CSSProperties = {
     display: 'flex',
@@ -40,9 +40,12 @@ const CONTAINER_DARK_STYLES: CSSProperties = {
 
 const App: React.FC = () => {
     const [showUserModal, setShowUserModal] = useState(false)
+    const { loading, error, data } = useAllMissions()
     const { showMissionModal } = useShowModalContext()
-    const { missions } = useMissionsContext()
     const { darkTheme } = useDarkThemeContext()
+
+    if (loading) return <p>Loading...</p>
+    if (error) return <p>Error</p>
 
     return (
         <>
@@ -52,7 +55,7 @@ const App: React.FC = () => {
                     <div style={darkTheme ? CONTAINER_DARK_STYLES : CONTAINER_STYLES}>
                         <FilteringProvider>
                             <SearchBar />
-                            <MissionList missionsData={missions} />
+                            <MissionList missionsData={data.getAllMissions} />
                         </FilteringProvider>
                     </div>
                 </div>
