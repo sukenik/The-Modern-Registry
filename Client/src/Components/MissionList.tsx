@@ -1,11 +1,11 @@
 import React, { CSSProperties, useEffect, useState } from "react";
 import { useDarkThemeContext } from "../Context/DarkThemeContext";
 import { useFilteringContext } from "../Context/FilteringContext";
-import { useMissionsContext } from "../Context/MissionsContext";
 import { Mission } from "../../../Entities/Mission";
 import { hasChildren } from "../Logic/helperFunctions";
 import { getMissionsData, getSubMissionPadding } from "../Logic/subMissionLogic";
 import { MissionRow } from "./MissionRow";
+import { useAllMissions } from "../API/MissionHooks";
 
 const SUB_MISSION_LIST_STYLES: CSSProperties = {
     backgroundColor: 'rgba(218, 218, 218)',
@@ -41,13 +41,13 @@ export const MissionList: React.FC<iMissionListProps> = ({ missionsData, parentI
     if (!missionsData.filter(mission => mission.parentId === parentId).length) return null
     
     const [missionsDataProp, setMissionsDataProp] = useState(missionsData)
-    const { missions } = useMissionsContext()
+    const { data } = useAllMissions()
     const { debounceText, statusFilter } = useFilteringContext()
     const { darkTheme } = useDarkThemeContext()
 
     useEffect(
-        () => setMissionsDataProp(getMissionsData(missions, debounceText, statusFilter)), 
-        [debounceText, missions, statusFilter]
+        () => setMissionsDataProp(getMissionsData(data?.getAllMissions, debounceText, statusFilter)), 
+        [debounceText, data?.getAllMissions, statusFilter]
     )
 
     return (

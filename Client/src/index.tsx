@@ -2,7 +2,6 @@ import React from 'react'
 import { render } from 'react-dom'
 import App from './App'
 import { DarkThemeProvider } from './Context/DarkThemeContext'
-import { MissionsProvider } from './Context/MissionsContext'
 import { ShowModalProvider } from './Context/ModalContext'
 import './styles.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -14,13 +13,36 @@ import ForgotPassword from './Components/ForgotPassword'
 import { SignUp } from './Components/SignUp'
 import Login from './Components/Login'
 import UpdateProfile from './Components/UpdateProfile'
+import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink, from } from '@apollo/client'
+import { onError } from '@apollo/client/link/error'
+
+require('dotenv').config()
+export const endpoint = process.env.NODE_URL || 'http://localhost:4000/graphql'
+
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+    if (graphQLErrors) {
+        graphQLErrors.map(({ message, locations, path }) => {
+            alert(`Graphql Error ${message}`)
+        })
+    }
+})
+
+const link = from([
+    errorLink,
+    new HttpLink({ uri: endpoint })
+])
+
+const client = new ApolloClient({
+    link,
+    cache: new InMemoryCache(),
+})
 
 const root = document.getElementById("root")
 render(
     <ShowModalProvider>
-        <MissionsProvider>
-            <DarkThemeProvider>
-                <AuthProvider>
+        <DarkThemeProvider>
+            <AuthProvider>
+                <ApolloProvider client={client}>
                     <Router>
                         <Routes>
                             <Route path='/' element={<PrivateRoute><App /></PrivateRoute>} />
@@ -33,9 +55,9 @@ render(
                             <Route path='/forgot-password' element={<AuthPage><ForgotPassword /></AuthPage>} />
                         </Routes>
                     </Router>
-                </AuthProvider>
-            </DarkThemeProvider>
-        </MissionsProvider>
+                </ApolloProvider>
+            </AuthProvider>
+        </DarkThemeProvider>
     </ShowModalProvider>
     , root
 )

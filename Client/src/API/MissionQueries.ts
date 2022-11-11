@@ -1,17 +1,23 @@
-require('dotenv').config()
-export const endpoint = process.env.NODE_URL || "http://localhost:4000/graphql"
-export const getAllMissionsQuery = `
-  query {
+import { gql } from '@apollo/client'
+
+export const getAllMissions = gql`
+  query getAllMissions {
     getAllMissions {
-        id
-        description
-        status
-        parentId
+      id
+      description
+      status
+      parentId
     }
-  }
+  } 
 `
-export const createMissionQuery = `
-  mutation ($id: String!, $description: String!, $status: String!, $parentId: String) {
+
+export const createMissionMutation = gql`
+  mutation createMission (
+    $id: String!, 
+    $description: String!, 
+    $status: String!, 
+    $parentId: String
+    ) {
     createMission(input: {
       id: $id
       description: $description,
@@ -25,8 +31,9 @@ export const createMissionQuery = `
     }
   }
 `
-export const updateMissionQuery = `
-  mutation ($id: String!, $description: String!, $status: String!, $parentId: String) {
+
+export const updateMissionMutation = gql`
+  mutation updateMission ($id: String!, $description: String!, $status: String!, $parentId: String) {
     updateMission(input: {
       id: $id
       description: $description,
@@ -37,22 +44,25 @@ export const updateMissionQuery = `
     }
   }
 `
-export const deleteMissionQuery = `
-  mutation ($id: String!) {
+
+export const deleteMissionMutation = gql`
+  mutation deleteMission ($id: String!) {
     deleteMission(id: $id) {
       count
     }
   }
 `
-export const deleteMissionChildrenQuery = `
-  mutation ($childrenIds: [String!]!) {
+
+export const deleteMissionChildrenMutation = gql`
+  mutation deleteMissionChildren ($childrenIds: [String!]!) {
     deleteMissionChildren(childrenIds: $childrenIds) {
       count
     }
   }
 `
-export const passMissionParentQuery = `
-  mutation ($id: String!, $parentId: String) {
+
+export const passMissionParentMutation = gql`
+  mutation passMissionParent ($id: String!, $parentId: String) {
     passMissionParent(id: $id, parentId: $parentId) {
       count
     }

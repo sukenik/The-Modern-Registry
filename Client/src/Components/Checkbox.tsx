@@ -1,8 +1,12 @@
 import React, { CSSProperties } from "react";
 import { useDarkThemeContext } from "../Context/DarkThemeContext";
 
+const CHECKBOX_STYLES: CSSProperties = {
+    margin: '0 5px',
+}
 const CHECKBOX_DARK_STYLES: CSSProperties = {
-    backgroundColor: '#BB86FC'
+    ...CHECKBOX_STYLES,
+    backgroundColor: '#BB86FC',
 }
 const LABEL_DARK_STYLES: CSSProperties = {
     color: '#BB86FC'
@@ -20,7 +24,12 @@ export const Checkbox: React.FC<iCheckboxProps> = ({ label, checked, setChecked 
     
     return (
         <label style={darkTheme ? LABEL_DARK_STYLES : {}}>
-            <input style={darkTheme ? CHECKBOX_DARK_STYLES : {}} type="checkbox" checked={checked} onChange={handleCheckboxChange} />
+            <input 
+                style={darkTheme ? CHECKBOX_DARK_STYLES : CHECKBOX_STYLES} 
+                type="checkbox" 
+                checked={checked} 
+                onChange={handleCheckboxChange} 
+            />
             {label}
         </label>
     );
