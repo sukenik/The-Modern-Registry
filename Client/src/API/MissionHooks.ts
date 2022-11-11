@@ -1,6 +1,13 @@
 import { useQuery, useMutation } from '@apollo/client'
 import { createMissionFragment } from './MissionFragments'
-import { createMissionMutation, deleteMissionChildrenMutation, deleteMissionMutation, getAllMissions, passMissionParentMutation, updateMissionMutation } from './MissionQueries'
+import { 
+    createMissionMutation, 
+    deleteMissionChildrenMutation, 
+    deleteMissionMutation, 
+    getAllMissions, 
+    passMissionParentMutation, 
+    updateMissionMutation 
+} from './MissionQueries'
 
 export const useAllMissions = () => {
     const { data, loading, error } = useQuery(getAllMissions)

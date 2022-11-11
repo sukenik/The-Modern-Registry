@@ -10,7 +10,7 @@ export const LinkToMissionOptions: React.FC = () => {
     const { currentMission } = useCurrentMissionContext()
     
     const linkToMissionOptions = useMemo(() => {
-        return getLinkToMissionOptions(currentMission, getMissionsData(data.getAllMissions))
+        return getLinkToMissionOptions(currentMission, getMissionsData(data?.getAllMissions))
     }, [])
 
     const missionsFitToLinkOptionElements = useMemo(() => {
@@ -18,7 +18,7 @@ export const LinkToMissionOptions: React.FC = () => {
     }, [])
     
     const defaultLinkToMissionOption = useMemo(() => {
-        return getDefaultLinkToMissionElement(currentMission, getMissionsData(data.getAllMissions))
+        return getDefaultLinkToMissionElement(currentMission, getMissionsData(data?.getAllMissions))
     }, [])
 
     return (

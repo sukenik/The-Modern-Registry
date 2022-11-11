@@ -46,8 +46,8 @@ export const MissionList: React.FC<iMissionListProps> = ({ missionsData, parentI
     const { darkTheme } = useDarkThemeContext()
 
     useEffect(
-        () => setMissionsDataProp(getMissionsData(data.getAllMissions, debounceText, statusFilter)), 
-        [debounceText, data.getAllMissions, statusFilter]
+        () => setMissionsDataProp(getMissionsData(data?.getAllMissions, debounceText, statusFilter)), 
+        [debounceText, data?.getAllMissions, statusFilter]
     )
 
     return (

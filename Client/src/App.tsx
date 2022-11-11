@@ -55,7 +55,7 @@ const App: React.FC = () => {
                     <div style={darkTheme ? CONTAINER_DARK_STYLES : CONTAINER_STYLES}>
                         <FilteringProvider>
                             <SearchBar />
-                            <MissionList missionsData={data.getAllMissions} />
+                            <MissionList missionsData={data?.getAllMissions} />
                         </FilteringProvider>
                     </div>
                 </div>

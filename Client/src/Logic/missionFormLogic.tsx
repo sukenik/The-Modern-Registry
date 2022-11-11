@@ -19,7 +19,7 @@ export const validateFormFields = (values: iFormFields) => {
     } else if (!regex.test(values.status)) {
         errors.status = 'This is not a valid status'
     }
-    return errors;
+    return errors
 }
 
 export const getStatusElements = (modalType: string, formValues: iFormFields) => {
@@ -51,7 +51,10 @@ export const getDefaultLinkToMissionElement = (mission: Mission, missions: Array
     return (<option value="default" disabled hidden></option>)
 }
 
-const getMissionNameByID = (id: string, missions: Array<Mission>) => 
+const getMissionNameByID = (id: string, missions: Array<Mission>) => (
     missions.filter(mission => mission.id === id)[0].description
+)
 
-const getUnlinkOptionElement = () => <option style={{ color: 'red' }} value="default">Unlink from parent</option>
+const getUnlinkOptionElement = () => (
+    <option style={{ color: 'red' }} value="default">Unlink from parent</option>
+)

@@ -189,7 +189,7 @@ const MissionForm: React.FC = () => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         if (showDeleteModal) {
-            return handleDelete(currentMission, data.getAllMissions, checked)
+            return handleDelete(currentMission, data?.getAllMissions, checked)
         }
         setFormErrors(validateFormFields(formValues))
         setIsSubmit(true)
@@ -207,7 +207,7 @@ const MissionForm: React.FC = () => {
     return (
         <>
             {showDeleteModal ?
-                hasChildren(currentMission.id, data.getAllMissions) && 
+                hasChildren(currentMission.id, data?.getAllMissions) && 
                     <Checkbox checked={checked} setChecked={setChecked} label={labelText} /> 
                 :
                 <form style={MISSION_FORM_STYLES} onSubmit={handleSubmit}>
@@ -241,7 +241,7 @@ const MissionForm: React.FC = () => {
                         name="linkToMission" 
                         defaultValue={currentMission.parentId ?? 'default'} 
                         onChange={handleChange} 
-                        disabled={!data.getAllMissions.length}
+                        disabled={!data?.getAllMissions.length}
                         style={darkTheme ? SELECT_DARK_STYLES : SELECT_STYLES}
                     >
                         <LinkToMissionOptions />
