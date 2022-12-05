@@ -3,7 +3,7 @@ import { useDarkThemeContext } from "../Context/DarkThemeContext";
 import { useFilteringContext } from "../Context/FilteringContext";
 
 const SEARCH_BAR_STYLES: CSSProperties = {
-    paddingTop: 10,
+    padding: '10px 0 5px 0',
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'column',

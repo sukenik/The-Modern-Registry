@@ -29,8 +29,7 @@ const CONTAINER_STYLES: CSSProperties = {
     height: '100%',
     width: '70%',
     textAlign: 'center',
-    margin: 'auto',
-    overflow: 'auto'
+    margin: 'auto'
 }
 
 const CONTAINER_DARK_STYLES: CSSProperties = {

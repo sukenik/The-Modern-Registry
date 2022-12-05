@@ -14,18 +14,23 @@ const SUB_MISSION_LIST_STYLES: CSSProperties = {
     order: 5,
     paddingLeft: 25
 }
+
 const SUB_MISSION_LIST_DARK_STYLES: CSSProperties = {
     ...SUB_MISSION_LIST_STYLES,
     backgroundColor: '#121212'
 }
+
 const MISSION_LIST_STYLES: CSSProperties = {
     marginBottom: 30,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: 5,
-    marginTop: 0
+    padding: '0 5px 5px 5px',
+    overflow: 'auto',
+    // TODO: responsive.
+    height: '77.5%'
 }
+
 const MISSION_LIST_DARK_STYLES: CSSProperties = {
     ...MISSION_LIST_STYLES,
     backgroundColor: '#121212'
