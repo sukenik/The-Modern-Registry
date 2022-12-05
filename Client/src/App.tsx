@@ -16,12 +16,14 @@ const APP_STYLES: CSSProperties = {
     flexDirection: 'row-reverse',
     position: 'fixed',
     width: '100%',
-    height: '90%'
+    height: '100%'
 }
+
 const APP_DARK_STYLES: CSSProperties = {
     ...APP_STYLES,    
     backgroundColor: '#121212'
 }
+
 const CONTAINER_STYLES: CSSProperties = {
     backgroundColor: 'rgb(218, 218, 218)',
     height: '100%',
@@ -30,6 +32,7 @@ const CONTAINER_STYLES: CSSProperties = {
     margin: 'auto',
     overflow: 'auto'
 }
+
 const CONTAINER_DARK_STYLES: CSSProperties = {
     ...CONTAINER_STYLES,
     backgroundColor: '#121212',
