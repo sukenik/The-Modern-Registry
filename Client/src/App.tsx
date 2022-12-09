@@ -10,6 +10,7 @@ import { FilteringProvider } from "./Context/FilteringContext";
 import { useDarkThemeContext } from "./Context/DarkThemeContext";
 import UserModal from './Components/UserModal';
 import { useAllMissions } from './API/MissionHooks';
+import useMediaQuery, { MOBILE_SCREEN_WIDTH } from './Hooks/useMediaQuery';
 
 const APP_STYLES: CSSProperties = {
     display: 'flex',
@@ -45,6 +46,7 @@ const App: React.FC = () => {
     const { loading, error, data } = useAllMissions()
     const { showMissionModal } = useShowModalContext()
     const { darkTheme } = useDarkThemeContext()
+    const isMobile = useMediaQuery(`(max-width: ${MOBILE_SCREEN_WIDTH})`)
 
     if (loading) return <p>Loading...</p>
     if (error) return <p>Error</p>
@@ -54,7 +56,12 @@ const App: React.FC = () => {
             <Header titleName={"The Modern Registry"} setIsModalOpen={setShowUserModal} />
             <CurrentMissionProvider>
                 <div style={darkTheme ? APP_DARK_STYLES : APP_STYLES}>
-                    <div style={darkTheme ? CONTAINER_DARK_STYLES : CONTAINER_STYLES}>
+                    <div style={
+                        darkTheme ? 
+                            isMobile ? { ...CONTAINER_DARK_STYLES, width: '100%' } : CONTAINER_DARK_STYLES
+                            : 
+                            isMobile ? { ...CONTAINER_STYLES, width: '100%' } : CONTAINER_STYLES
+                    }>
                         <FilteringProvider>
                             <SearchBar />
                             <MissionList missionsData={data?.getAllMissions} />
