@@ -3,6 +3,7 @@ import { useAuth } from "../Context/AuthContext";
 import { useStylesContext } from "../Context/StylesContext";
 import moonIcon from "../../Assets/heaven-g329dd6da3_640.png";
 import sunIcon from "../../Assets/sun-g977e87184_640.png";
+import avatar from "../../Assets/profile.png";
 
 const HEADER_STYLES: CSSProperties = {
     padding: 10,
@@ -22,13 +23,9 @@ const HEADER_DARK_STYLES: CSSProperties = {
 }
 
 const USER_STYLES: CSSProperties = {
-    marginLeft: 35,
     border: 'none',
     background: 'transparent',
     color: 'white',
-    width: 200,
-    fontSize: 17,
-    height: 45,
     borderLeft: '1px solid #FFFFFF',
     borderRight: '1px solid #FFFFFF',
 }
@@ -41,15 +38,15 @@ const USER_DARK_STYLES: CSSProperties = {
 }
 
 const TITLE_STYLES: CSSProperties = {
-    flexGrow: 1, 
-    paddingRight: 330
+    flex: 1,
+    margin: 0,
+    fontSize: 'calc(1.275rem + 1.5vw)'
 }
 
 const BUTTON_STYLES: CSSProperties = {
     border: 'none',
     background: 'transparent',
-    marginLeft: 75,
-    alignSelf: 'center'
+    alignSelf: 'flex-end'
 }
 
 const ICON_STYLES: CSSProperties = {
@@ -64,28 +61,35 @@ interface iHeaderProps {
 }
 
 export const Header: React.FC<iHeaderProps> = ({ titleName, setIsModalOpen }) => {
-    const { darkTheme, toggleDarkTheme } = useStylesContext()
+    const { darkTheme, toggleDarkTheme, isMobile } = useStylesContext()
     const { currentUser } = useAuth()
 
     const handleDarkModeButtonClick = () => toggleDarkTheme()
     const handleUserModalClick = () => setIsModalOpen(prevState => !prevState)
 
     return (
-        <>
-            <header style={darkTheme ? HEADER_DARK_STYLES : HEADER_STYLES}>
-                <button style={BUTTON_STYLES} onClick={handleDarkModeButtonClick}>
-                    <img style={ICON_STYLES} src={darkTheme ? sunIcon : moonIcon} alt="Theme button" />
-                </button>
-                <button 
-                    style={darkTheme ? USER_DARK_STYLES : USER_STYLES} 
-                    onClick={handleUserModalClick}
-                >
-                    {currentUser?.email}
-                </button>
-                <h1 style={TITLE_STYLES}>
-                    {titleName}
-                </h1>
-            </header>
-        </>
+        <header style={darkTheme ? HEADER_DARK_STYLES : HEADER_STYLES}>
+            <button style={BUTTON_STYLES} onClick={handleDarkModeButtonClick}>
+                <img style={ICON_STYLES} src={darkTheme ? sunIcon : moonIcon} alt="Theme button" />
+            </button>
+            <button 
+                style={
+                    darkTheme ? 
+                        isMobile ? USER_DARK_STYLES : { ...USER_DARK_STYLES, marginLeft: '20px' }
+                        : 
+                        isMobile ? USER_STYLES : { ...USER_STYLES, marginLeft: '20px' }
+                } 
+                onClick={handleUserModalClick}
+            >
+                {
+                    isMobile ? 
+                        <img style={ICON_STYLES} src={currentUser?.photoURL ?? avatar} alt="Avatar icon" /> : 
+                        (currentUser?.email || '')
+                }
+            </button>
+            <h1 style={isMobile ? TITLE_STYLES : { ...TITLE_STYLES, paddingRight: '17%' }}>
+                {titleName}
+            </h1>
+        </header>
     )
 }
