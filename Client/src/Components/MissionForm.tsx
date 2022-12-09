@@ -5,7 +5,7 @@ import { Mission, MISSION_STATUS } from "../../../Entities/Mission";
 import { hasChildren, iModalActionParams, modalAction } from "../Logic/helperFunctions";
 import { getStatusElements, iFormFields, validateFormFields } from "../Logic/missionFormLogic";
 import { Checkbox } from "./Checkbox";
-import { useDarkThemeContext } from "../Context/DarkThemeContext";
+import { useStylesContext } from "../Context/StylesContext";
 import { LinkToMissionOptions } from "./LinkToMissionOptions";
 import { useAllMissions, useCreateMission, useDeleteMission, useDeleteMissionChildren, usePassMissionParent, useUpdateMission } from "../API/MissionHooks";
 import { getNewMission, getNewMissionUpdate } from "../Logic/createMissionLogic";
@@ -90,7 +90,7 @@ const MissionForm: React.FC = () => {
     const [checked, setChecked] = useState(false)
 
     const { showDeleteModal, setShowMissionModal, setShowDeleteModal} = useShowModalContext()
-    const { darkTheme } = useDarkThemeContext()
+    const { darkTheme } = useStylesContext()
     
     const { data } = useAllMissions()
     const [createMission] = useCreateMission()

@@ -1,6 +1,6 @@
 import React, { CSSProperties } from "react";
 import { useCurrentMissionContext } from "../Context/CurrentMissionContext";
-import { useDarkThemeContext } from "../Context/DarkThemeContext";
+import { useStylesContext } from "../Context/StylesContext";
 import { useShowModalContext } from "../Context/ModalContext";
 import { iModalActionParams, modalAction } from "../Logic/helperFunctions";
 import MissionForm from "./MissionForm";
@@ -59,7 +59,7 @@ const MODAL_BODY_DARK_STYLES: CSSProperties = {
 export const MissionModal: React.FC = () => {
     const { showDeleteModal, setShowMissionModal, setShowDeleteModal } = useShowModalContext()
     const { currentMission, setCurrentMission } = useCurrentMissionContext()
-    const { darkTheme } = useDarkThemeContext()
+    const { darkTheme } = useStylesContext()
 
     const handleOutsideClick = () => modalAction({ 
         setCurrentMission: setCurrentMission, 

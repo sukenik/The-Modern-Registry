@@ -7,10 +7,9 @@ import { MissionModal } from "./Components/MissionModal";
 import { CurrentMissionProvider } from "./Context/CurrentMissionContext";
 import { useShowModalContext } from "./Context/ModalContext";
 import { FilteringProvider } from "./Context/FilteringContext";
-import { useDarkThemeContext } from "./Context/DarkThemeContext";
+import { useStylesContext } from "./Context/StylesContext";
 import UserModal from './Components/UserModal';
 import { useAllMissions } from './API/MissionHooks';
-import useMediaQuery, { MOBILE_SCREEN_WIDTH } from './Hooks/useMediaQuery';
 
 const APP_STYLES: CSSProperties = {
     display: 'flex',
@@ -45,8 +44,7 @@ const App: React.FC = () => {
     const [showUserModal, setShowUserModal] = useState(false)
     const { loading, error, data } = useAllMissions()
     const { showMissionModal } = useShowModalContext()
-    const { darkTheme } = useDarkThemeContext()
-    const isMobile = useMediaQuery(`(max-width: ${MOBILE_SCREEN_WIDTH})`)
+    const { darkTheme, isMobile } = useStylesContext()
 
     if (loading) return <p>Loading...</p>
     if (error) return <p>Error</p>

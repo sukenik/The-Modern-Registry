@@ -1,5 +1,5 @@
 import React, { CSSProperties } from "react";
-import { useDarkThemeContext } from "../Context/DarkThemeContext";
+import { useStylesContext } from "../Context/StylesContext";
 import { useFilteringContext } from "../Context/FilteringContext";
 
 const SEARCH_BAR_STYLES: CSSProperties = {
@@ -35,7 +35,7 @@ const LABEL_DARK_STYLES: CSSProperties = {
 
 export const SearchBar: React.FC = () => {
     const { searchText, handleSearchTextChange, statusFilter, handleFilterStatusChange } = useFilteringContext()
-    const { darkTheme } = useDarkThemeContext()
+    const { darkTheme } = useStylesContext()
 
     return (
         <div style={SEARCH_BAR_STYLES}>

@@ -1,5 +1,5 @@
 import React, { CSSProperties } from "react";
-import { useDarkThemeContext } from "../Context/DarkThemeContext";
+import { useStylesContext } from "../Context/StylesContext";
 
 const CHECKBOX_STYLES: CSSProperties = {
     margin: '0 5px',
@@ -19,7 +19,7 @@ interface iCheckboxProps {
 };
 
 export const Checkbox: React.FC<iCheckboxProps> = ({ label, checked, setChecked }) => {
-    const { darkTheme } = useDarkThemeContext()
+    const { darkTheme } = useStylesContext()
     const handleCheckboxChange = () => setChecked(prevState => !prevState)
     
     return (

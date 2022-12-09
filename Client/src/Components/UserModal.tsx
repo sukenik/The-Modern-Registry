@@ -2,7 +2,7 @@ import React, { CSSProperties, useState } from "react";
 import { Alert, Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../Context/AuthContext";
-import { useDarkThemeContext } from "../Context/DarkThemeContext";
+import { useStylesContext } from "../Context/StylesContext";
 
 const MODAL_STYLES: CSSProperties = {
     position: 'fixed',
@@ -57,7 +57,7 @@ interface iUserModalProps {
 
 const UserModal: React.FC<iUserModalProps> = ({ setIsModalOpen }) => {
     const [error, setError] = useState('')
-    const { darkTheme } = useDarkThemeContext()
+    const { darkTheme } = useStylesContext()
     const { logout, currentUser } = useAuth()
     const navigate = useNavigate()
 

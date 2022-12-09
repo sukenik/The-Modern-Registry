@@ -1,5 +1,5 @@
 import React, { CSSProperties, useEffect, useState } from "react";
-import { useDarkThemeContext } from "../Context/DarkThemeContext";
+import { useStylesContext } from "../Context/StylesContext";
 import { useFilteringContext } from "../Context/FilteringContext";
 import { Mission } from "../../../Entities/Mission";
 import { hasChildren } from "../Logic/helperFunctions";
@@ -36,8 +36,8 @@ const MISSION_LIST_DARK_STYLES: CSSProperties = {
 }
 
 interface iMissionListProps {
-    missionsData: Array<Mission>,
-    parentId?: string,
+    missionsData: Array<Mission>
+    parentId?: string
     level?: number
 }
 
@@ -47,7 +47,7 @@ export const MissionList: React.FC<iMissionListProps> = ({ missionsData, parentI
     const [missionsDataProp, setMissionsDataProp] = useState(missionsData)
     const { data } = useAllMissions()
     const { debounceText, statusFilter } = useFilteringContext()
-    const { darkTheme } = useDarkThemeContext()
+    const { darkTheme } = useStylesContext()
 
     useEffect(() => (
         setMissionsDataProp(getMissionsData(data?.getAllMissions, debounceText, statusFilter))

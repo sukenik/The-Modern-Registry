@@ -1,6 +1,6 @@
 import React, { CSSProperties } from "react";
 import { useAuth } from "../Context/AuthContext";
-import { useDarkThemeContext } from "../Context/DarkThemeContext";
+import { useStylesContext } from "../Context/StylesContext";
 import moonIcon from "../../Assets/heaven-g329dd6da3_640.png";
 import sunIcon from "../../Assets/sun-g977e87184_640.png";
 
@@ -14,11 +14,13 @@ const HEADER_STYLES: CSSProperties = {
     alignItems: 'baseline',
     justifyContent: 'center'
 }
+
 const HEADER_DARK_STYLES: CSSProperties = {
     ...HEADER_STYLES,
     color: '#BB86FC', 
     borderBottom: '2px solid #BB86FC'
 }
+
 const USER_STYLES: CSSProperties = {
     marginLeft: 35,
     border: 'none',
@@ -30,22 +32,26 @@ const USER_STYLES: CSSProperties = {
     borderLeft: '1px solid #FFFFFF',
     borderRight: '1px solid #FFFFFF',
 }
+
 const USER_DARK_STYLES: CSSProperties = {
     ...USER_STYLES,
     borderLeft: '1px solid #BB86FC',
     borderRight: '1px solid #BB86FC',
     color: '#BB86FC',
 }
+
 const TITLE_STYLES: CSSProperties = {
     flexGrow: 1, 
     paddingRight: 330
 }
+
 const BUTTON_STYLES: CSSProperties = {
     border: 'none',
     background: 'transparent',
     marginLeft: 75,
     alignSelf: 'center'
 }
+
 const ICON_STYLES: CSSProperties = {
     height: 32,
     width: 32,
@@ -58,7 +64,7 @@ interface iHeaderProps {
 }
 
 export const Header: React.FC<iHeaderProps> = ({ titleName, setIsModalOpen }) => {
-    const { darkTheme, toggleDarkTheme } = useDarkThemeContext()
+    const { darkTheme, toggleDarkTheme } = useStylesContext()
     const { currentUser } = useAuth()
 
     const handleDarkModeButtonClick = () => toggleDarkTheme()
