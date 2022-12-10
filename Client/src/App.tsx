@@ -49,9 +49,17 @@ const App: React.FC = () => {
     if (loading) return <p>Loading...</p>
     if (error) return <p>Error</p>
 
+    const handleCloseUserModal = () => {
+        setShowUserModal(false)
+    }
+
+    const handleOpenUserModal = () => {
+        setShowUserModal(true)
+    }
+
     return (
         <>
-            <Header titleName={"The Modern Registry"} setIsModalOpen={setShowUserModal} />
+            <Header titleName={"The Modern Registry"} openUserModal={handleOpenUserModal} />
             <CurrentMissionProvider>
                 <div style={darkTheme ? APP_DARK_STYLES : APP_STYLES}>
                     <div style={
@@ -69,7 +77,7 @@ const App: React.FC = () => {
                 {!showMissionModal && <CreateMissionButton />}
                 {showMissionModal && <MissionModal />}
             </CurrentMissionProvider>
-            {showUserModal && <UserModal setIsModalOpen={setShowUserModal} />}
+            {showUserModal && <UserModal closeModal={handleCloseUserModal} />}
         </>
     )
 }

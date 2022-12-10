@@ -40,7 +40,7 @@ const USER_DARK_STYLES: CSSProperties = {
 const TITLE_STYLES: CSSProperties = {
     flex: 1,
     margin: 0,
-    fontSize: 'calc(1.275rem + 1.5vw)'
+    fontSize: 'calc(1.2rem + 1.5vw)'
 }
 
 const BUTTON_STYLES: CSSProperties = {
@@ -57,15 +57,15 @@ const ICON_STYLES: CSSProperties = {
 
 interface iHeaderProps {
     titleName: string
-    setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>
+    openUserModal: () => void
 }
 
-export const Header: React.FC<iHeaderProps> = ({ titleName, setIsModalOpen }) => {
+export const Header: React.FC<iHeaderProps> = ({ titleName, openUserModal }) => {
     const { darkTheme, toggleDarkTheme, isMobile } = useStylesContext()
     const { currentUser } = useAuth()
 
     const handleDarkModeButtonClick = () => toggleDarkTheme()
-    const handleUserModalClick = () => setIsModalOpen(prevState => !prevState)
+    const handleUserModalClick = () => openUserModal()
 
     return (
         <header style={darkTheme ? HEADER_DARK_STYLES : HEADER_STYLES}>
@@ -81,13 +81,9 @@ export const Header: React.FC<iHeaderProps> = ({ titleName, setIsModalOpen }) =>
                 } 
                 onClick={handleUserModalClick}
             >
-                {
-                    isMobile ? 
-                        <img style={ICON_STYLES} src={currentUser?.photoURL ?? avatar} alt="Avatar icon" /> : 
-                        (currentUser?.email || '')
-                }
+                <img style={ICON_STYLES} src={currentUser?.photoURL ?? avatar} alt="Avatar icon" referrerPolicy="no-referrer" />
             </button>
-            <h1 style={isMobile ? TITLE_STYLES : { ...TITLE_STYLES, paddingRight: '17%' }}>
+            <h1 style={isMobile ? TITLE_STYLES : { ...TITLE_STYLES, paddingRight: '125px' }}>
                 {titleName}
             </h1>
         </header>
