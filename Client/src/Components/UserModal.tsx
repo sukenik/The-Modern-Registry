@@ -69,8 +69,14 @@ const TEXT_STYLE: CSSProperties = {
 const TEXT_DARK_STYLE: CSSProperties = {
     ...TEXT_STYLE,
     color: '#BB86FC',
-    fontWeight: 300
+    fontWeight: 300,
+    opacity: 1
 }
+
+const MOBILE_PLACEMENT: CSSProperties = {
+    marginTop: '57px', 
+    marginLeft: '13px'
+} 
 
 export const EMAIL_AUTH = 'password'
 
@@ -80,7 +86,7 @@ interface iUserModalProps {
 
 const UserModal: React.FC<iUserModalProps> = ({ closeModal }) => {
     const [error, setError] = useState('')
-    const { darkTheme } = useStylesContext()
+    const { darkTheme, isMobile } = useStylesContext()
     const { logout, currentUser } = useAuth()
     const navigate = useNavigate()
 
@@ -106,7 +112,15 @@ const UserModal: React.FC<iUserModalProps> = ({ closeModal }) => {
 
     return (
         <div style={MODAL_STYLES} onClick={handleOutsideClick}>
-            <div style={darkTheme ? MODAL_CONTENT_DARK_STYLES : MODAL_CONTENT_STYLES} onClick={handleContentClick}>
+            <div 
+                style={
+                    darkTheme ? 
+                        isMobile ? { ...MODAL_CONTENT_DARK_STYLES, ...MOBILE_PLACEMENT } : MODAL_CONTENT_DARK_STYLES
+                        : 
+                        isMobile ? { ...MODAL_CONTENT_STYLES, ...MOBILE_PLACEMENT } : MODAL_CONTENT_STYLES
+                } 
+                onClick={handleContentClick}
+            >
                 {error && <Alert variant="danger">{error}</Alert>}
                 <div style={{ padding: 10 }}>
                     <img style={ICON_STYLES} src={currentUser?.photoURL ?? avatar} alt="Avatar icon" referrerPolicy="no-referrer" />
