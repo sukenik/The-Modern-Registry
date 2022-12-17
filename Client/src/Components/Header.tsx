@@ -12,7 +12,7 @@ const HEADER_STYLES: CSSProperties = {
     color: 'white',
     cursor: 'default',
     display: 'flex',
-    alignItems: 'baseline',
+    alignItems: 'flex-end',
     justifyContent: 'center'
 }
 
@@ -40,13 +40,12 @@ const USER_DARK_STYLES: CSSProperties = {
 const TITLE_STYLES: CSSProperties = {
     flex: 1,
     margin: 0,
-    fontSize: 'calc(1.2rem + 1.5vw)'
+    fontSize: 'calc(1.2rem + 1.5vw)',
 }
 
 const BUTTON_STYLES: CSSProperties = {
     border: 'none',
     background: 'transparent',
-    alignSelf: 'flex-end'
 }
 
 const ICON_STYLES: CSSProperties = {
@@ -72,18 +71,10 @@ export const Header: React.FC<iHeaderProps> = ({ titleName, openUserModal }) => 
             <button style={BUTTON_STYLES} onClick={handleDarkModeButtonClick}>
                 <img style={ICON_STYLES} src={darkTheme ? sunIcon : moonIcon} alt="Theme button" />
             </button>
-            <button 
-                style={
-                    darkTheme ? 
-                        isMobile ? USER_DARK_STYLES : { ...USER_DARK_STYLES, marginLeft: '20px' }
-                        : 
-                        isMobile ? USER_STYLES : { ...USER_STYLES, marginLeft: '20px' }
-                } 
-                onClick={handleUserModalClick}
-            >
+            <button style={darkTheme ? USER_DARK_STYLES : USER_STYLES} onClick={handleUserModalClick}>
                 <img style={ICON_STYLES} src={currentUser?.photoURL ?? avatar} alt="Avatar icon" referrerPolicy="no-referrer" />
             </button>
-            <h1 style={isMobile ? TITLE_STYLES : { ...TITLE_STYLES, paddingRight: '125px' }}>
+            <h1 style={isMobile ? TITLE_STYLES : { ...TITLE_STYLES, paddingRight: '100px' }}>
                 {titleName}
             </h1>
         </header>

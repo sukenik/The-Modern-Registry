@@ -11,3 +11,9 @@ html {
 body {
     margin: 0;
 }
+#close-user-modal-btn:after {
+    content: "\d7";
+    position: absolute;
+    font-size: 30px;
+    margin-top: -15px;
+}

@@ -29,6 +29,15 @@ const MODAL_CONTENT_DARK_STYLES: CSSProperties = {
     border: '1px solid #BB86FC',
 }
 
+
+const MODAL_CONTENT_MOBILE_STYLES: CSSProperties = {
+    width: '95%',
+    marginRight: 'auto', 
+    marginLeft: 'auto',
+    position: 'initial',
+    marginTop: '16%'
+}
+
 const MODAL_TITLE_STYLES: CSSProperties = {
     textAlign: 'center',
     margin: 0,
@@ -73,10 +82,10 @@ const TEXT_DARK_STYLE: CSSProperties = {
     opacity: 1
 }
 
-const MOBILE_PLACEMENT: CSSProperties = {
-    marginTop: '57px', 
-    marginLeft: '13px'
-} 
+const X_BTN_STYLE: CSSProperties = {
+    width: '5%',
+    marginLeft: 'auto'
+}
 
 export const EMAIL_AUTH = 'password'
 
@@ -111,23 +120,37 @@ const UserModal: React.FC<iUserModalProps> = ({ closeModal }) => {
     }
 
     return (
-        <div style={MODAL_STYLES} onClick={handleOutsideClick}>
+        <div 
+            style={isMobile ? { ...MODAL_STYLES, backgroundColor: 'rgba(0, 0, 0, 0.5)' } : MODAL_STYLES} 
+            onClick={handleOutsideClick}
+        >
             <div 
                 style={
                     darkTheme ? 
-                        isMobile ? { ...MODAL_CONTENT_DARK_STYLES, ...MOBILE_PLACEMENT } : MODAL_CONTENT_DARK_STYLES
+                        isMobile ? 
+                            { ...MODAL_CONTENT_DARK_STYLES, ...MODAL_CONTENT_MOBILE_STYLES } : MODAL_CONTENT_DARK_STYLES
                         : 
-                        isMobile ? { ...MODAL_CONTENT_STYLES, ...MOBILE_PLACEMENT } : MODAL_CONTENT_STYLES
+                        isMobile ? 
+                            { ...MODAL_CONTENT_STYLES, ...MODAL_CONTENT_MOBILE_STYLES } : MODAL_CONTENT_STYLES
                 } 
                 onClick={handleContentClick}
             >
                 {error && <Alert variant="danger">{error}</Alert>}
                 <div style={{ padding: 10 }}>
+                    {
+                        isMobile && 
+                        <div 
+                            style={darkTheme ? { ...X_BTN_STYLE, color: '#ffffffab' } : X_BTN_STYLE} 
+                            id="close-user-modal-btn" 
+                            onClick={handleOutsideClick}
+                        />
+                    }
                     <img style={ICON_STYLES} src={currentUser?.photoURL ?? avatar} alt="Avatar icon" referrerPolicy="no-referrer" />
                     <p style={darkTheme ? MODAL_TITLE_DARK_STYLES : MODAL_TITLE_STYLES}>
                         {displayName ?? currentUser?.email ?? ''}
                     </p>
-                    {   displayName &&
+                    {
+                        displayName &&
                         <p style={darkTheme ? TEXT_DARK_STYLE : TEXT_STYLE}>
                             {currentUser?.email ?? ''}
                         </p>
