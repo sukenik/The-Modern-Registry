@@ -49,6 +49,8 @@ const App: React.FC = () => {
     if (loading) return <p>Loading...</p>
     if (error) return <p>Error</p>
 
+    const missions = data?.getAllMissions || []
+
     const handleCloseUserModal = () => {
         setShowUserModal(false)
     }
@@ -64,13 +66,15 @@ const App: React.FC = () => {
                 <div style={darkTheme ? APP_DARK_STYLES : APP_STYLES}>
                     <div style={
                         darkTheme ? 
-                            isMobile ? { ...CONTAINER_DARK_STYLES, width: '100%' } : CONTAINER_DARK_STYLES
+                            isMobile ? 
+                                { ...CONTAINER_DARK_STYLES, width: '100%', borderRight: 'none', borderLeft: 'none' } : 
+                                CONTAINER_DARK_STYLES
                             : 
                             isMobile ? { ...CONTAINER_STYLES, width: '100%' } : CONTAINER_STYLES
                     }>
                         <FilteringProvider>
                             <SearchBar />
-                            <MissionList missionsData={data?.getAllMissions} />
+                            <MissionList missionsData={missions} />
                         </FilteringProvider>
                     </div>
                 </div>

@@ -77,7 +77,7 @@ export const MissionRow: React.FC<iMissionRowProps> = ({ mission, children, leve
     return (
         <li 
             key={mission.id} 
-            style={{...LIST_ITEM_STYLE, width: isMobile || !!mission.parentId ? '100%' : '50%'}} 
+            style={{...LIST_ITEM_STYLE, width: isMobile || !!mission.parentId ? '100%' : '70%'}} 
             id={`Mission-${mission.id}`}
         >
             <div 

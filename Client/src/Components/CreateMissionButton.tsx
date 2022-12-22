@@ -21,12 +21,16 @@ const ICON_STYLES: CSSProperties = {
 
 export const CreateMissionButton: React.FC = () => {
     const { setShowMissionModal } = useShowModalContext()
-    const { darkTheme } = useStylesContext()
+    const { darkTheme, isMobile } = useStylesContext()
 
     const handleCreateMissionButtonClick = () => setShowMissionModal(true)
 
     return (
-        <button style={BUTTON_STYLES} onClick={handleCreateMissionButtonClick} type="submit">
+        <button 
+            style={{...BUTTON_STYLES, bottom: isMobile ? '3%' : '5%'}} 
+            onClick={handleCreateMissionButtonClick} 
+            type="submit"
+        >
             <img style={ICON_STYLES} src={darkTheme ? createMissionDarkIcon : createMissionIcon} alt="Create a mission button" />
         </button>
     )

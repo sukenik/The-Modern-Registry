@@ -27,7 +27,7 @@ const MISSION_LIST_STYLES: CSSProperties = {
     alignItems: 'center',
     padding: '0 5px 15px',
     overflow: 'auto',
-    height: '74%'
+    height: 'calc(100vh - 130px)'
 }
 
 const MISSION_LIST_DARK_STYLES: CSSProperties = {
@@ -72,5 +72,5 @@ export const MissionList: React.FC<iMissionListProps> = ({ missionsData, parentI
                 )
             }
         </ul>
-    );
-};
+    )
+}
