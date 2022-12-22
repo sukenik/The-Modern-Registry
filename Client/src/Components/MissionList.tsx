@@ -21,7 +21,7 @@ const SUB_MISSION_LIST_DARK_STYLES: CSSProperties = {
 }
 
 const MISSION_LIST_STYLES: CSSProperties = {
-    marginBottom: 30,
+    margin: '0 5px',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
