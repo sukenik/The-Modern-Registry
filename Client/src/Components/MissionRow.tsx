@@ -16,7 +16,7 @@ const MISSION_STYLES: CSSProperties = {
     alignItems: 'center',
     justifyContent: 'center',
     flexWrap: 'wrap',
-    width: 'var(--width)',
+    // width: 'var(--width)',
     marginTop: 5
 }
 
@@ -45,11 +45,11 @@ const STATUS_STYLES: CSSProperties = {
 }
 
 const MISSION_NAME_STYLES: CSSProperties = {
-    marginLeft: 20,
+    marginLeft: '10px',
     order: 2,
     textOverflow: 'ellipsis',
     overflow: 'hidden',
-    maxWidth: 150,
+    maxWidth: '25%',
     whiteSpace: 'nowrap',
     cursor: 'default'
 }
@@ -76,38 +76,49 @@ export const MissionRow: React.FC<iMissionRowProps> = ({ mission, children, leve
     const handleOnMouseLeave = () => setShowOptionButtons(false)
     
     return (
-            <li key={mission.id} style={LIST_ITEM_STYLE} id={`Mission-${mission.id}`}>
+        <li 
+            key={mission.id} 
+            style={{...LIST_ITEM_STYLE, width: isMobile || !!mission.parentId ? '100%' : '50%'}} 
+            id={`Mission-${mission.id}`}
+        >
+            <div 
+                style={
+                    mission.parentId ? 
+                        MISSION_STYLES : {...MISSION_STYLES, marginTop: 10 }
+                        // getMissionWidth(MISSION_STYLES, level) : 
+                        // getMissionWidth({...MISSION_STYLES, marginTop: 10 }, level)
+                }
+                onMouseEnter={handleOnMouseEnter} 
+                onMouseLeave={handleOnMouseLeave}
+            >
+                {hasChildren && <ArrowButton setShowSubMissionList={setShowSubMissionList} />}
                 <div 
-                    style={mission.parentId ? 
-                        getMissionWidth(MISSION_STYLES, level) : 
-                        getMissionWidth({...MISSION_STYLES, marginTop: 10}, level)
-                    }
-                    onMouseEnter={handleOnMouseEnter} 
-                    onMouseLeave={handleOnMouseLeave}
+                    style={{ ...MISSION_NAME_STYLES, maxWidth: hasChildren ? 'calc(95% - 205px)' : '25%' }} 
+                    className="name"
                 >
-                    {hasChildren && <ArrowButton setShowSubMissionList={setShowSubMissionList} />}
-                    <div style={MISSION_NAME_STYLES} className="name">{mission.description}</div>
-                    <div style={MISSION_STATUS_STYLES}>
-                        <div 
-                            id="mission-status"
-                            style={mission.status === 'Active' ? 
-                                {...STATUS_STYLES, paddingRight: 26, paddingLeft: 26} : 
-                                STATUS_STYLES
-                            }
-                        >
-                            {mission.status}
-                        </div>
-                    </div>
-                    <div style={MISSION_INFO_STYLES}>
-                        {(showOptionButtons || isMobile) && 
-                            <>
-                                <OptionButton mission={mission} icon={pencilIcon} />
-                                <OptionButton mission={mission} icon={trashCanIcon} setIsDelete={setShowDeleteModal} />
-                            </>
+                    {mission.description}
+                </div>
+                <div style={MISSION_STATUS_STYLES}>
+                    <div 
+                        id="mission-status"
+                        style={mission.status === 'Active' ? 
+                            {...STATUS_STYLES, paddingRight: 26, paddingLeft: 26} : 
+                            STATUS_STYLES
                         }
+                    >
+                        {mission.status}
                     </div>
                 </div>
-                { (hasChildren && showSubMissionList) && children }
+                <div style={MISSION_INFO_STYLES}>
+                    {(showOptionButtons || isMobile) && 
+                        <>
+                            <OptionButton mission={mission} icon={pencilIcon} />
+                            <OptionButton mission={mission} icon={trashCanIcon} setIsDelete={setShowDeleteModal} />
+                        </>
+                    }
+                </div>
+            </div>
+            { (hasChildren && showSubMissionList) && children }
         </li>
     )
 }
