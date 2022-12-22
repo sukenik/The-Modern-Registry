@@ -6,6 +6,7 @@ import trashCanIcon from '../../Assets/garbage-g0e5e69325_640.png';
 import pencilIcon from '../../Assets/pencil-gef11d3429_640.png';
 import { OptionButton } from "./OptionButton";
 import { useShowModalContext } from "../Context/ModalContext";
+import { useStylesContext } from "../Context/StylesContext";
 
 const MISSION_STYLES: CSSProperties = {
     height: 40,
@@ -18,6 +19,7 @@ const MISSION_STYLES: CSSProperties = {
     width: 'var(--width)',
     marginTop: 5
 }
+
 const MISSION_INFO_STYLES: CSSProperties = {
     display: 'block',
     width: 85,
@@ -25,6 +27,7 @@ const MISSION_INFO_STYLES: CSSProperties = {
     order: 4,
     marginBottom: 7,
 }
+
 const MISSION_STATUS_STYLES: CSSProperties = {
     flexGrow: 1,
     cursor: 'default',
@@ -32,6 +35,7 @@ const MISSION_STATUS_STYLES: CSSProperties = {
     display: 'flex',
     justifyContent: 'flex-end'
 }
+
 const STATUS_STYLES: CSSProperties = {
     paddingTop: 2,
     paddingRight: 13,
@@ -39,6 +43,7 @@ const STATUS_STYLES: CSSProperties = {
     paddingLeft: 13,
     backgroundColor: 'rgb(39, 39, 39)'
 }
+
 const MISSION_NAME_STYLES: CSSProperties = {
     marginLeft: 20,
     order: 2,
@@ -48,6 +53,7 @@ const MISSION_NAME_STYLES: CSSProperties = {
     whiteSpace: 'nowrap',
     cursor: 'default'
 }
+
 const LIST_ITEM_STYLE: CSSProperties = {
     margin: 0,
     padding: 0,
@@ -64,6 +70,7 @@ export const MissionRow: React.FC<iMissionRowProps> = ({ mission, children, leve
     const [showSubMissionList, setShowSubMissionList] = useState(false)
     const [showOptionButtons, setShowOptionButtons] = useState(false)
     const { setShowDeleteModal } = useShowModalContext()
+    const { isMobile } = useStylesContext()
 
     const handleOnMouseEnter = () => setShowOptionButtons(true)
     const handleOnMouseLeave = () => setShowOptionButtons(false)
@@ -92,7 +99,7 @@ export const MissionRow: React.FC<iMissionRowProps> = ({ mission, children, leve
                         </div>
                     </div>
                     <div style={MISSION_INFO_STYLES}>
-                        {showOptionButtons && 
+                        {(showOptionButtons || isMobile) && 
                             <>
                                 <OptionButton mission={mission} icon={pencilIcon} />
                                 <OptionButton mission={mission} icon={trashCanIcon} setIsDelete={setShowDeleteModal} />
