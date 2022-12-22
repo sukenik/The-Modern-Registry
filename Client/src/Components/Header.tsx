@@ -72,7 +72,12 @@ export const Header: React.FC<iHeaderProps> = ({ titleName, openUserModal }) => 
                 <img style={ICON_STYLES} src={darkTheme ? sunIcon : moonIcon} alt="Theme button" />
             </button>
             <button style={darkTheme ? USER_DARK_STYLES : USER_STYLES} onClick={handleUserModalClick}>
-                <img style={ICON_STYLES} src={currentUser?.photoURL ?? avatar} alt="Avatar icon" referrerPolicy="no-referrer" />
+                <img 
+                    style={ICON_STYLES} 
+                    src={currentUser?.photoURL ?? avatar} 
+                    alt="Avatar icon" 
+                    referrerPolicy="no-referrer" 
+                />
             </button>
             <h1 style={isMobile ? TITLE_STYLES : { ...TITLE_STYLES, paddingRight: '100px' }}>
                 {titleName}

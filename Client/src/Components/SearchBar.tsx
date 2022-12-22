@@ -8,26 +8,35 @@ const SEARCH_BAR_STYLES: CSSProperties = {
     alignItems: 'center',
     flexDirection: 'column',
 }
+
 const INPUT_STYLES: CSSProperties = {
     paddingLeft: 5,
     marginBottom: 5,
     fontSize: 15
 }
+
 const INPUT_DARK_STYLES: CSSProperties = {
     ...INPUT_STYLES,
     backgroundColor: '#121212',
     border: '1px solid rgb(120, 120, 120)',
     color: 'white'
 }
+
 const SELECT_STYLES: CSSProperties = {
-    cursor: 'pointer'
+    cursor: 'pointer',
+    paddingLeft: '17px'
 }
+
 const SELECT_DARK_STYLES: CSSProperties = {
     ...SELECT_STYLES,
     backgroundColor: '#121212',
     color: 'rgb(120, 120, 120)'
 }
-const LABEL_STYLES: CSSProperties = {}
+
+const LABEL_STYLES: CSSProperties = {
+    marginRight: '10px'
+}
+
 const LABEL_DARK_STYLES: CSSProperties = {
     ...LABEL_STYLES,
     color: 'rgb(120, 120, 120)'

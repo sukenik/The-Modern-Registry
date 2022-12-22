@@ -16,7 +16,6 @@ const MISSION_STYLES: CSSProperties = {
     alignItems: 'center',
     justifyContent: 'center',
     flexWrap: 'wrap',
-    // width: 'var(--width)',
     marginTop: 5
 }
 
@@ -82,12 +81,7 @@ export const MissionRow: React.FC<iMissionRowProps> = ({ mission, children, leve
             id={`Mission-${mission.id}`}
         >
             <div 
-                style={
-                    mission.parentId ? 
-                        MISSION_STYLES : {...MISSION_STYLES, marginTop: 10 }
-                        // getMissionWidth(MISSION_STYLES, level) : 
-                        // getMissionWidth({...MISSION_STYLES, marginTop: 10 }, level)
-                }
+                style={mission.parentId ? MISSION_STYLES : {...MISSION_STYLES, marginTop: 10 }}
                 onMouseEnter={handleOnMouseEnter} 
                 onMouseLeave={handleOnMouseLeave}
             >
