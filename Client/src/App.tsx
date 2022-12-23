@@ -7,7 +7,7 @@ import { MissionModal } from "./Components/MissionModal";
 import { CurrentMissionProvider } from "./Context/CurrentMissionContext";
 import { useShowModalContext } from "./Context/ModalContext";
 import { FilteringProvider } from "./Context/FilteringContext";
-import { useDarkThemeContext } from "./Context/DarkThemeContext";
+import { useStylesContext } from "./Context/StylesContext";
 import UserModal from './Components/UserModal';
 import { useAllMissions } from './API/MissionHooks';
 
@@ -16,20 +16,22 @@ const APP_STYLES: CSSProperties = {
     flexDirection: 'row-reverse',
     position: 'fixed',
     width: '100%',
-    height: '90%'
+    height: '100%'
 }
+
 const APP_DARK_STYLES: CSSProperties = {
     ...APP_STYLES,    
     backgroundColor: '#121212'
 }
+
 const CONTAINER_STYLES: CSSProperties = {
     backgroundColor: 'rgb(218, 218, 218)',
     height: '100%',
     width: '70%',
     textAlign: 'center',
-    margin: 'auto',
-    overflow: 'auto'
+    margin: 'auto'
 }
+
 const CONTAINER_DARK_STYLES: CSSProperties = {
     ...CONTAINER_STYLES,
     backgroundColor: '#121212',
@@ -42,27 +44,44 @@ const App: React.FC = () => {
     const [showUserModal, setShowUserModal] = useState(false)
     const { loading, error, data } = useAllMissions()
     const { showMissionModal } = useShowModalContext()
-    const { darkTheme } = useDarkThemeContext()
+    const { darkTheme, isMobile } = useStylesContext()
 
     if (loading) return <p>Loading...</p>
     if (error) return <p>Error</p>
 
+    const missions = data?.getAllMissions || []
+
+    const handleCloseUserModal = () => {
+        setShowUserModal(false)
+    }
+
+    const handleOpenUserModal = () => {
+        setShowUserModal(true)
+    }
+
     return (
         <>
-            <Header titleName={"The Modern Registry"} setIsModalOpen={setShowUserModal} />
+            <Header titleName={"The Modern Registry"} openUserModal={handleOpenUserModal} />
             <CurrentMissionProvider>
                 <div style={darkTheme ? APP_DARK_STYLES : APP_STYLES}>
-                    <div style={darkTheme ? CONTAINER_DARK_STYLES : CONTAINER_STYLES}>
+                    <div style={
+                        darkTheme ? 
+                            isMobile ? 
+                                { ...CONTAINER_DARK_STYLES, width: '100%', borderRight: 'none', borderLeft: 'none' } : 
+                                CONTAINER_DARK_STYLES
+                            : 
+                            isMobile ? { ...CONTAINER_STYLES, width: '100%' } : CONTAINER_STYLES
+                    }>
                         <FilteringProvider>
                             <SearchBar />
-                            <MissionList missionsData={data?.getAllMissions} />
+                            <MissionList missionsData={missions} />
                         </FilteringProvider>
                     </div>
                 </div>
                 {!showMissionModal && <CreateMissionButton />}
                 {showMissionModal && <MissionModal />}
             </CurrentMissionProvider>
-            {showUserModal && <UserModal setIsModalOpen={setShowUserModal} />}
+            {showUserModal && <UserModal closeModal={handleCloseUserModal} />}
         </>
     )
 }

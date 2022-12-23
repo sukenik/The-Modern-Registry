@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from 'react-dom'
 import App from './App'
-import { DarkThemeProvider } from './Context/DarkThemeContext'
+import { StylesProvider } from './Context/StylesContext'
 import { ShowModalProvider } from './Context/ModalContext'
 import './styles.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -39,25 +39,32 @@ const client = new ApolloClient({
 
 const root = document.getElementById("root")
 render(
-    <ShowModalProvider>
-        <DarkThemeProvider>
-            <AuthProvider>
-                <ApolloProvider client={client}>
-                    <Router>
-                        <Routes>
-                            <Route path='/' element={<PrivateRoute><App /></PrivateRoute>} />
-                            <Route 
-                                path='/update-profile' 
-                                element={<PrivateRoute><AuthPage><UpdateProfile /></AuthPage></PrivateRoute>} 
-                            />
-                            <Route path='/signup' element={<AuthPage><SignUp /></AuthPage>} />
-                            <Route path='/login' element={<AuthPage><Login /></AuthPage>} />
-                            <Route path='/forgot-password' element={<AuthPage><ForgotPassword /></AuthPage>} />
-                        </Routes>
-                    </Router>
-                </ApolloProvider>
-            </AuthProvider>
-        </DarkThemeProvider>
-    </ShowModalProvider>
+    <AuthProvider>
+        <ApolloProvider client={client}>
+            <Router>
+                <Routes>
+                    <Route 
+                        path='/' 
+                        element={
+                            <PrivateRoute>
+                                <StylesProvider>
+                                    <ShowModalProvider>
+                                        <App />
+                                    </ShowModalProvider>
+                                </StylesProvider>
+                            </PrivateRoute>
+                        } 
+                    />
+                    <Route 
+                        path='/update-profile' 
+                        element={<PrivateRoute><AuthPage><UpdateProfile /></AuthPage></PrivateRoute>} 
+                    />
+                    <Route path='/signup' element={<AuthPage><SignUp /></AuthPage>} />
+                    <Route path='/login' element={<AuthPage><Login /></AuthPage>} />
+                    <Route path='/forgot-password' element={<AuthPage><ForgotPassword /></AuthPage>} />
+                </Routes>
+            </Router>
+        </ApolloProvider>
+    </AuthProvider>
     , root
 )

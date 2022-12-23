@@ -1,8 +1,9 @@
 import React, { CSSProperties } from "react";
 import { useAuth } from "../Context/AuthContext";
-import { useDarkThemeContext } from "../Context/DarkThemeContext";
+import { useStylesContext } from "../Context/StylesContext";
 import moonIcon from "../../Assets/heaven-g329dd6da3_640.png";
 import sunIcon from "../../Assets/sun-g977e87184_640.png";
+import avatar from "../../Assets/profile.png";
 
 const HEADER_STYLES: CSSProperties = {
     padding: 10,
@@ -11,41 +12,42 @@ const HEADER_STYLES: CSSProperties = {
     color: 'white',
     cursor: 'default',
     display: 'flex',
-    alignItems: 'baseline',
+    alignItems: 'flex-end',
     justifyContent: 'center'
 }
+
 const HEADER_DARK_STYLES: CSSProperties = {
     ...HEADER_STYLES,
     color: '#BB86FC', 
     borderBottom: '2px solid #BB86FC'
 }
+
 const USER_STYLES: CSSProperties = {
-    marginLeft: 35,
     border: 'none',
     background: 'transparent',
     color: 'white',
-    width: 200,
-    fontSize: 17,
-    height: 45,
     borderLeft: '1px solid #FFFFFF',
     borderRight: '1px solid #FFFFFF',
 }
+
 const USER_DARK_STYLES: CSSProperties = {
     ...USER_STYLES,
     borderLeft: '1px solid #BB86FC',
     borderRight: '1px solid #BB86FC',
     color: '#BB86FC',
 }
+
 const TITLE_STYLES: CSSProperties = {
-    flexGrow: 1, 
-    paddingRight: 330
+    flex: 1,
+    margin: 0,
+    fontSize: 'calc(1.2rem + 1.5vw)',
 }
+
 const BUTTON_STYLES: CSSProperties = {
     border: 'none',
     background: 'transparent',
-    marginLeft: 75,
-    alignSelf: 'center'
 }
+
 const ICON_STYLES: CSSProperties = {
     height: 32,
     width: 32,
@@ -54,32 +56,32 @@ const ICON_STYLES: CSSProperties = {
 
 interface iHeaderProps {
     titleName: string
-    setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>
+    openUserModal: () => void
 }
 
-export const Header: React.FC<iHeaderProps> = ({ titleName, setIsModalOpen }) => {
-    const { darkTheme, toggleDarkTheme } = useDarkThemeContext()
+export const Header: React.FC<iHeaderProps> = ({ titleName, openUserModal }) => {
+    const { darkTheme, toggleDarkTheme, isMobile } = useStylesContext()
     const { currentUser } = useAuth()
 
     const handleDarkModeButtonClick = () => toggleDarkTheme()
-    const handleUserModalClick = () => setIsModalOpen(prevState => !prevState)
+    const handleUserModalClick = () => openUserModal()
 
     return (
-        <>
-            <header style={darkTheme ? HEADER_DARK_STYLES : HEADER_STYLES}>
-                <button style={BUTTON_STYLES} onClick={handleDarkModeButtonClick}>
-                    <img style={ICON_STYLES} src={darkTheme ? sunIcon : moonIcon} alt="Theme button" />
-                </button>
-                <button 
-                    style={darkTheme ? USER_DARK_STYLES : USER_STYLES} 
-                    onClick={handleUserModalClick}
-                >
-                    {currentUser?.email}
-                </button>
-                <h1 style={TITLE_STYLES}>
-                    {titleName}
-                </h1>
-            </header>
-        </>
+        <header style={darkTheme ? HEADER_DARK_STYLES : HEADER_STYLES}>
+            <button style={BUTTON_STYLES} onClick={handleDarkModeButtonClick}>
+                <img style={ICON_STYLES} src={darkTheme ? sunIcon : moonIcon} alt="Theme button" />
+            </button>
+            <button style={darkTheme ? USER_DARK_STYLES : USER_STYLES} onClick={handleUserModalClick}>
+                <img 
+                    style={ICON_STYLES} 
+                    src={currentUser?.photoURL ?? avatar} 
+                    alt="Avatar icon" 
+                    referrerPolicy="no-referrer" 
+                />
+            </button>
+            <h1 style={isMobile ? TITLE_STYLES : { ...TITLE_STYLES, paddingRight: '100px' }}>
+                {titleName}
+            </h1>
+        </header>
     )
 }

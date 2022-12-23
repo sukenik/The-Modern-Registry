@@ -37,7 +37,7 @@ export const getMissionWidth = (css: CSSProperties, level: number) => {
     return {...css, width: primaryWidth - level * 25} as CSSProperties
 }
 export const getSubMissionPadding = (css: CSSProperties, level: number) => {
-    if (level >= 7) return {...css, paddingLeft: 0} as CSSProperties
+    if (level >= 3) return {...css, paddingLeft: 0} as CSSProperties
     return css
 }
 const setHasChildren = (missions: Array<Mission>) => {

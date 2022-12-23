@@ -1,5 +1,5 @@
 import React, { CSSProperties, useEffect, useState } from "react";
-import { useDarkThemeContext } from "../Context/DarkThemeContext";
+import { useStylesContext } from "../Context/StylesContext";
 import { useFilteringContext } from "../Context/FilteringContext";
 import { Mission } from "../../../Entities/Mission";
 import { hasChildren } from "../Logic/helperFunctions";
@@ -14,26 +14,30 @@ const SUB_MISSION_LIST_STYLES: CSSProperties = {
     order: 5,
     paddingLeft: 25
 }
+
 const SUB_MISSION_LIST_DARK_STYLES: CSSProperties = {
     ...SUB_MISSION_LIST_STYLES,
     backgroundColor: '#121212'
 }
+
 const MISSION_LIST_STYLES: CSSProperties = {
-    marginBottom: 30,
+    margin: '0 5px',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: 5,
-    marginTop: 0
+    padding: '0 5px 15px',
+    overflow: 'auto',
+    height: 'calc(100vh - 130px)'
 }
+
 const MISSION_LIST_DARK_STYLES: CSSProperties = {
     ...MISSION_LIST_STYLES,
     backgroundColor: '#121212'
 }
 
 interface iMissionListProps {
-    missionsData: Array<Mission>,
-    parentId?: string,
+    missionsData: Array<Mission>
+    parentId?: string
     level?: number
 }
 
@@ -43,19 +47,24 @@ export const MissionList: React.FC<iMissionListProps> = ({ missionsData, parentI
     const [missionsDataProp, setMissionsDataProp] = useState(missionsData)
     const { data } = useAllMissions()
     const { debounceText, statusFilter } = useFilteringContext()
-    const { darkTheme } = useDarkThemeContext()
+    const { darkTheme, isMobile } = useStylesContext()
 
-    useEffect(
-        () => setMissionsDataProp(getMissionsData(data?.getAllMissions, debounceText, statusFilter)), 
-        [debounceText, data?.getAllMissions, statusFilter]
+    useEffect(() => (
+        setMissionsDataProp(getMissionsData(data?.getAllMissions, debounceText, statusFilter))
+        ), [debounceText, data?.getAllMissions, statusFilter]
     )
 
     return (
-        <ul 
-            style={darkTheme ? 
-                parentId ? getSubMissionPadding(SUB_MISSION_LIST_DARK_STYLES, level) : MISSION_LIST_DARK_STYLES :
-                parentId ? getSubMissionPadding(SUB_MISSION_LIST_STYLES, level) : MISSION_LIST_STYLES}
-        >
+        <ul style={
+            darkTheme ? 
+                parentId ? 
+                    getSubMissionPadding(SUB_MISSION_LIST_DARK_STYLES, level) : 
+                    {...MISSION_LIST_DARK_STYLES, margin: isMobile ? '0 5px' : 0} 
+                    :
+                parentId ? 
+                    getSubMissionPadding(SUB_MISSION_LIST_STYLES, level) : 
+                    {...MISSION_LIST_STYLES, margin: isMobile ? '0 5px' : 0}
+        }>
             {
                 missionsDataProp.filter(mission => mission.parentId === parentId).map(mission => 
                     <MissionRow 
@@ -69,5 +78,5 @@ export const MissionList: React.FC<iMissionListProps> = ({ missionsData, parentI
                 )
             }
         </ul>
-    );
-};
+    )
+}

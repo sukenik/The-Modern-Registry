@@ -1,6 +1,6 @@
 import React, { CSSProperties } from "react";
 import { useCurrentMissionContext } from "../Context/CurrentMissionContext";
-import { useDarkThemeContext } from "../Context/DarkThemeContext";
+import { useStylesContext } from "../Context/StylesContext";
 import { useShowModalContext } from "../Context/ModalContext";
 import { iModalActionParams, modalAction } from "../Logic/helperFunctions";
 import MissionForm from "./MissionForm";
@@ -59,7 +59,7 @@ const MODAL_BODY_DARK_STYLES: CSSProperties = {
 export const MissionModal: React.FC = () => {
     const { showDeleteModal, setShowMissionModal, setShowDeleteModal } = useShowModalContext()
     const { currentMission, setCurrentMission } = useCurrentMissionContext()
-    const { darkTheme } = useDarkThemeContext()
+    const { darkTheme, isMobile } = useStylesContext()
 
     const handleOutsideClick = () => modalAction({ 
         setCurrentMission: setCurrentMission, 
@@ -71,7 +71,14 @@ export const MissionModal: React.FC = () => {
 
     return (
         <div style={darkTheme ? MODAL_DARK_STYLES : MODAL_STYLES} onClick={handleOutsideClick}>
-            <div style={darkTheme ? MODAL_CONTENT_DARK_STYLES : MODAL_CONTENT_STYLES} onClick={handleContentClick}>
+            <div 
+                style={
+                    darkTheme ? 
+                        {...MODAL_CONTENT_DARK_STYLES, width: isMobile ? '90%' : '500px'} : 
+                        {...MODAL_CONTENT_STYLES, width: isMobile ? '90%' : '500px'}
+                } 
+                onClick={handleContentClick}
+            >
                 <div style={{ padding: 10 }}>
                     {showDeleteModal ? 
                         <p style={darkTheme ? MODAL_TITLE_DARK_STYLES : MODAL_TITLE_STYLES}>

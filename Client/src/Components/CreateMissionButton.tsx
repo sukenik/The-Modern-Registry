@@ -1,7 +1,7 @@
 import React, { CSSProperties } from "react";
 import createMissionIcon from "../../Assets/add-tasks-g68f2c05f3_640.png";
 import createMissionDarkIcon from "../../Assets/write-g4ef86eb46_640.png";
-import { useDarkThemeContext } from "../Context/DarkThemeContext";
+import { useStylesContext } from "../Context/StylesContext";
 import { useShowModalContext } from "../Context/ModalContext";
 
 const BUTTON_STYLES: CSSProperties = {
@@ -21,12 +21,16 @@ const ICON_STYLES: CSSProperties = {
 
 export const CreateMissionButton: React.FC = () => {
     const { setShowMissionModal } = useShowModalContext()
-    const { darkTheme } = useDarkThemeContext()
+    const { darkTheme, isMobile } = useStylesContext()
 
     const handleCreateMissionButtonClick = () => setShowMissionModal(true)
 
     return (
-        <button style={BUTTON_STYLES} onClick={handleCreateMissionButtonClick} type="submit">
+        <button 
+            style={{...BUTTON_STYLES, bottom: isMobile ? '3%' : '5%'}} 
+            onClick={handleCreateMissionButtonClick} 
+            type="submit"
+        >
             <img style={ICON_STYLES} src={darkTheme ? createMissionDarkIcon : createMissionIcon} alt="Create a mission button" />
         </button>
     )

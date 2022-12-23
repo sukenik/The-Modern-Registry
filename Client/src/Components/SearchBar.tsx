@@ -1,33 +1,42 @@
 import React, { CSSProperties } from "react";
-import { useDarkThemeContext } from "../Context/DarkThemeContext";
+import { useStylesContext } from "../Context/StylesContext";
 import { useFilteringContext } from "../Context/FilteringContext";
 
 const SEARCH_BAR_STYLES: CSSProperties = {
-    paddingTop: 10,
+    padding: '10px 0 5px 0',
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'column',
 }
+
 const INPUT_STYLES: CSSProperties = {
     paddingLeft: 5,
     marginBottom: 5,
     fontSize: 15
 }
+
 const INPUT_DARK_STYLES: CSSProperties = {
     ...INPUT_STYLES,
     backgroundColor: '#121212',
     border: '1px solid rgb(120, 120, 120)',
     color: 'white'
 }
+
 const SELECT_STYLES: CSSProperties = {
-    cursor: 'pointer'
+    cursor: 'pointer',
+    paddingLeft: '17px'
 }
+
 const SELECT_DARK_STYLES: CSSProperties = {
     ...SELECT_STYLES,
     backgroundColor: '#121212',
     color: 'rgb(120, 120, 120)'
 }
-const LABEL_STYLES: CSSProperties = {}
+
+const LABEL_STYLES: CSSProperties = {
+    marginRight: '10px'
+}
+
 const LABEL_DARK_STYLES: CSSProperties = {
     ...LABEL_STYLES,
     color: 'rgb(120, 120, 120)'
@@ -35,7 +44,7 @@ const LABEL_DARK_STYLES: CSSProperties = {
 
 export const SearchBar: React.FC = () => {
     const { searchText, handleSearchTextChange, statusFilter, handleFilterStatusChange } = useFilteringContext()
-    const { darkTheme } = useDarkThemeContext()
+    const { darkTheme } = useStylesContext()
 
     return (
         <div style={SEARCH_BAR_STYLES}>
