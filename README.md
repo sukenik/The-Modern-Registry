@@ -11,6 +11,7 @@
 
 - Authentication
 - CRUD operations
-- Infinite hierarchy
+- Infinite mission hierarchy
 - Dark mode
 - E2E tests
+- Responsiveness for mobile
