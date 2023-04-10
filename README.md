@@ -1,8 +1,15 @@
-# Hello :)
-## I've created a CRA without create-react-app
-Supports:
-* TypeScript
-* Hot-Reload
+# The Modern Registry
+<img src="./snippets/The-Modern-Registry Architecture.png" height="300" />
 
-# For running the app on a localhost, run the command:
-## npm run start
+> Full-Stack web-app for mission management
+
+<img src="./snippets/The-Modern-Registry AuthScreen.png" height="300" />
+<img src="./snippets/The-Modern-Registry HomePage.png" height="300" />
+
+# Features
+
+- Authentication
+- CRUD operations
+- Infinite hierarchy
+- Dark mode
+- E2E tests
